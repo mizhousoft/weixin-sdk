@@ -40,9 +40,8 @@ public class WxOpenServiceImpl implements WxOpenService
 	{
 		if (isCustomStyle)
 		{
-			return String.format(OUTH2_CUST_CONNECT_CODE_URL, config.getAppId(), WxUtils.encodeUrl(redirectUrl), state,
-			        WxUtils.encodeUrl(
-			                "data:text/css;base64,LmltcG93ZXJCb3ggLnRpdGxlIHtkaXNwbGF5OiBub25lO30NCiN3eF9kZWZhdWx0X3RpcCB7ZGlzcGxheTogbm9uZX0="));
+			return String.format(OUTH2_CUST_CONNECT_CODE_URL, config.getAppId(), WxUtils.encodeUrl(redirectUrl), state, WxUtils.encodeUrl(
+			        "data:text/css;base64,LmltcG93ZXJCb3ggLnRpdGxlIHtkaXNwbGF5OiBub25lO30NCiN3eF9kZWZhdWx0X3RpcCB7ZGlzcGxheTogbm9uZX0="));
 		}
 		else
 		{
@@ -65,7 +64,7 @@ public class WxOpenServiceImpl implements WxOpenService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 
@@ -80,8 +79,7 @@ public class WxOpenServiceImpl implements WxOpenService
 			lang = "zh_CN";
 		}
 
-		String url = String.format(OUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(),
-		        oAuth2AccessToken.getOpenId(), lang);
+		String url = String.format(OUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId(), lang);
 		String data = restClientService.getForObject(url, String.class);
 
 		try
@@ -90,7 +88,7 @@ public class WxOpenServiceImpl implements WxOpenService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 

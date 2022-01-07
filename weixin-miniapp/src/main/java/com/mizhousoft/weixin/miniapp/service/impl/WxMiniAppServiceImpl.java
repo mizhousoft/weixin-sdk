@@ -46,7 +46,7 @@ public class WxMiniAppServiceImpl implements WxMiniAppService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 

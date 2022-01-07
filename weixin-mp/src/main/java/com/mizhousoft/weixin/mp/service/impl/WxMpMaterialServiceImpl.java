@@ -69,7 +69,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 
@@ -130,7 +130,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 
@@ -160,7 +160,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 
@@ -196,7 +196,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 
@@ -232,7 +232,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException(e.getErrorCode(), e);
+			throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 		}
 	}
 }

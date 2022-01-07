@@ -62,7 +62,7 @@ public class WxMpServiceImpl implements WxMpService
 			}
 			catch (JSONException e)
 			{
-				throw new WXException(e.getErrorCode(), e);
+				throw new WXException(e.getErrorCode(), e.getCodeParams(), e.getMessage(), e);
 			}
 		}
 
