@@ -82,7 +82,10 @@ public class WxPayServiceImpl implements WxPayService
 		String prepayId = unifiedOrderResult.getPrepayId();
 		if (StringUtils.isBlank(prepayId))
 		{
-			throw new WXException(unifiedOrderResult.getErrCode(), unifiedOrderResult.getErrCodeDes());
+			String message = "Error code desc is " + unifiedOrderResult.getErrCodeDes() + ", return code is "
+			        + unifiedOrderResult.getReturnCode() + ", return msg is " + unifiedOrderResult.getReturnMsg() + ", result code is "
+			        + unifiedOrderResult.getResultCode();
+			throw new WXException(unifiedOrderResult.getErrCode(), message);
 		}
 
 		String appId = unifiedOrderResult.getAppid();
@@ -168,7 +171,9 @@ public class WxPayServiceImpl implements WxPayService
 		}
 		else
 		{
-			throw new WXException(result.getErrCode(), result.getErrCodeDes());
+			String message = "Error code desc is " + result.getErrCodeDes() + ", return code is " + result.getReturnCode()
+			        + ", return msg is " + result.getReturnMsg() + ", result code is " + result.getResultCode();
+			throw new WXException(result.getErrCode(), message);
 		}
 
 		return result;
