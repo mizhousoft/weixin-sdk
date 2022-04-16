@@ -1,5 +1,8 @@
 package com.mizhousoft.weixin.mp.service.impl;
 
+import java.util.Arrays;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.mizhousoft.commons.json.JSONException;
@@ -36,6 +39,26 @@ public class WxMpServiceImpl implements WxMpService
 
 	// WxMpMaterialService
 	private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean checkSignature(String timestamp, String nonce, String signature)
+	{
+		String[] values = { config.getToken(), timestamp, nonce };
+
+		Arrays.sort(values);
+		StringBuilder sb = new StringBuilder();
+		for (String value : values)
+		{
+			sb.append(value);
+		}
+
+		String shaValue = DigestUtils.sha1Hex(sb.toString());
+
+		return (shaValue.equals(signature));
+	}
 
 	/**
 	 * {@inheritDoc}
