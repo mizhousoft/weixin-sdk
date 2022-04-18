@@ -1,8 +1,8 @@
 package com.mizhousoft.weixin.open.service;
 
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.mp.model.WxMpUser;
 import com.mizhousoft.weixin.open.model.WxOAuth2AccessToken;
+import com.mizhousoft.weixin.open.model.WxOpenUser;
 
 /**
  * 微信开放服务
@@ -53,5 +53,5 @@ public interface WxOpenService
 	 * @return
 	 * @throws WXException
 	 */
-	WxMpUser oauth2getUserInfo(WxOAuth2AccessToken oAuth2AccessToken, String lang) throws WXException;
+	WxOpenUser oauth2getUserInfo(WxOAuth2AccessToken oAuth2AccessToken, String lang) throws WXException;
 }

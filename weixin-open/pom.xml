@@ -21,7 +21,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.mizhousoft.sdk</groupId>
-			<artifactId>weixin-mp</artifactId>
+			<artifactId>weixin-common</artifactId>
 			<version>${weixin.version}</version>
 		</dependency>
 		<dependency>

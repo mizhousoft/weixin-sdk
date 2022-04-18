@@ -5,9 +5,9 @@ import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.util.WxUtils;
-import com.mizhousoft.weixin.mp.model.WxMpUser;
 import com.mizhousoft.weixin.open.config.WxOpenConfig;
 import com.mizhousoft.weixin.open.model.WxOAuth2AccessToken;
+import com.mizhousoft.weixin.open.model.WxOpenUser;
 import com.mizhousoft.weixin.open.service.WxOpenService;
 
 /**
@@ -72,7 +72,7 @@ public class WxOpenServiceImpl implements WxOpenService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxMpUser oauth2getUserInfo(WxOAuth2AccessToken oAuth2AccessToken, String lang) throws WXException
+	public WxOpenUser oauth2getUserInfo(WxOAuth2AccessToken oAuth2AccessToken, String lang) throws WXException
 	{
 		if (lang == null)
 		{
@@ -84,7 +84,7 @@ public class WxOpenServiceImpl implements WxOpenService
 
 		try
 		{
-			return JSONUtils.parse(data, WxMpUser.class);
+			return JSONUtils.parse(data, WxOpenUser.class);
 		}
 		catch (JSONException e)
 		{

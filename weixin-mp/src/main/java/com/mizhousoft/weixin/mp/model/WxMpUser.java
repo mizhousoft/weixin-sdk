@@ -1,5 +1,7 @@
 package com.mizhousoft.weixin.mp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * WxMpUser
  *
@@ -7,73 +9,72 @@ package com.mizhousoft.weixin.mp.model;
  */
 public class WxMpUser
 {
+	// 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
+	@JsonProperty("subscribe")
 	private Boolean subscribe;
 
+	// 用户的标识，对当前公众号唯一
+	@JsonProperty("openid")
 	private String openId;
 
+	// 普通用户昵称
+	@JsonProperty("nickname")
 	private String nickname;
 
-	/**
-	 * 性别描述信息：男、女、未知等.
-	 */
-	private String sexDesc;
-
-	/**
-	 * 性别表示：1，2等数字.
-	 */
+	// 普通用户性别，1 为男性，2 为女性
+	@JsonProperty("sex")
 	private Integer sex;
 
+	// 用户的语言，简体中文为zh_CN
+	@JsonProperty("language")
 	private String language;
 
-	private String city;
-
+	// 普通用户个人资料填写的省份
+	@JsonProperty("province")
 	private String province;
 
+	// 普通用户个人资料填写的城市
+	@JsonProperty("city")
+	private String city;
+
+	// 国家，如中国为 CN
+	@JsonProperty("country")
 	private String country;
 
+	// 用户头像
+	@JsonProperty("headimgurl")
 	private String headImgUrl;
 
+	// 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
+	@JsonProperty("subscribe_time")
 	private Long subscribeTime;
 
-	/**
-	 * https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=11513156443eZYea&version=&lang=zh_CN
-	 * 
-	 * <pre>
-	 * 只有在将公众号绑定到微信开放平台帐号后，才会出现该字段。
-	 * 另外，在用户未关注公众号时，将不返回用户unionID信息。
-	 * 已关注的用户，开发者可使用“获取用户基本信息接口”获取unionID；
-	 * 未关注用户，开发者可使用“微信授权登录接口”并将scope参数设置为snsapi_userinfo，获取用户unionID
-	 * </pre>
-	 */
+	// 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
+	@JsonProperty("unionid")
 	private String unionId;
 
+	// 公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
+	@JsonProperty("remark")
 	private String remark;
 
+	// 用户所在的分组ID（兼容旧的用户分组接口）
+	@JsonProperty("groupid")
 	private Integer groupId;
 
+	// 用户被打上的标签ID列表
+	@JsonProperty("tagid_list")
 	private Long[] tagIds;
 
-	/**
-	 * 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）.
-	 */
-	private String[] privileges;
-
-	/**
-	 * subscribe_scene 返回用户关注的渠道来源.
-	 * ADD_SCENE_SEARCH 公众号搜索，ADD_SCENE_ACCOUNT_MIGRATION 公众号迁移，ADD_SCENE_PROFILE_CARD
-	 * 名片分享，ADD_SCENE_QR_CODE 扫描二维码，ADD_SCENEPROFILE LINK 图文页内名称点击，ADD_SCENE_PROFILE_ITEM
-	 * 图文页右上角菜单，ADD_SCENE_PAID 支付后关注，ADD_SCENE_OTHERS 其他
-	 */
+	// 返回用户关注的渠道来源
+	@JsonProperty("subscribe_scene")
 	private String subscribeScene;
 
-	/**
-	 * qr_scene 二维码扫码场景（开发者自定义）.
-	 */
+	// 二维码扫码场景（开发者自定义）
+	@JsonProperty("qr_scene")
 	private String qrScene;
 
-	/**
-	 * qr_scene_str 二维码扫码场景描述（开发者自定义）.
-	 */
+	// 二维码扫码场景描述（开发者自定义）
+	@JsonProperty("qr_scene_str")
 	private String qrSceneStr;
 
 	/**
@@ -137,26 +138,6 @@ public class WxMpUser
 	}
 
 	/**
-	 * 获取sexDesc
-	 * 
-	 * @return
-	 */
-	public String getSexDesc()
-	{
-		return sexDesc;
-	}
-
-	/**
-	 * 设置sexDesc
-	 * 
-	 * @param sexDesc
-	 */
-	public void setSexDesc(String sexDesc)
-	{
-		this.sexDesc = sexDesc;
-	}
-
-	/**
 	 * 获取sex
 	 * 
 	 * @return
@@ -197,26 +178,6 @@ public class WxMpUser
 	}
 
 	/**
-	 * 获取city
-	 * 
-	 * @return
-	 */
-	public String getCity()
-	{
-		return city;
-	}
-
-	/**
-	 * 设置city
-	 * 
-	 * @param city
-	 */
-	public void setCity(String city)
-	{
-		this.city = city;
-	}
-
-	/**
 	 * 获取province
 	 * 
 	 * @return
@@ -234,6 +195,26 @@ public class WxMpUser
 	public void setProvince(String province)
 	{
 		this.province = province;
+	}
+
+	/**
+	 * 获取city
+	 * 
+	 * @return
+	 */
+	public String getCity()
+	{
+		return city;
+	}
+
+	/**
+	 * 设置city
+	 * 
+	 * @param city
+	 */
+	public void setCity(String city)
+	{
+		this.city = city;
 	}
 
 	/**
@@ -374,26 +355,6 @@ public class WxMpUser
 	public void setTagIds(Long[] tagIds)
 	{
 		this.tagIds = tagIds;
-	}
-
-	/**
-	 * 获取privileges
-	 * 
-	 * @return
-	 */
-	public String[] getPrivileges()
-	{
-		return privileges;
-	}
-
-	/**
-	 * 设置privileges
-	 * 
-	 * @param privileges
-	 */
-	public void setPrivileges(String[] privileges)
-	{
-		this.privileges = privileges;
 	}
 
 	/**
