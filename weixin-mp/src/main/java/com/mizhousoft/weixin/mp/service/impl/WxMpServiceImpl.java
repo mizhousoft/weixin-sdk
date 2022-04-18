@@ -1,10 +1,9 @@
 package com.mizhousoft.weixin.mp.service.impl;
 
-import java.util.Arrays;
-
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bouncycastle.util.encoders.Base64;
 
+import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.service.RestClientService;
@@ -14,6 +13,8 @@ import com.mizhousoft.weixin.mp.config.WxMpConfig;
 import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 import com.mizhousoft.weixin.mp.service.WxMpUserService;
+import com.mizhousoft.weixin.mp.util.WxMpDomUtils;
+import com.mizhousoft.weixin.mp.util.WxMpCryptUtils;
 
 /**
  * 微信公众号服务
@@ -44,20 +45,50 @@ public class WxMpServiceImpl implements WxMpService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean checkSignature(String timestamp, String nonce, String signature)
+	public boolean checkSignature(String timeStamp, String nonce, String signature)
 	{
-		String[] values = { config.getToken(), timestamp, nonce };
+		String[] values = { config.getToken(), timeStamp, nonce };
 
-		Arrays.sort(values);
-		StringBuilder sb = new StringBuilder();
-		for (String value : values)
-		{
-			sb.append(value);
-		}
-
-		String shaValue = DigestUtils.sha1Hex(sb.toString());
+		String shaValue = WxMpCryptUtils.sha1Sign(values);
 
 		return (shaValue.equals(signature));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String decryptMsg(String msgSignature, String timeStamp, String nonce, String postData) throws WXException
+	{
+		String cipherText = WxMpDomUtils.extractEncryptPart(postData);
+
+		String[] values = { config.getToken(), timeStamp, nonce };
+		String shaValue = WxMpCryptUtils.sha1Sign(values);
+		if (!shaValue.equals(msgSignature))
+		{
+			throw new WXException("Signature is wrong.");
+		}
+
+		String plainXml = WxMpCryptUtils.decrypt(cipherText, Base64.decode(config.getAesKey()));
+
+		return plainXml;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String encryptMsg(String replyMsg) throws WXException
+	{
+		String encrypt = WxMpCryptUtils.encrypt(RandomGenerator.genHexString(8, true), replyMsg, config.getAppId(),
+		        Base64.decode(config.getAesKey()));
+
+		String timeStamp = Long.toString(System.currentTimeMillis() / 1000L);
+		String nonce = RandomGenerator.genHexString(8, true);
+
+		String signature = WxMpCryptUtils.sha1Sign(config.getToken(), timeStamp, nonce);
+
+		return WxMpDomUtils.generateXml(encrypt, signature, timeStamp, nonce);
 	}
 
 	/**

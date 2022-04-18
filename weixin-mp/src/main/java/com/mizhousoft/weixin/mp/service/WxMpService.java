@@ -16,12 +16,33 @@ public interface WxMpService
 	/**
 	 * 校验签名
 	 * 
-	 * @param timestamp
+	 * @param timeStamp
 	 * @param nonce
 	 * @param signature
 	 * @return
 	 */
-	boolean checkSignature(String timestamp, String nonce, String signature);
+	boolean checkSignature(String timeStamp, String nonce, String signature);
+
+	/**
+	 * 解密数据
+	 * 
+	 * @param msgSignature
+	 * @param timeStamp
+	 * @param nonce
+	 * @param postData
+	 * @return
+	 * @throws WXException
+	 */
+	String decryptMsg(String msgSignature, String timeStamp, String nonce, String postData) throws WXException;
+
+	/**
+	 * 加密消息
+	 * 
+	 * @param replyMsg
+	 * @return
+	 * @throws WXException
+	 */
+	String encryptMsg(String replyMsg) throws WXException;
 
 	/**
 	 * 获取访问Token
