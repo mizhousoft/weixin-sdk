@@ -13,8 +13,8 @@ import com.mizhousoft.weixin.mp.config.WxMpConfig;
 import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 import com.mizhousoft.weixin.mp.service.WxMpUserService;
-import com.mizhousoft.weixin.mp.util.WxMpDomUtils;
 import com.mizhousoft.weixin.mp.util.WxMpCryptUtils;
+import com.mizhousoft.weixin.mp.util.WxMpDomUtils;
 
 /**
  * 微信公众号服务
@@ -40,6 +40,15 @@ public class WxMpServiceImpl implements WxMpService
 
 	// WxMpMaterialService
 	private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getAppId()
+	{
+		return config.getAppId();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -174,4 +183,5 @@ public class WxMpServiceImpl implements WxMpService
 	{
 		this.restClientService = restClientService;
 	}
+
 }

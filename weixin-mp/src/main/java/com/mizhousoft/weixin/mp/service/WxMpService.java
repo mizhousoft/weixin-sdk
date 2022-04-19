@@ -14,6 +14,13 @@ public interface WxMpService
 	String GET_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
 
 	/**
+	 * 获取微信APP ID
+	 * 
+	 * @return
+	 */
+	String getAppId();
+
+	/**
 	 * 校验签名
 	 * 
 	 * @param timeStamp
