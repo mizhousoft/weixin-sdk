@@ -12,6 +12,7 @@ import com.mizhousoft.weixin.common.model.WxAccessToken;
 import com.mizhousoft.weixin.mp.config.WxMpConfig;
 import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
+import com.mizhousoft.weixin.mp.service.WxMpTemplateMsgService;
 import com.mizhousoft.weixin.mp.service.WxMpUserService;
 import com.mizhousoft.weixin.mp.util.WxMpCryptUtils;
 import com.mizhousoft.weixin.mp.util.WxMpDomUtils;
@@ -40,6 +41,9 @@ public class WxMpServiceImpl implements WxMpService
 
 	// WxMpMaterialService
 	private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
+
+	// WxMpTemplateMsgService
+	private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
 
 	/**
 	 * {@inheritDoc}
@@ -153,6 +157,15 @@ public class WxMpServiceImpl implements WxMpService
 	public WxMpMaterialService getWxMpMaterialService()
 	{
 		return materialService;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxMpTemplateMsgService getWxMpTemplateMsgService()
+	{
+		return templateMsgService;
 	}
 
 	/**
