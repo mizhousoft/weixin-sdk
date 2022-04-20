@@ -10,11 +10,11 @@ import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.mp.constants.MaterialType;
-import com.mizhousoft.weixin.mp.model.WxMpMaterialCountResult;
-import com.mizhousoft.weixin.mp.model.WxMpMaterialFileBatchGetResult;
-import com.mizhousoft.weixin.mp.model.WxMpMaterialNews;
-import com.mizhousoft.weixin.mp.model.WxMpMaterialNewsBatchGetResult;
-import com.mizhousoft.weixin.mp.model.WxMpMaterialVideoInfoResult;
+import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialCountResult;
+import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialFileBatchGetResult;
+import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialNews;
+import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialNewsBatchGetResult;
+import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialVideoInfoResult;
 import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 

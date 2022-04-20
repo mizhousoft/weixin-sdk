@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.mp.request;
+package com.mizhousoft.weixin.mp.domain.message;
 
 import java.math.BigDecimal;
 

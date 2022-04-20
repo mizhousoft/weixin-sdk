@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.mizhousoft.commons.lang.JAXBUtils;
 import com.mizhousoft.weixin.common.WXException;
+import com.mizhousoft.weixin.mp.domain.message.MpRequestMessage;
 
 /**
  * MpRequestMessage Test

@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.mp.model;
+package com.mizhousoft.weixin.mp.domain.material;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mizhousoft.weixin.common.WxError;
-import com.mizhousoft.weixin.mp.serializer.NumericDateDeserializer;
+import com.mizhousoft.weixin.mp.domain.serializer.NumericDateDeserializer;
 
 /**
  * 素材

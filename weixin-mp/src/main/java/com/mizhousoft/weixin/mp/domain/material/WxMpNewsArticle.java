@@ -1,8 +1,8 @@
-package com.mizhousoft.weixin.mp.model;
+package com.mizhousoft.weixin.mp.domain.material;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mizhousoft.weixin.mp.serializer.NumericBooleanDeserializer;
+import com.mizhousoft.weixin.mp.domain.serializer.NumericBooleanDeserializer;
 
 /**
  * 图文消息article

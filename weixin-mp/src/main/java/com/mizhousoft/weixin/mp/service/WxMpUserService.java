@@ -1,7 +1,7 @@
 package com.mizhousoft.weixin.mp.service;
 
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.mp.model.WxMpUser;
+import com.mizhousoft.weixin.mp.domain.user.WxMpUser;
 
 /**
  * 公众号用户服务

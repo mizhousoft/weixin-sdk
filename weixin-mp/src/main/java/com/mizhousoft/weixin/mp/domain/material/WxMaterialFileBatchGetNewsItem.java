@@ -1,17 +1,17 @@
-package com.mizhousoft.weixin.mp.model;
+package com.mizhousoft.weixin.mp.domain.material;
 
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.mizhousoft.weixin.mp.serializer.NumericDateDeserializer;
+import com.mizhousoft.weixin.mp.domain.serializer.NumericDateDeserializer;
 
 /**
- * 图文消息素材
+ * 消息素材
  *
  * @version
  */
-public class WxMaterialNewsBatchGetNewsItem
+public class WxMaterialFileBatchGetNewsItem
 {
 	// 素材ID
 	@JsonProperty("media_id")
@@ -22,9 +22,13 @@ public class WxMaterialNewsBatchGetNewsItem
 	@JsonDeserialize(using = NumericDateDeserializer.class)
 	private Date updateTime;
 
-	// 内容
-	@JsonProperty("content")
-	private WxMpMaterialNews content;
+	// 文件名称
+	@JsonProperty("name")
+	private String name;
+
+	// 图片的URL
+	@JsonProperty("url")
+	private String url;
 
 	/**
 	 * 获取mediaId
@@ -67,23 +71,43 @@ public class WxMaterialNewsBatchGetNewsItem
 	}
 
 	/**
-	 * 获取content
+	 * 获取name
 	 * 
 	 * @return
 	 */
-	public WxMpMaterialNews getContent()
+	public String getName()
 	{
-		return content;
+		return name;
 	}
 
 	/**
-	 * 设置content
+	 * 设置name
 	 * 
-	 * @param content
+	 * @param name
 	 */
-	public void setContent(WxMpMaterialNews content)
+	public void setName(String name)
 	{
-		this.content = content;
+		this.name = name;
+	}
+
+	/**
+	 * 获取url
+	 * 
+	 * @return
+	 */
+	public String getUrl()
+	{
+		return url;
+	}
+
+	/**
+	 * 设置url
+	 * 
+	 * @param url
+	 */
+	public void setUrl(String url)
+	{
+		this.url = url;
 	}
 
 	/**
@@ -98,8 +122,10 @@ public class WxMaterialNewsBatchGetNewsItem
 		builder.append(mediaId);
 		builder.append("\", \"updateTime\":\"");
 		builder.append(updateTime);
-		builder.append("\", \"content\":\"");
-		builder.append(content);
+		builder.append("\", \"name\":\"");
+		builder.append(name);
+		builder.append("\", \"url\":\"");
+		builder.append(url);
 		builder.append("\"}");
 		return builder.toString();
 	}

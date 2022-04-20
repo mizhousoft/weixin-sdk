@@ -1,6 +1,6 @@
 package com.mizhousoft.weixin.mp.util;
 
-import com.mizhousoft.weixin.mp.request.MpRequestMessage;
+import com.mizhousoft.weixin.mp.domain.message.MpRequestMessage;
 
 /**
  * 消息工具类

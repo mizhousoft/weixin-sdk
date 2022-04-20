@@ -1,8 +1,8 @@
 package com.mizhousoft.weixin.mp.service;
 
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.mp.request.MpRequestMessage;
-import com.mizhousoft.weixin.mp.response.MpResponseMessage;
+import com.mizhousoft.weixin.mp.domain.message.MpRequestMessage;
+import com.mizhousoft.weixin.mp.domain.message.MpResponseMessage;
 
 /**
  * 消息处理器

@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.mp.service.impl;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.mp.model.WxMpUser;
+import com.mizhousoft.weixin.mp.domain.user.WxMpUser;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 import com.mizhousoft.weixin.mp.service.WxMpUserService;
 

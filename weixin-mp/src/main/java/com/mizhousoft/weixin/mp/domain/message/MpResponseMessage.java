@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.mp.response;
+package com.mizhousoft.weixin.mp.domain.message;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

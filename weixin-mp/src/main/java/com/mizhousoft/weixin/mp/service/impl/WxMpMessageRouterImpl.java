@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import com.mizhousoft.commons.thread.FixedThreadPool;
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.mp.request.MpRequestMessage;
-import com.mizhousoft.weixin.mp.response.MpResponseMessage;
+import com.mizhousoft.weixin.mp.domain.message.MpRequestMessage;
+import com.mizhousoft.weixin.mp.domain.message.MpResponseMessage;
 import com.mizhousoft.weixin.mp.service.WxMpMessageHandler;
 import com.mizhousoft.weixin.mp.service.WxMpMessageRouter;
 

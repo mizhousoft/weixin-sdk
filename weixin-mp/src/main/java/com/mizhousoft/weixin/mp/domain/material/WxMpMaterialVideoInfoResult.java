@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.mp.model;
+package com.mizhousoft.weixin.mp.domain.material;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mizhousoft.weixin.common.WxError;

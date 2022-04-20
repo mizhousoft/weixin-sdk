@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.mp.serializer;
+package com.mizhousoft.weixin.mp.domain.serializer;
 
 import java.io.IOException;
 
