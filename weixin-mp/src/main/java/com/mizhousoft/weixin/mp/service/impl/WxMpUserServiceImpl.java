@@ -1,5 +1,8 @@
 package com.mizhousoft.weixin.mp.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.weixin.common.WXException;
@@ -14,6 +17,8 @@ import com.mizhousoft.weixin.mp.service.WxMpUserService;
  */
 public class WxMpUserServiceImpl implements WxMpUserService
 {
+	private static final Logger LOG = LoggerFactory.getLogger(WxMpUserServiceImpl.class);
+
 	private WxMpService wxMpService;
 
 	/**
@@ -43,6 +48,8 @@ public class WxMpUserServiceImpl implements WxMpUserService
 
 		url = url + "?openid=" + openid + "&lang=" + lang + "&access_token=" + accessToken;
 		String data = wxMpService.getRestClientService().getForObject(url, String.class);
+
+		LOG.debug("WxMpUser data is {}.", data);
 
 		try
 		{

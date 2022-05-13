@@ -1,5 +1,8 @@
 package com.mizhousoft.weixin.open.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.service.RestClientService;
@@ -17,6 +20,8 @@ import com.mizhousoft.weixin.open.service.WxOpenService;
  */
 public class WxOpenServiceImpl implements WxOpenService
 {
+	private static final Logger LOG = LoggerFactory.getLogger(WxOpenServiceImpl.class);
+
 	// 配置
 	private WxOpenConfig config;
 
@@ -81,6 +86,8 @@ public class WxOpenServiceImpl implements WxOpenService
 
 		String url = String.format(OUTH2_USERINFO_URL, oAuth2AccessToken.getAccessToken(), oAuth2AccessToken.getOpenId(), lang);
 		String data = restClientService.getForObject(url, String.class);
+
+		LOG.debug("WxOpenUser data is {}.", data);
 
 		try
 		{
