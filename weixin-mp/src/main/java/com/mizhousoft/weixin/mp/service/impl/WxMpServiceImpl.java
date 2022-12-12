@@ -11,6 +11,7 @@ import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.model.WxAccessToken;
 import com.mizhousoft.weixin.mp.config.WxMpConfig;
 import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
+import com.mizhousoft.weixin.mp.service.WxMpMenuService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 import com.mizhousoft.weixin.mp.service.WxMpTemplateMsgService;
 import com.mizhousoft.weixin.mp.service.WxMpUserService;
@@ -44,6 +45,9 @@ public class WxMpServiceImpl implements WxMpService
 
 	// WxMpTemplateMsgService
 	private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
+
+	// WxMpMenuService
+	private WxMpMenuService menuService = new WxMpMenuServiceImpl(this);
 
 	/**
 	 * {@inheritDoc}
@@ -166,6 +170,15 @@ public class WxMpServiceImpl implements WxMpService
 	public WxMpTemplateMsgService getWxMpTemplateMsgService()
 	{
 		return templateMsgService;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxMpMenuService getWxMpMenuService()
+	{
+		return menuService;
 	}
 
 	/**

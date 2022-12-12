@@ -6,13 +6,9 @@ import java.io.InputStream;
 import java.security.GeneralSecurityException;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Before;
 import org.junit.Test;
 
-import com.mizhousoft.commons.restclient.TruststoreLoader;
-import com.mizhousoft.commons.restclient.service.impl.HttpsRestClientServiceImpl;
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.mp.config.WxMpConfig;
 import com.mizhousoft.weixin.mp.constants.MaterialType;
 import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialCountResult;
 import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialFileBatchGetResult;
@@ -26,31 +22,8 @@ import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
  *
  * @version
  */
-public class WxMpMaterialServiceImplTest
+public class WxMpMaterialServiceImplTest extends BaseWxMpServiceText
 {
-	private WxMpServiceImpl wxMpService;
-
-	@Before
-	public void before() throws GeneralSecurityException
-	{
-		WxMpConfig config = new WxMpConfig();
-		config.setAppId("");
-		config.setAppSecret("");
-
-		HttpsTruststoreLoader truststoreLoader = new HttpsTruststoreLoader();
-		truststoreLoader.loadTrustStore();
-
-		TruststoreLoader[] truststoreLoaders = { truststoreLoader };
-
-		HttpsRestClientServiceImpl restClientService = new HttpsRestClientServiceImpl();
-		restClientService.setTruststoreLoaders(truststoreLoaders);
-		restClientService.init();
-
-		wxMpService = new WxMpServiceImpl();
-		wxMpService.setRestClientService(restClientService);
-		wxMpService.setConfig(config);
-	}
-
 	@Test
 	public void materialVideoInfo() throws GeneralSecurityException, WXException
 	{

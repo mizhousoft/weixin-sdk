@@ -81,6 +81,13 @@ public interface WxMpService
 	WxMpTemplateMsgService getWxMpTemplateMsgService();
 
 	/**
+	 * 获取服务
+	 * 
+	 * @return
+	 */
+	WxMpMenuService getWxMpMenuService();
+
+	/**
 	 * 获取REST服务
 	 * 
 	 * @return
