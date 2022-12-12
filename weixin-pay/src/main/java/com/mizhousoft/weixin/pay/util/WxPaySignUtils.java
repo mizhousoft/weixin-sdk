@@ -49,14 +49,12 @@ public class WxPaySignUtils
 		}
 	}
 
-	public static String createSign(Object xmlBean, String signType, String signKey, String[] ignoredParams)
-	        throws WXException
+	public static String createSign(Object xmlBean, String signType, String signKey, String[] ignoredParams) throws WXException
 	{
 		return createSign(xmlBean2Map(xmlBean), signType, signKey, ignoredParams);
 	}
 
-	public static String createSign(Map<String, String> params, String signType, String signKey, String[] ignoredParams)
-	        throws WXException
+	public static String createSign(Map<String, String> params, String signType, String signKey, String[] ignoredParams) throws WXException
 	{
 		try
 		{
@@ -84,8 +82,7 @@ public class WxPaySignUtils
 
 			if (WxPaySignType.HMAC_SHA256.equals(signType))
 			{
-				byte[] bytes = HmacSHA256Digest.hash(signKey.getBytes(CharEncoding.UTF8),
-				        signStr.getBytes(CharEncoding.UTF8));
+				byte[] bytes = HmacSHA256Digest.hash(signKey.getBytes(CharEncoding.UTF8), signStr.getBytes(CharEncoding.UTF8));
 				String hashValue = HexUtils.encodeHexString(bytes, false);
 
 				return hashValue;
@@ -120,7 +117,7 @@ public class WxPaySignUtils
 		{
 			try
 			{
-				boolean isAccessible = field.isAccessible();
+				boolean isAccessible = field.canAccess(bean);
 				field.setAccessible(true);
 				if (field.get(bean) == null)
 				{
