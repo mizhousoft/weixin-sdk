@@ -15,8 +15,7 @@ import com.mizhousoft.weixin.pay.util.WxPaySignUtils;
  */
 public abstract class WxPayUnifiedOrderRequestConverter
 {
-	public static WxPayUnifiedOrderRequest convert(IPayUnifiedOrderRequest request, WxPayConfig wxPayConfig)
-	        throws WXException
+	public static WxPayUnifiedOrderRequest convert(IPayUnifiedOrderRequest request, WxPayConfig wxPayConfig) throws WXException
 	{
 		WxPayUnifiedOrderRequest wxreq = new WxPayUnifiedOrderRequest();
 
@@ -31,7 +30,17 @@ public abstract class WxPayUnifiedOrderRequestConverter
 		wxreq.setLimitPay(wxPayConfig.getLimitPay());
 		wxreq.setMchId(wxPayConfig.getMchId());
 		wxreq.setNonceStr(nonceStr);
-		wxreq.setNotifyUrl(wxPayConfig.getPayNotifyUrl());
+
+		// 优先取请求对象中的
+		if (null != request.getPayNotifyUrl())
+		{
+			wxreq.setNotifyUrl(request.getPayNotifyUrl());
+		}
+		else
+		{
+			wxreq.setNotifyUrl(wxPayConfig.getPayNotifyUrl());
+		}
+
 		wxreq.setOutTradeNo(request.getOutTradeNo());
 		wxreq.setSignType(wxPayConfig.getSignType());
 		wxreq.setSpbillCreateIp(request.getSpbillCreateIp());

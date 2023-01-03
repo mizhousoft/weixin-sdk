@@ -26,7 +26,16 @@ public class WxPayRefundRequestConverter
 		wxRequest.setAppid(req.getAppId());
 		wxRequest.setMchId(wxPayConfig.getMchId());
 		wxRequest.setSignType(wxPayConfig.getSignType());
-		wxRequest.setNotifyUrl(wxPayConfig.getRefundNotifyUrl());
+
+		// 优先取请求对象中的
+		if (null != req.getRefundNotifyUrl())
+		{
+			wxRequest.setNotifyUrl(req.getRefundNotifyUrl());
+		}
+		else
+		{
+			wxRequest.setNotifyUrl(wxPayConfig.getRefundNotifyUrl());
+		}
 
 		String nonceStr = RandomGenerator.genHexString(16, false);
 		wxRequest.setNonceStr(nonceStr);

@@ -46,6 +46,9 @@ public class IPayUnifiedOrderRequest
 	// 用户标识
 	private String openId;
 
+	// 微信支付异步回掉地址，如果不填写，将取配置对象中的数据填充
+	private String payNotifyUrl;
+
 	/**
 	 * 获取appId
 	 * 
@@ -304,5 +307,25 @@ public class IPayUnifiedOrderRequest
 	public void setOpenId(String openId)
 	{
 		this.openId = openId;
+	}
+
+	/**
+	 * 获取payNotifyUrl
+	 * 
+	 * @return
+	 */
+	public String getPayNotifyUrl()
+	{
+		return payNotifyUrl;
+	}
+
+	/**
+	 * 设置payNotifyUrl
+	 * 
+	 * @param payNotifyUrl
+	 */
+	public void setPayNotifyUrl(String payNotifyUrl)
+	{
+		this.payNotifyUrl = payNotifyUrl;
 	}
 }

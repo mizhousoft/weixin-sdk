@@ -29,6 +29,9 @@ public class IWxPayRefundRequest
 	// 退款原因
 	private String refundDesc;
 
+	// 微信退款异步回掉地址，如果不填写，那么将取配置对象的数据填充
+	private String refundNotifyUrl;
+
 	/**
 	 * 获取appId
 	 * 
@@ -167,5 +170,25 @@ public class IWxPayRefundRequest
 	public void setRefundDesc(String refundDesc)
 	{
 		this.refundDesc = refundDesc;
+	}
+
+	/**
+	 * 获取refundNotifyUrl
+	 * 
+	 * @return
+	 */
+	public String getRefundNotifyUrl()
+	{
+		return refundNotifyUrl;
+	}
+
+	/**
+	 * 设置refundNotifyUrl
+	 * 
+	 * @param refundNotifyUrl
+	 */
+	public void setRefundNotifyUrl(String refundNotifyUrl)
+	{
+		this.refundNotifyUrl = refundNotifyUrl;
 	}
 }
