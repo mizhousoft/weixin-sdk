@@ -14,7 +14,7 @@ public class WxPayConfig
 	private String mchId;
 
 	// 商户密钥
-	private String mchKey;
+	private volatile String mchKey;
 
 	// 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数
 	private String payNotifyUrl;
