@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.mp.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.mp.domain.menu.ButtonMenu;

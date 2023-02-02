@@ -2,7 +2,7 @@ package com.mizhousoft.weixin.mp.request;
 
 import java.security.GeneralSecurityException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.mizhousoft.commons.lang.JAXBUtils;
 import com.mizhousoft.weixin.common.WXException;

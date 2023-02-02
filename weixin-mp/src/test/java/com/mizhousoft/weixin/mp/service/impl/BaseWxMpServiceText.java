@@ -2,7 +2,7 @@ package com.mizhousoft.weixin.mp.service.impl;
 
 import java.security.GeneralSecurityException;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.mizhousoft.commons.restclient.TruststoreLoader;
 import com.mizhousoft.commons.restclient.service.impl.HttpsRestClientServiceImpl;
@@ -17,7 +17,7 @@ public class BaseWxMpServiceText
 {
 	protected WxMpServiceImpl wxMpService;
 
-	@Before
+	@BeforeEach
 	public void before() throws GeneralSecurityException
 	{
 		WxMpConfig config = new WxMpConfig();

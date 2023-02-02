@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.security.GeneralSecurityException;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.mp.constants.MaterialType;

@@ -4,7 +4,7 @@ import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.mp.domain.template.WxMpMiniProgramData;
