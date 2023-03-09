@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @version
  */
-public class WxMpFreePublishArticles
+public class WxMpFreePublishArticle
 {
 	/**
 	 * 标题
@@ -44,6 +44,12 @@ public class WxMpFreePublishArticles
 	 */
 	@JsonProperty("thumb_media_id")
 	private String thumbMediaId;
+
+	/**
+	 * 图文消息的封面url
+	 */
+	@JsonProperty("thumb_url")
+	private String thumbUrl;
 
 	/**
 	 * 是否显示封面，0为false，即不显示，1为true，即显示(默认)
@@ -193,6 +199,26 @@ public class WxMpFreePublishArticles
 	public void setThumbMediaId(String thumbMediaId)
 	{
 		this.thumbMediaId = thumbMediaId;
+	}
+
+	/**
+	 * 获取thumbUrl
+	 * 
+	 * @return
+	 */
+	public String getThumbUrl()
+	{
+		return thumbUrl;
+	}
+
+	/**
+	 * 设置thumbUrl
+	 * 
+	 * @param thumbUrl
+	 */
+	public void setThumbUrl(String thumbUrl)
+	{
+		this.thumbUrl = thumbUrl;
 	}
 
 	/**

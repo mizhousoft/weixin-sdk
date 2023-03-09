@@ -1,6 +1,10 @@
 package com.mizhousoft.weixin.mp.domain.freepublish;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.mizhousoft.weixin.mp.domain.serializer.NumericDateDeserializer;
 
 /**
  * 发布列表的一条记录
@@ -25,7 +29,8 @@ public class WxMpFreePublishItem
 	 * 这篇图文消息素材的最后更新时间
 	 */
 	@JsonProperty("update_time")
-	private String updateTime;
+	@JsonDeserialize(using = NumericDateDeserializer.class)
+	private Date updateTime;
 
 	/**
 	 * 获取articleId
@@ -72,7 +77,7 @@ public class WxMpFreePublishItem
 	 * 
 	 * @return
 	 */
-	public String getUpdateTime()
+	public Date getUpdateTime()
 	{
 		return updateTime;
 	}
@@ -82,7 +87,7 @@ public class WxMpFreePublishItem
 	 * 
 	 * @param updateTime
 	 */
-	public void setUpdateTime(String updateTime)
+	public void setUpdateTime(Date updateTime)
 	{
 		this.updateTime = updateTime;
 	}
