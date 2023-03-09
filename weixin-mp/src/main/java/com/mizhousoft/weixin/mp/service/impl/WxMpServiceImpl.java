@@ -10,6 +10,7 @@ import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.model.WxAccessToken;
 import com.mizhousoft.weixin.mp.config.WxMpConfig;
+import com.mizhousoft.weixin.mp.service.WxMpFreePublishService;
 import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
 import com.mizhousoft.weixin.mp.service.WxMpMenuService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
@@ -42,6 +43,9 @@ public class WxMpServiceImpl implements WxMpService
 
 	// WxMpMaterialService
 	private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
+
+	// WxMpFreePublishService
+	private WxMpFreePublishService freePublishService = new WxMpFreePublishServiceImpl(this);
 
 	// WxMpTemplateMsgService
 	private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
@@ -161,6 +165,15 @@ public class WxMpServiceImpl implements WxMpService
 	public WxMpMaterialService getWxMpMaterialService()
 	{
 		return materialService;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxMpFreePublishService getWxMpFreePublishService()
+	{
+		return freePublishService;
 	}
 
 	/**

@@ -78,6 +78,13 @@ public interface WxMpService
 	 * 
 	 * @return
 	 */
+	WxMpFreePublishService getWxMpFreePublishService();
+
+	/**
+	 * 获取服务
+	 * 
+	 * @return
+	 */
 	WxMpTemplateMsgService getWxMpTemplateMsgService();
 
 	/**
