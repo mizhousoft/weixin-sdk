@@ -18,6 +18,7 @@ import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
+import com.mizhousoft.weixin.payment.response.WxPayOrderQueryV3Result;
 import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
@@ -41,37 +42,31 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String getMchId()
+	{
+		if (null != credential)
+		{
+			return credential.getMerchantId();
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public WxPayOrderCreateResult createOrder(WxPayOrderCreateRequest request) throws WXException
 	{
 		String canonicalUrl = "/v3/pay/transactions/app";
-		String requestPath = ENDPOINT + canonicalUrl;
-
-		Map<String, String> headerMap = new HashMap<>(3);
-		headerMap.put(HttpConstants.ACCEPT, HttpConstants.HTTP_MEDIA_JSON);
-		headerMap.put(HttpConstants.CONTENT_TYPE, HttpConstants.HTTP_MEDIA_JSON);
 
 		try
 		{
 			String body = JSONUtils.toJSONString(request);
 
-			String authorization = credential.getAuthorization(canonicalUrl, HttpConstants.HTTP_METHOD_POST, body);
-			headerMap.put(HttpConstants.AUTHORIZATION, authorization);
-
-			RestResponse restResp = restClientService.postJSON(requestPath, body, headerMap);
-
-			if (HttpStatus.OK.value() != restResp.getStatusCode())
-			{
-				throw new WXException("Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-			}
-
-			if (!validator.validate(restResp.getHeaders(), restResp.getBody()))
-			{
-				String requestId = restResp.getHeaders().get(HttpConstants.REQUEST_ID);
-
-				throw new WXException(String.format(
-				        "Validate response failed,the WechatPay signature is incorrect.%n" + "Request-ID[%s], responseBody[%.1024s]",
-				        requestId, restResp.getBody()));
-			}
+			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST);
 
 			WxPayOrderCreateResponse response = JSONUtils.parse(restResp.getBody(), WxPayOrderCreateResponse.class);
 
@@ -83,6 +78,44 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		{
 			throw new WXException("Create order failed.", e);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayOrderQueryV3Result queryOrder(String transactionId, String outTradeNo) throws WXException
+	{
+		return null;
+	}
+
+	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod) throws WXException
+	{
+		Map<String, String> headerMap = new HashMap<>(3);
+		headerMap.put(HttpConstants.ACCEPT, HttpConstants.HTTP_MEDIA_JSON);
+		headerMap.put(HttpConstants.CONTENT_TYPE, HttpConstants.HTTP_MEDIA_JSON);
+
+		String authorization = credential.getAuthorization(canonicalUrl, httpMethod, body);
+		headerMap.put(HttpConstants.AUTHORIZATION, authorization);
+
+		String requestPath = ENDPOINT + canonicalUrl;
+		RestResponse restResp = restClientService.postJSON(requestPath, body, headerMap);
+
+		if (HttpStatus.OK.value() != restResp.getStatusCode())
+		{
+			throw new WXException("Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+		}
+
+		if (!validator.validate(restResp.getHeaders(), restResp.getBody()))
+		{
+			String requestId = restResp.getHeaders().get(HttpConstants.REQUEST_ID);
+
+			throw new WXException(String.format(
+			        "Validate response failed,the WechatPay signature is incorrect.%n" + "Request-ID[%s], responseBody[%.1024s]", requestId,
+			        restResp.getBody()));
+		}
+
+		return restResp;
 	}
 
 	private WxPayOrderCreateResult buildOrderCreateResult(String prepayId, WxPayOrderCreateRequest request) throws WXException
@@ -115,4 +148,5 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		this.validator = new WxPayValidatorImpl(certificate);
 		this.credential = new WxPayCredentialImpl(config.getMchId(), config.getCertSerialNumber(), privateKey);
 	}
+
 }
