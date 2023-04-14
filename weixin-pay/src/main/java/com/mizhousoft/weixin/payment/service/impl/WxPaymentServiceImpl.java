@@ -20,7 +20,6 @@ import com.mizhousoft.weixin.common.WXSystemErrorException;
 import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
-import com.mizhousoft.weixin.payment.constant.TradeTypeEnum;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.response.OriginNotifyResponse;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
@@ -66,35 +65,31 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderCreateResult createOrder(TradeTypeEnum tradeType, WxPayOrderCreateRequest request) throws WXException
+	public WxPayOrderCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException
 	{
-		if (StringUtils.isBlank(request.getMchId()))
-		{
-			request.setMchId(credential.getMerchantId());
-		}
+		String canonicalUrl = "/v3/pay/transactions/app";
 
-		if (StringUtils.isBlank(request.getNotifyUrl()))
-		{
-			request.setNotifyUrl(credential.getPayNotifyUrl());
-		}
+		WxPayOrderCreateResponse response = createUnifiedOrder(canonicalUrl, request);
 
-		try
-		{
-			String canonicalUrl = tradeType.getPartnerUrl();
-			String body = JSONUtils.toJSONString(request);
+		String prepayId = response.getPrepayId();
 
-			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST);
+		long timestamp = Instant.now().getEpochSecond();
+		String nonceStr = RandomGenerator.genHexString(16, false);
 
-			WxPayOrderCreateResponse response = JSONUtils.parse(restResp.getBody(), WxPayOrderCreateResponse.class);
+		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + prepayId + "\n";
 
-			String prepayId = response.getPrepayId();
+		String sign = credential.sign(message);
 
-			return buildOrderCreateResult(prepayId, request);
-		}
-		catch (JSONException e)
-		{
-			throw new WXException("JSON to object failed.", e);
-		}
+		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
+		result.setAppId(request.getAppId());
+		result.setPartnerId(credential.getMerchantId());
+		result.setPrepayId(prepayId);
+		result.setPackageValue("Sign=WXPay");
+		result.setNonceStr(nonceStr);
+		result.setTimeStamp(String.valueOf(timestamp));
+		result.setSign(sign);
+
+		return result;
 	}
 
 	/**
@@ -176,6 +171,34 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		}
 	}
 
+	private WxPayOrderCreateResponse createUnifiedOrder(String canonicalUrl, WxPayOrderCreateRequest request) throws WXException
+	{
+		if (StringUtils.isBlank(request.getMchId()))
+		{
+			request.setMchId(credential.getMerchantId());
+		}
+
+		if (StringUtils.isBlank(request.getNotifyUrl()))
+		{
+			request.setNotifyUrl(credential.getPayNotifyUrl());
+		}
+
+		try
+		{
+			String body = JSONUtils.toJSONString(request);
+
+			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST);
+
+			WxPayOrderCreateResponse response = JSONUtils.parse(restResp.getBody(), WxPayOrderCreateResponse.class);
+
+			return response;
+		}
+		catch (JSONException e)
+		{
+			throw new WXException("JSON to object failed.", e);
+		}
+	}
+
 	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod) throws WXException
 	{
 		Map<String, String> headerMap = new HashMap<>(3);
@@ -223,27 +246,6 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		}
 
 		return restResp;
-	}
-
-	private WxPayOrderCreateResult buildOrderCreateResult(String prepayId, WxPayOrderCreateRequest request) throws WXException
-	{
-		long timestamp = Instant.now().getEpochSecond();
-		String nonceStr = RandomGenerator.genHexString(16, false);
-
-		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + prepayId + "\n";
-
-		String sign = credential.sign(message);
-
-		WxPayOrderCreateResult response = new WxPayOrderCreateResult();
-		response.setAppId(request.getAppId());
-		response.setPartnerId(credential.getMerchantId());
-		response.setPrepayId(prepayId);
-		response.setPackageValue("Sign=WXPay");
-		response.setNonceStr(nonceStr);
-		response.setTimeStamp(String.valueOf(timestamp));
-		response.setSign(sign);
-
-		return response;
 	}
 
 	public void init(WxPayConfig config, RestClientService restClientService) throws WXException
