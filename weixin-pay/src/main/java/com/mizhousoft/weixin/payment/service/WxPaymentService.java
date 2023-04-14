@@ -2,10 +2,12 @@ package com.mizhousoft.weixin.payment.service;
 
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
+import com.mizhousoft.weixin.payment.request.WxPayRefundRequest;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
 import com.mizhousoft.weixin.payment.result.WxPayOrderAPPCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderJSAPICreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
+import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 
 /**
  * 支付服务
@@ -79,4 +81,13 @@ public interface WxPaymentService
 	 * @throws WXException
 	 */
 	WxPayOrderQueryResult parsePayOrderNotifyResult(String notifyData, SignatureHeader header) throws WXException;
+
+	/**
+	 * 退款
+	 * 
+	 * @param request
+	 * @return
+	 * @throws WXException
+	 */
+	WxPayRefundResult refund(WxPayRefundRequest request) throws WXException;
 }

@@ -21,12 +21,14 @@ import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
+import com.mizhousoft.weixin.payment.request.WxPayRefundRequest;
 import com.mizhousoft.weixin.payment.response.OriginNotifyResponse;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
 import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
 import com.mizhousoft.weixin.payment.result.WxPayOrderAPPCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderJSAPICreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
+import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
@@ -201,6 +203,30 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			WxPayOrderQueryResult queryResult = JSONUtils.parse(result, WxPayOrderQueryResult.class);
 
 			return queryResult;
+		}
+		catch (JSONException e)
+		{
+			throw new WXException("JSON to object failed.", e);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayRefundResult refund(WxPayRefundRequest request) throws WXException
+	{
+		String canonicalUrl = "/v3/refund/domestic/refunds";
+
+		try
+		{
+			String body = JSONUtils.toJSONString(request);
+
+			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST);
+
+			WxPayRefundResult result = JSONUtils.parse(restResp.getBody(), WxPayRefundResult.class);
+
+			return result;
 		}
 		catch (JSONException e)
 		{
