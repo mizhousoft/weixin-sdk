@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.payment.response;
+package com.mizhousoft.weixin.payment.result;
 
 import java.util.List;
 

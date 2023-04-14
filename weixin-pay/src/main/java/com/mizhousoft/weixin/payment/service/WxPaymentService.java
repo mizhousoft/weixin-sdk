@@ -2,8 +2,8 @@ package com.mizhousoft.weixin.payment.service;
 
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
-import com.mizhousoft.weixin.payment.response.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
+import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 
 /**
  * 支付服务
