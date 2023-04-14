@@ -25,8 +25,7 @@ import com.mizhousoft.weixin.payment.request.WxPayRefundRequest;
 import com.mizhousoft.weixin.payment.response.OriginNotifyResponse;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
 import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
-import com.mizhousoft.weixin.payment.result.WxPayOrderAPPCreateResult;
-import com.mizhousoft.weixin.payment.result.WxPayOrderJSAPICreateResult;
+import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundNotifyResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
@@ -62,7 +61,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderAPPCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException
+	public WxPayOrderCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException
 	{
 		String canonicalUrl = "/v3/pay/transactions/app";
 
@@ -77,7 +76,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String sign = credential.sign(message);
 
-		WxPayOrderAPPCreateResult result = new WxPayOrderAPPCreateResult();
+		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
 		result.setPartnerId(credential.getMerchantId());
 		result.setPrepayId(prepayId);
@@ -93,7 +92,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderJSAPICreateResult createJSAPIOrder(WxPayOrderCreateRequest request) throws WXException
+	public WxPayOrderCreateResult createJSAPIOrder(WxPayOrderCreateRequest request) throws WXException
 	{
 		String canonicalUrl = "/v3/pay/transactions/jsapi";
 
@@ -108,7 +107,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + packageValue + "\n";
 		String sign = credential.sign(message);
 
-		WxPayOrderJSAPICreateResult result = new WxPayOrderJSAPICreateResult();
+		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
 		result.setPackageValue(packageValue);
 		result.setNonceStr(nonceStr);

@@ -5,12 +5,22 @@ package com.mizhousoft.weixin.payment.result;
  *
  * @version
  */
-public class WxPayOrderJSAPICreateResult
+public class WxPayOrderCreateResult
 {
 	/**
 	 * 应用APPID
 	 */
 	private String appId;
+
+	/**
+	 * 微信支付分配的商户号
+	 */
+	private String partnerId;
+
+	/**
+	 * 微信返回的支付交易会话ID
+	 */
+	private String prepayId;
 
 	/**
 	 * 数据包
@@ -55,6 +65,46 @@ public class WxPayOrderJSAPICreateResult
 	public void setAppId(String appId)
 	{
 		this.appId = appId;
+	}
+
+	/**
+	 * 获取partnerId
+	 * 
+	 * @return
+	 */
+	public String getPartnerId()
+	{
+		return partnerId;
+	}
+
+	/**
+	 * 设置partnerId
+	 * 
+	 * @param partnerId
+	 */
+	public void setPartnerId(String partnerId)
+	{
+		this.partnerId = partnerId;
+	}
+
+	/**
+	 * 获取prepayId
+	 * 
+	 * @return
+	 */
+	public String getPrepayId()
+	{
+		return prepayId;
+	}
+
+	/**
+	 * 设置prepayId
+	 * 
+	 * @param prepayId
+	 */
+	public void setPrepayId(String prepayId)
+	{
+		this.prepayId = prepayId;
 	}
 
 	/**
