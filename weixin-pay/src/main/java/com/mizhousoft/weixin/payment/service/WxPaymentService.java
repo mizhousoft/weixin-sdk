@@ -7,6 +7,7 @@ import com.mizhousoft.weixin.payment.response.SignatureHeader;
 import com.mizhousoft.weixin.payment.result.WxPayOrderAPPCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderJSAPICreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
+import com.mizhousoft.weixin.payment.result.WxPayRefundNotifyResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 
 /**
@@ -108,6 +109,6 @@ public interface WxPaymentService
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayRefundResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException;
+	WxPayRefundNotifyResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException;
 
 }

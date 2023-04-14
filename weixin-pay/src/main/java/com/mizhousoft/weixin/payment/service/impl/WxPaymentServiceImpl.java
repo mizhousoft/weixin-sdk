@@ -28,6 +28,7 @@ import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
 import com.mizhousoft.weixin.payment.result.WxPayOrderAPPCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderJSAPICreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
+import com.mizhousoft.weixin.payment.result.WxPayRefundNotifyResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
@@ -265,7 +266,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayRefundResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException
+	public WxPayRefundNotifyResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException
 	{
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
 		if (!validator.verify(beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
@@ -284,7 +285,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
 
-			WxPayRefundResult refundResult = JSONUtils.parse(result, WxPayRefundResult.class);
+			WxPayRefundNotifyResult refundResult = JSONUtils.parse(result, WxPayRefundNotifyResult.class);
 
 			return refundResult;
 		}
