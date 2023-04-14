@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
@@ -19,6 +20,7 @@ import com.mizhousoft.weixin.common.WXSystemErrorException;
 import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
+import com.mizhousoft.weixin.payment.constant.TradeTypeEnum;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.response.OriginNotifyResponse;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
@@ -64,12 +66,21 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderCreateResult createOrder(WxPayOrderCreateRequest request) throws WXException
+	public WxPayOrderCreateResult createOrder(TradeTypeEnum tradeType, WxPayOrderCreateRequest request) throws WXException
 	{
-		String canonicalUrl = "/v3/pay/transactions/app";
+		if (StringUtils.isBlank(request.getMchId()))
+		{
+			request.setMchId(credential.getMerchantId());
+		}
+
+		if (StringUtils.isBlank(request.getNotifyUrl()))
+		{
+			request.setNotifyUrl(credential.getPayNotifyUrl());
+		}
 
 		try
 		{
+			String canonicalUrl = tradeType.getPartnerUrl();
 			String body = JSONUtils.toJSONString(request);
 
 			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST);
@@ -242,6 +253,6 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		this.restClientService = restClientService;
 		this.validator = new WxPayValidatorImpl(certificate);
-		this.credential = new WxPayCredentialImpl(config.getMchId(), config.getApiV3key(), config.getCertSerialNumber(), privateKey);
+		this.credential = new WxPayCredentialImpl(config, privateKey);
 	}
 }

@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.weixin.common.WXException;
+import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.util.RSAUtils;
 
@@ -17,40 +18,38 @@ public class WxPayCredentialImpl implements WxPayCredential
 {
 	public static final String SCHEMA_PREFIX = "WECHATPAY2-";
 
-	private volatile String merchantId;
-
-	private volatile String apiV3key;
-
-	private volatile String certSerialNumber;
+	private volatile WxPayConfig config;
 
 	private volatile PrivateKey privateKey;
 
 	/**
 	 * 构造函数
 	 *
-	 * @param merchantId
-	 * @param certSerialNumber
-	 * @param privateKey
+	 * @param config
 	 */
-	public WxPayCredentialImpl(String merchantId, String apiV3key, String certSerialNumber, PrivateKey privateKey)
+	public WxPayCredentialImpl(WxPayConfig config, PrivateKey privateKey)
 	{
 		super();
-		this.merchantId = merchantId;
-		this.apiV3key = apiV3key;
-		this.certSerialNumber = certSerialNumber;
+		this.config = config;
 		this.privateKey = privateKey;
 	}
 
 	@Override
 	public String getMerchantId()
 	{
-		return merchantId;
+		return config.getMchId();
 	}
 
 	@Override
 	public String getAPIV3key()
 	{
-		return apiV3key;
+		return config.getApiV3key();
+	}
+
+	@Override
+	public String getPayNotifyUrl()
+	{
+		return config.getPayNotifyUrl();
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class WxPayCredentialImpl implements WxPayCredential
 	@Override
 	public String sign(String message) throws WXException
 	{
-		return RSAUtils.sign(message, certSerialNumber, privateKey);
+		return RSAUtils.sign(message, config.getCertSerialNumber(), privateKey);
 	}
 
 	@Override
@@ -78,6 +77,7 @@ public class WxPayCredentialImpl implements WxPayCredential
 
 		String message = httpMethod + "\n" + canonicalUrl + "\n" + timestamp + "\n" + nonceStr + "\n" + body + "\n";
 
+		String certSerialNumber = config.getCertSerialNumber();
 		String signature = RSAUtils.sign(message, certSerialNumber, privateKey);
 
 		String token = "mchid=\"" + getMerchantId() + "\"," + "nonce_str=\"" + nonceStr + "\"," + "timestamp=\"" + timestamp + "\","
