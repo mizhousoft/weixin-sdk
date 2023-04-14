@@ -5,22 +5,12 @@ package com.mizhousoft.weixin.payment.result;
  *
  * @version
  */
-public class WxPayOrderCreateResult
+public class WxPayOrderJSAPICreateResult
 {
 	/**
 	 * 应用APPID
 	 */
 	private String appId;
-
-	/**
-	 * 微信支付分配的商户号
-	 */
-	private String partnerId;
-
-	/**
-	 * 微信返回的支付交易会话ID
-	 */
-	private String prepayId;
 
 	/**
 	 * 数据包
@@ -43,6 +33,11 @@ public class WxPayOrderCreateResult
 	private String sign;
 
 	/**
+	 * 签名类型
+	 */
+	private String signType;
+
+	/**
 	 * 获取appId
 	 * 
 	 * @return
@@ -60,46 +55,6 @@ public class WxPayOrderCreateResult
 	public void setAppId(String appId)
 	{
 		this.appId = appId;
-	}
-
-	/**
-	 * 获取partnerId
-	 * 
-	 * @return
-	 */
-	public String getPartnerId()
-	{
-		return partnerId;
-	}
-
-	/**
-	 * 设置partnerId
-	 * 
-	 * @param partnerId
-	 */
-	public void setPartnerId(String partnerId)
-	{
-		this.partnerId = partnerId;
-	}
-
-	/**
-	 * 获取prepayId
-	 * 
-	 * @return
-	 */
-	public String getPrepayId()
-	{
-		return prepayId;
-	}
-
-	/**
-	 * 设置prepayId
-	 * 
-	 * @param prepayId
-	 */
-	public void setPrepayId(String prepayId)
-	{
-		this.prepayId = prepayId;
 	}
 
 	/**
@@ -180,5 +135,25 @@ public class WxPayOrderCreateResult
 	public void setSign(String sign)
 	{
 		this.sign = sign;
+	}
+
+	/**
+	 * 获取signType
+	 * 
+	 * @return
+	 */
+	public String getSignType()
+	{
+		return signType;
+	}
+
+	/**
+	 * 设置signType
+	 * 
+	 * @param signType
+	 */
+	public void setSignType(String signType)
+	{
+		this.signType = signType;
 	}
 }

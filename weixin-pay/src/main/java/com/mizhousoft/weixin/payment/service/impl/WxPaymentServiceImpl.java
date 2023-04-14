@@ -24,7 +24,8 @@ import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.response.OriginNotifyResponse;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
 import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
-import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
+import com.mizhousoft.weixin.payment.result.WxPayOrderAPPCreateResult;
+import com.mizhousoft.weixin.payment.result.WxPayOrderJSAPICreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
@@ -51,21 +52,14 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	@Override
 	public String getMchId()
 	{
-		if (null != credential)
-		{
-			return credential.getMerchantId();
-		}
-		else
-		{
-			return null;
-		}
+		return credential.getMerchantId();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException
+	public WxPayOrderAPPCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException
 	{
 		String canonicalUrl = "/v3/pay/transactions/app";
 
@@ -80,7 +74,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String sign = credential.sign(message);
 
-		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
+		WxPayOrderAPPCreateResult result = new WxPayOrderAPPCreateResult();
 		result.setAppId(request.getAppId());
 		result.setPartnerId(credential.getMerchantId());
 		result.setPrepayId(prepayId);
@@ -90,6 +84,45 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		result.setSign(sign);
 
 		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayOrderJSAPICreateResult createJSAPIOrder(WxPayOrderCreateRequest request) throws WXException
+	{
+		String canonicalUrl = "/v3/pay/transactions/jsapi";
+
+		WxPayOrderCreateResponse response = createUnifiedOrder(canonicalUrl, request);
+
+		String prepayId = response.getPrepayId();
+		String packageValue = "prepay_id=" + prepayId;
+
+		long timestamp = Instant.now().getEpochSecond();
+		String nonceStr = RandomGenerator.genHexString(16, false);
+
+		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + packageValue + "\n";
+		String sign = credential.sign(message);
+
+		WxPayOrderJSAPICreateResult result = new WxPayOrderJSAPICreateResult();
+		result.setAppId(request.getAppId());
+		result.setPackageValue(packageValue);
+		result.setNonceStr(nonceStr);
+		result.setTimeStamp(String.valueOf(timestamp));
+		result.setSign(sign);
+		result.setSignType("RSA");
+
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayOrderAPPCreateResult createH5Order(WxPayOrderCreateRequest request) throws WXException
+	{
+		return null;
 	}
 
 	/**

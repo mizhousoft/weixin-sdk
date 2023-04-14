@@ -21,7 +21,7 @@ public abstract class RSAUtils
 {
 	public static String ALGORITHM = "SHA256-RSA2048";
 
-	public static String sign(String message, String certSerialNumber, PrivateKey privateKey) throws WXException
+	public static String sign(String message, PrivateKey privateKey) throws WXException
 	{
 		String algorithmName = PaymentConstant.SHA256WITHRSA;
 

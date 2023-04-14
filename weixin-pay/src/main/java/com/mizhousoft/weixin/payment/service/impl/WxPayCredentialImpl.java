@@ -65,7 +65,7 @@ public class WxPayCredentialImpl implements WxPayCredential
 	@Override
 	public String sign(String message) throws WXException
 	{
-		return RSAUtils.sign(message, config.getCertSerialNumber(), privateKey);
+		return RSAUtils.sign(message, privateKey);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class WxPayCredentialImpl implements WxPayCredential
 		String message = httpMethod + "\n" + canonicalUrl + "\n" + timestamp + "\n" + nonceStr + "\n" + body + "\n";
 
 		String certSerialNumber = config.getCertSerialNumber();
-		String signature = RSAUtils.sign(message, certSerialNumber, privateKey);
+		String signature = RSAUtils.sign(message, privateKey);
 
 		String token = "mchid=\"" + getMerchantId() + "\"," + "nonce_str=\"" + nonceStr + "\"," + "timestamp=\"" + timestamp + "\","
 		        + "serial_no=\"" + certSerialNumber + "\"," + "signature=\"" + signature + "\"";

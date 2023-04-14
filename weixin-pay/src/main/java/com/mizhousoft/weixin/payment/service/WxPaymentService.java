@@ -3,7 +3,8 @@ package com.mizhousoft.weixin.payment.service;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
-import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
+import com.mizhousoft.weixin.payment.result.WxPayOrderAPPCreateResult;
+import com.mizhousoft.weixin.payment.result.WxPayOrderJSAPICreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 
 /**
@@ -29,7 +30,25 @@ public interface WxPaymentService
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayOrderCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException;
+	WxPayOrderAPPCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException;
+
+	/**
+	 * 创建订单
+	 * 
+	 * @param request
+	 * @return
+	 * @throws WXException
+	 */
+	WxPayOrderJSAPICreateResult createJSAPIOrder(WxPayOrderCreateRequest request) throws WXException;
+
+	/**
+	 * 创建订单
+	 * 
+	 * @param request
+	 * @return
+	 * @throws WXException
+	 */
+	WxPayOrderAPPCreateResult createH5Order(WxPayOrderCreateRequest request) throws WXException;
 
 	/**
 	 * 查询订单
