@@ -30,7 +30,7 @@ public class WxPayConfig
 	/**
 	 * 证书文件路径
 	 */
-	private volatile String certFilePath;
+	private volatile String certPemFilePath;
 
 	/**
 	 * 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数
@@ -123,23 +123,23 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取certFilePath
+	 * 获取certPemFilePath
 	 * 
 	 * @return
 	 */
-	public String getCertFilePath()
+	public String getCertPemFilePath()
 	{
-		return certFilePath;
+		return certPemFilePath;
 	}
 
 	/**
-	 * 设置certFilePath
+	 * 设置certPemFilePath
 	 * 
-	 * @param certFilePath
+	 * @param certPemFilePath
 	 */
-	public void setCertFilePath(String certFilePath)
+	public void setCertPemFilePath(String certPemFilePath)
 	{
-		this.certFilePath = certFilePath;
+		this.certPemFilePath = certPemFilePath;
 	}
 
 	/**
@@ -164,6 +164,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取refundNotifyUrl
+	 * 
 	 * @return
 	 */
 	public String getRefundNotifyUrl()
@@ -173,6 +174,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置refundNotifyUrl
+	 * 
 	 * @param refundNotifyUrl
 	 */
 	public void setRefundNotifyUrl(String refundNotifyUrl)

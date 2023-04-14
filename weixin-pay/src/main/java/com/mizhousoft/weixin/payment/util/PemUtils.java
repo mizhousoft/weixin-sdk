@@ -8,7 +8,9 @@ import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.cert.CertificateException;
+import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -54,9 +56,21 @@ public abstract class PemUtils
 	 */
 	public static X509Certificate loadX509FromStream(InputStream inputStream) throws WXException
 	{
+
 		try
 		{
-			return (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(inputStream);
+			CertificateFactory cf = CertificateFactory.getInstance("X.509");
+			X509Certificate cert = (X509Certificate) cf.generateCertificate(inputStream);
+			cert.checkValidity();
+			return cert;
+		}
+		catch (CertificateExpiredException e)
+		{
+			throw new WXException("Certificate expired.", e);
+		}
+		catch (CertificateNotYetValidException e)
+		{
+			throw new WXException("Certificate not yet valid.", e);
 		}
 		catch (CertificateException e)
 		{

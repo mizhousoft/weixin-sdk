@@ -374,7 +374,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public void init(WxPayConfig config, RestClientService restClientService) throws WXException
 	{
 		PrivateKey privateKey = PemUtils.loadPrivateKeyFromPath(config.getPrivateKeyPath());
-		X509Certificate certificate = PemUtils.loadX509FromPath(config.getCertFilePath());
+		X509Certificate certificate = PemUtils.loadX509FromPath(config.getCertPemFilePath());
 
 		this.restClientService = restClientService;
 		this.validator = new WxPayValidatorImpl(certificate);
