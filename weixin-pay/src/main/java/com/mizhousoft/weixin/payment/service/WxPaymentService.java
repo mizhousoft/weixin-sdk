@@ -90,4 +90,13 @@ public interface WxPaymentService
 	 * @throws WXException
 	 */
 	WxPayRefundResult refund(WxPayRefundRequest request) throws WXException;
+
+	/**
+	 * 退款查询
+	 * 
+	 * @param outRefundNo
+	 * @return
+	 * @throws WXException
+	 */
+	WxPayRefundResult refundQuery(String outRefundNo) throws WXException;
 }

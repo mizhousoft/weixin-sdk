@@ -234,6 +234,28 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayRefundResult refundQuery(String outRefundNo) throws WXException
+	{
+		String canonicalUrl = String.format("/v3/refund/domestic/refunds/%s", outRefundNo);
+
+		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET);
+
+		try
+		{
+			WxPayRefundResult response = JSONUtils.parse(restResp.getBody(), WxPayRefundResult.class);
+
+			return response;
+		}
+		catch (JSONException e)
+		{
+			throw new WXException("JSON to object failed.", e);
+		}
+	}
+
 	private WxPayOrderCreateResponse createUnifiedOrder(String canonicalUrl, WxPayOrderCreateRequest request) throws WXException
 	{
 		if (StringUtils.isBlank(request.getMchId()))
