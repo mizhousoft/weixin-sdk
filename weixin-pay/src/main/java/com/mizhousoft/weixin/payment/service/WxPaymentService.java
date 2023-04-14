@@ -2,7 +2,7 @@ package com.mizhousoft.weixin.payment.service;
 
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
-import com.mizhousoft.weixin.payment.response.WxPayOrderQueryV3Result;
+import com.mizhousoft.weixin.payment.response.WxPayOrderQueryResponse;
 import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 
 /**
@@ -38,6 +38,6 @@ public interface WxPaymentService
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayOrderQueryV3Result queryOrder(String transactionId, String outTradeNo) throws WXException;
+	WxPayOrderQueryResponse queryOrder(String transactionId, String outTradeNo) throws WXException;
 
 }

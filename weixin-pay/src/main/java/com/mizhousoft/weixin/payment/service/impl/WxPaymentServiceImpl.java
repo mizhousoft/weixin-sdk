@@ -18,7 +18,7 @@ import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
-import com.mizhousoft.weixin.payment.response.WxPayOrderQueryV3Result;
+import com.mizhousoft.weixin.payment.response.WxPayOrderQueryResponse;
 import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
@@ -84,7 +84,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderQueryV3Result queryOrder(String transactionId, String outTradeNo) throws WXException
+	public WxPayOrderQueryResponse queryOrder(String transactionId, String outTradeNo) throws WXException
 	{
 		return null;
 	}

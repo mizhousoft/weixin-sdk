@@ -5,11 +5,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * TODO
+ * 查询响应
  *
  * @version
  */
-public class WxPayOrderQueryV3Result
+public class WxPayOrderQueryResponse
 {
 	/**
 	 * <pre>
@@ -23,7 +23,7 @@ public class WxPayOrderQueryV3Result
 	 * </pre>
 	 */
 	@JsonProperty(value = "appid")
-	private String appid;
+	private String appId;
 
 	/**
 	 * <pre>
@@ -37,7 +37,7 @@ public class WxPayOrderQueryV3Result
 	 * </pre>
 	 */
 	@JsonProperty(value = "mchid")
-	private String mchid;
+	private String mchId;
 
 	/**
 	 * <pre>
@@ -175,6 +175,7 @@ public class WxPayOrderQueryV3Result
 	 *  支付者信息
 	 * </pre>
 	 */
+	@JsonProperty(value = "payer")
 	private Payer payer;
 
 	/**
@@ -230,7 +231,27 @@ public class WxPayOrderQueryV3Result
 		 * </pre>
 		 */
 		@JsonProperty(value = "openid")
-		private String openid;
+		private String openId;
+
+		/**
+		 * 获取openId
+		 * 
+		 * @return
+		 */
+		public String getOpenId()
+		{
+			return openId;
+		}
+
+		/**
+		 * 设置openId
+		 * 
+		 * @param openId
+		 */
+		public void setOpenId(String openId)
+		{
+			this.openId = openId;
+		}
 	}
 
 	public static class Amount
@@ -290,6 +311,86 @@ public class WxPayOrderQueryV3Result
 		 */
 		@JsonProperty(value = "payer_currency")
 		private String payerCurrency;
+
+		/**
+		 * 获取total
+		 * 
+		 * @return
+		 */
+		public Integer getTotal()
+		{
+			return total;
+		}
+
+		/**
+		 * 设置total
+		 * 
+		 * @param total
+		 */
+		public void setTotal(Integer total)
+		{
+			this.total = total;
+		}
+
+		/**
+		 * 获取payerTotal
+		 * 
+		 * @return
+		 */
+		public Integer getPayerTotal()
+		{
+			return payerTotal;
+		}
+
+		/**
+		 * 设置payerTotal
+		 * 
+		 * @param payerTotal
+		 */
+		public void setPayerTotal(Integer payerTotal)
+		{
+			this.payerTotal = payerTotal;
+		}
+
+		/**
+		 * 获取currency
+		 * 
+		 * @return
+		 */
+		public String getCurrency()
+		{
+			return currency;
+		}
+
+		/**
+		 * 设置currency
+		 * 
+		 * @param currency
+		 */
+		public void setCurrency(String currency)
+		{
+			this.currency = currency;
+		}
+
+		/**
+		 * 获取payerCurrency
+		 * 
+		 * @return
+		 */
+		public String getPayerCurrency()
+		{
+			return payerCurrency;
+		}
+
+		/**
+		 * 设置payerCurrency
+		 * 
+		 * @param payerCurrency
+		 */
+		public void setPayerCurrency(String payerCurrency)
+		{
+			this.payerCurrency = payerCurrency;
+		}
 	}
 
 	public static class SceneInfo
@@ -307,6 +408,26 @@ public class WxPayOrderQueryV3Result
 		 */
 		@JsonProperty(value = "device_id")
 		private String deviceId;
+
+		/**
+		 * 获取deviceId
+		 * 
+		 * @return
+		 */
+		public String getDeviceId()
+		{
+			return deviceId;
+		}
+
+		/**
+		 * 设置deviceId
+		 * 
+		 * @param deviceId
+		 */
+		public void setDeviceId(String deviceId)
+		{
+			this.deviceId = deviceId;
+		}
 	}
 
 	public static class PromotionDetail
@@ -465,6 +586,226 @@ public class WxPayOrderQueryV3Result
 		 */
 		@JsonProperty(value = "goods_detail")
 		private List<GoodsDetail> goodsDetails;
+
+		/**
+		 * 获取couponId
+		 * 
+		 * @return
+		 */
+		public String getCouponId()
+		{
+			return couponId;
+		}
+
+		/**
+		 * 设置couponId
+		 * 
+		 * @param couponId
+		 */
+		public void setCouponId(String couponId)
+		{
+			this.couponId = couponId;
+		}
+
+		/**
+		 * 获取name
+		 * 
+		 * @return
+		 */
+		public String getName()
+		{
+			return name;
+		}
+
+		/**
+		 * 设置name
+		 * 
+		 * @param name
+		 */
+		public void setName(String name)
+		{
+			this.name = name;
+		}
+
+		/**
+		 * 获取scope
+		 * 
+		 * @return
+		 */
+		public String getScope()
+		{
+			return scope;
+		}
+
+		/**
+		 * 设置scope
+		 * 
+		 * @param scope
+		 */
+		public void setScope(String scope)
+		{
+			this.scope = scope;
+		}
+
+		/**
+		 * 获取type
+		 * 
+		 * @return
+		 */
+		public String getType()
+		{
+			return type;
+		}
+
+		/**
+		 * 设置type
+		 * 
+		 * @param type
+		 */
+		public void setType(String type)
+		{
+			this.type = type;
+		}
+
+		/**
+		 * 获取amount
+		 * 
+		 * @return
+		 */
+		public Integer getAmount()
+		{
+			return amount;
+		}
+
+		/**
+		 * 设置amount
+		 * 
+		 * @param amount
+		 */
+		public void setAmount(Integer amount)
+		{
+			this.amount = amount;
+		}
+
+		/**
+		 * 获取stockId
+		 * 
+		 * @return
+		 */
+		public String getStockId()
+		{
+			return stockId;
+		}
+
+		/**
+		 * 设置stockId
+		 * 
+		 * @param stockId
+		 */
+		public void setStockId(String stockId)
+		{
+			this.stockId = stockId;
+		}
+
+		/**
+		 * 获取wechatpayContribute
+		 * 
+		 * @return
+		 */
+		public Integer getWechatpayContribute()
+		{
+			return wechatpayContribute;
+		}
+
+		/**
+		 * 设置wechatpayContribute
+		 * 
+		 * @param wechatpayContribute
+		 */
+		public void setWechatpayContribute(Integer wechatpayContribute)
+		{
+			this.wechatpayContribute = wechatpayContribute;
+		}
+
+		/**
+		 * 获取merchantContribute
+		 * 
+		 * @return
+		 */
+		public Integer getMerchantContribute()
+		{
+			return merchantContribute;
+		}
+
+		/**
+		 * 设置merchantContribute
+		 * 
+		 * @param merchantContribute
+		 */
+		public void setMerchantContribute(Integer merchantContribute)
+		{
+			this.merchantContribute = merchantContribute;
+		}
+
+		/**
+		 * 获取otherContribute
+		 * 
+		 * @return
+		 */
+		public Integer getOtherContribute()
+		{
+			return otherContribute;
+		}
+
+		/**
+		 * 设置otherContribute
+		 * 
+		 * @param otherContribute
+		 */
+		public void setOtherContribute(Integer otherContribute)
+		{
+			this.otherContribute = otherContribute;
+		}
+
+		/**
+		 * 获取currency
+		 * 
+		 * @return
+		 */
+		public String getCurrency()
+		{
+			return currency;
+		}
+
+		/**
+		 * 设置currency
+		 * 
+		 * @param currency
+		 */
+		public void setCurrency(String currency)
+		{
+			this.currency = currency;
+		}
+
+		/**
+		 * 获取goodsDetails
+		 * 
+		 * @return
+		 */
+		public List<GoodsDetail> getGoodsDetails()
+		{
+			return goodsDetails;
+		}
+
+		/**
+		 * 设置goodsDetails
+		 * 
+		 * @param goodsDetails
+		 */
+		public void setGoodsDetails(List<GoodsDetail> goodsDetails)
+		{
+			this.goodsDetails = goodsDetails;
+		}
 	}
 
 	public static class GoodsDetail
@@ -538,5 +879,385 @@ public class WxPayOrderQueryV3Result
 		 */
 		@JsonProperty(value = "goods_remark")
 		private String goodsRemark;
+
+		/**
+		 * 获取goodsId
+		 * 
+		 * @return
+		 */
+		public String getGoodsId()
+		{
+			return goodsId;
+		}
+
+		/**
+		 * 设置goodsId
+		 * 
+		 * @param goodsId
+		 */
+		public void setGoodsId(String goodsId)
+		{
+			this.goodsId = goodsId;
+		}
+
+		/**
+		 * 获取quantity
+		 * 
+		 * @return
+		 */
+		public Integer getQuantity()
+		{
+			return quantity;
+		}
+
+		/**
+		 * 设置quantity
+		 * 
+		 * @param quantity
+		 */
+		public void setQuantity(Integer quantity)
+		{
+			this.quantity = quantity;
+		}
+
+		/**
+		 * 获取unitPrice
+		 * 
+		 * @return
+		 */
+		public Integer getUnitPrice()
+		{
+			return unitPrice;
+		}
+
+		/**
+		 * 设置unitPrice
+		 * 
+		 * @param unitPrice
+		 */
+		public void setUnitPrice(Integer unitPrice)
+		{
+			this.unitPrice = unitPrice;
+		}
+
+		/**
+		 * 获取discountAmount
+		 * 
+		 * @return
+		 */
+		public Integer getDiscountAmount()
+		{
+			return discountAmount;
+		}
+
+		/**
+		 * 设置discountAmount
+		 * 
+		 * @param discountAmount
+		 */
+		public void setDiscountAmount(Integer discountAmount)
+		{
+			this.discountAmount = discountAmount;
+		}
+
+		/**
+		 * 获取goodsRemark
+		 * 
+		 * @return
+		 */
+		public String getGoodsRemark()
+		{
+			return goodsRemark;
+		}
+
+		/**
+		 * 设置goodsRemark
+		 * 
+		 * @param goodsRemark
+		 */
+		public void setGoodsRemark(String goodsRemark)
+		{
+			this.goodsRemark = goodsRemark;
+		}
+	}
+
+	/**
+	 * 获取appId
+	 * 
+	 * @return
+	 */
+	public String getAppId()
+	{
+		return appId;
+	}
+
+	/**
+	 * 设置appId
+	 * 
+	 * @param appId
+	 */
+	public void setAppId(String appId)
+	{
+		this.appId = appId;
+	}
+
+	/**
+	 * 获取mchId
+	 * 
+	 * @return
+	 */
+	public String getMchId()
+	{
+		return mchId;
+	}
+
+	/**
+	 * 设置mchId
+	 * 
+	 * @param mchId
+	 */
+	public void setMchId(String mchId)
+	{
+		this.mchId = mchId;
+	}
+
+	/**
+	 * 获取outTradeNo
+	 * 
+	 * @return
+	 */
+	public String getOutTradeNo()
+	{
+		return outTradeNo;
+	}
+
+	/**
+	 * 设置outTradeNo
+	 * 
+	 * @param outTradeNo
+	 */
+	public void setOutTradeNo(String outTradeNo)
+	{
+		this.outTradeNo = outTradeNo;
+	}
+
+	/**
+	 * 获取transactionId
+	 * 
+	 * @return
+	 */
+	public String getTransactionId()
+	{
+		return transactionId;
+	}
+
+	/**
+	 * 设置transactionId
+	 * 
+	 * @param transactionId
+	 */
+	public void setTransactionId(String transactionId)
+	{
+		this.transactionId = transactionId;
+	}
+
+	/**
+	 * 获取tradeType
+	 * 
+	 * @return
+	 */
+	public String getTradeType()
+	{
+		return tradeType;
+	}
+
+	/**
+	 * 设置tradeType
+	 * 
+	 * @param tradeType
+	 */
+	public void setTradeType(String tradeType)
+	{
+		this.tradeType = tradeType;
+	}
+
+	/**
+	 * 获取tradeState
+	 * 
+	 * @return
+	 */
+	public String getTradeState()
+	{
+		return tradeState;
+	}
+
+	/**
+	 * 设置tradeState
+	 * 
+	 * @param tradeState
+	 */
+	public void setTradeState(String tradeState)
+	{
+		this.tradeState = tradeState;
+	}
+
+	/**
+	 * 获取tradeStateDesc
+	 * 
+	 * @return
+	 */
+	public String getTradeStateDesc()
+	{
+		return tradeStateDesc;
+	}
+
+	/**
+	 * 设置tradeStateDesc
+	 * 
+	 * @param tradeStateDesc
+	 */
+	public void setTradeStateDesc(String tradeStateDesc)
+	{
+		this.tradeStateDesc = tradeStateDesc;
+	}
+
+	/**
+	 * 获取bankType
+	 * 
+	 * @return
+	 */
+	public String getBankType()
+	{
+		return bankType;
+	}
+
+	/**
+	 * 设置bankType
+	 * 
+	 * @param bankType
+	 */
+	public void setBankType(String bankType)
+	{
+		this.bankType = bankType;
+	}
+
+	/**
+	 * 获取attach
+	 * 
+	 * @return
+	 */
+	public String getAttach()
+	{
+		return attach;
+	}
+
+	/**
+	 * 设置attach
+	 * 
+	 * @param attach
+	 */
+	public void setAttach(String attach)
+	{
+		this.attach = attach;
+	}
+
+	/**
+	 * 获取successTime
+	 * 
+	 * @return
+	 */
+	public String getSuccessTime()
+	{
+		return successTime;
+	}
+
+	/**
+	 * 设置successTime
+	 * 
+	 * @param successTime
+	 */
+	public void setSuccessTime(String successTime)
+	{
+		this.successTime = successTime;
+	}
+
+	/**
+	 * 获取payer
+	 * 
+	 * @return
+	 */
+	public Payer getPayer()
+	{
+		return payer;
+	}
+
+	/**
+	 * 设置payer
+	 * 
+	 * @param payer
+	 */
+	public void setPayer(Payer payer)
+	{
+		this.payer = payer;
+	}
+
+	/**
+	 * 获取amount
+	 * 
+	 * @return
+	 */
+	public Amount getAmount()
+	{
+		return amount;
+	}
+
+	/**
+	 * 设置amount
+	 * 
+	 * @param amount
+	 */
+	public void setAmount(Amount amount)
+	{
+		this.amount = amount;
+	}
+
+	/**
+	 * 获取sceneInfo
+	 * 
+	 * @return
+	 */
+	public SceneInfo getSceneInfo()
+	{
+		return sceneInfo;
+	}
+
+	/**
+	 * 设置sceneInfo
+	 * 
+	 * @param sceneInfo
+	 */
+	public void setSceneInfo(SceneInfo sceneInfo)
+	{
+		this.sceneInfo = sceneInfo;
+	}
+
+	/**
+	 * 获取promotionDetails
+	 * 
+	 * @return
+	 */
+	public List<PromotionDetail> getPromotionDetails()
+	{
+		return promotionDetails;
+	}
+
+	/**
+	 * 设置promotionDetails
+	 * 
+	 * @param promotionDetails
+	 */
+	public void setPromotionDetails(List<PromotionDetail> promotionDetails)
+	{
+		this.promotionDetails = promotionDetails;
 	}
 }
