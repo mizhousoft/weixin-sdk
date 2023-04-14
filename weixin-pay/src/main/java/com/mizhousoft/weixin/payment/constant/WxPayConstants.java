@@ -8,6 +8,11 @@ package com.mizhousoft.weixin.payment.constant;
 public class WxPayConstants
 {
 	/**
+	 * 人民币
+	 */
+	public static String CURRENCY_CNY = "CNY";
+
+	/**
 	 * 校验用户姓名选项，企业付款时使用.
 	 */
 	public static class CheckNameOption

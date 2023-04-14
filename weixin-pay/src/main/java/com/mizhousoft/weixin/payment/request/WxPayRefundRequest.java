@@ -153,6 +153,66 @@ public class WxPayRefundRequest
 		 */
 		@JsonProperty(value = "currency")
 		private String currency;
+
+		/**
+		 * 获取refund
+		 * 
+		 * @return
+		 */
+		public Integer getRefund()
+		{
+			return refund;
+		}
+
+		/**
+		 * 设置refund
+		 * 
+		 * @param refund
+		 */
+		public void setRefund(Integer refund)
+		{
+			this.refund = refund;
+		}
+
+		/**
+		 * 获取total
+		 * 
+		 * @return
+		 */
+		public Integer getTotal()
+		{
+			return total;
+		}
+
+		/**
+		 * 设置total
+		 * 
+		 * @param total
+		 */
+		public void setTotal(Integer total)
+		{
+			this.total = total;
+		}
+
+		/**
+		 * 获取currency
+		 * 
+		 * @return
+		 */
+		public String getCurrency()
+		{
+			return currency;
+		}
+
+		/**
+		 * 设置currency
+		 * 
+		 * @param currency
+		 */
+		public void setCurrency(String currency)
+		{
+			this.currency = currency;
+		}
 	}
 
 	public static class GoodsDetail
