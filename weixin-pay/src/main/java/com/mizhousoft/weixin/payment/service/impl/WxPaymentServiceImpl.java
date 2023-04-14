@@ -120,9 +120,13 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderAPPCreateResult createH5Order(WxPayOrderCreateRequest request) throws WXException
+	public String createH5Order(WxPayOrderCreateRequest request) throws WXException
 	{
-		return null;
+		String canonicalUrl = "/v3/pay/transactions/h5";
+
+		WxPayOrderCreateResponse response = createUnifiedOrder(canonicalUrl, request);
+
+		return response.getH5Url();
 	}
 
 	/**

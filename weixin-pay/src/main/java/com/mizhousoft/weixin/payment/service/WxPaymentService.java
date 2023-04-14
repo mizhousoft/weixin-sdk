@@ -48,7 +48,7 @@ public interface WxPaymentService
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayOrderAPPCreateResult createH5Order(WxPayOrderCreateRequest request) throws WXException;
+	String createH5Order(WxPayOrderCreateRequest request) throws WXException;
 
 	/**
 	 * 查询订单
