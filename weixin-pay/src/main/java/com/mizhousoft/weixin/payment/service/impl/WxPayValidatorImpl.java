@@ -69,4 +69,13 @@ public class WxPayValidatorImpl implements WxPayValidator
 
 		return RSAUtils.verify(message, signature, certificate);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean verify(byte[] bytes, String signature) throws WXException
+	{
+		return RSAUtils.verify(bytes, signature, certificate);
+	}
 }

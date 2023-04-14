@@ -24,6 +24,13 @@ public interface WxPayCredential
 	String getMerchantId();
 
 	/**
+	 * 获取密钥
+	 * 
+	 * @return
+	 */
+	String getAPIV3key();
+
+	/**
 	 * 签名
 	 * 
 	 * @param message

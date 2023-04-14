@@ -19,6 +19,8 @@ public class WxPayCredentialImpl implements WxPayCredential
 
 	private volatile String merchantId;
 
+	private volatile String apiV3key;
+
 	private volatile String certSerialNumber;
 
 	private volatile PrivateKey privateKey;
@@ -30,10 +32,11 @@ public class WxPayCredentialImpl implements WxPayCredential
 	 * @param certSerialNumber
 	 * @param privateKey
 	 */
-	public WxPayCredentialImpl(String merchantId, String certSerialNumber, PrivateKey privateKey)
+	public WxPayCredentialImpl(String merchantId, String apiV3key, String certSerialNumber, PrivateKey privateKey)
 	{
 		super();
 		this.merchantId = merchantId;
+		this.apiV3key = apiV3key;
 		this.certSerialNumber = certSerialNumber;
 		this.privateKey = privateKey;
 	}
@@ -42,6 +45,12 @@ public class WxPayCredentialImpl implements WxPayCredential
 	public String getMerchantId()
 	{
 		return merchantId;
+	}
+
+	@Override
+	public String getAPIV3key()
+	{
+		return apiV3key;
 	}
 
 	@Override

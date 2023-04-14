@@ -20,4 +20,14 @@ public interface WxPayValidator
 	 * @throws WXException
 	 */
 	boolean validate(Map<String, String> headers, String body) throws WXException;
+
+	/**
+	 * 验证返回是否合法
+	 * 
+	 * @param bytes
+	 * @param signature
+	 * @return
+	 * @throws WXException
+	 */
+	boolean verify(byte[] bytes, String signature) throws WXException;
 }

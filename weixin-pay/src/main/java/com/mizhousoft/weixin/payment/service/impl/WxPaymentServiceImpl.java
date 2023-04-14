@@ -1,5 +1,6 @@
 package com.mizhousoft.weixin.payment.service.impl;
 
+import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
@@ -19,12 +20,15 @@ import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
+import com.mizhousoft.weixin.payment.response.OriginNotifyResponse;
+import com.mizhousoft.weixin.payment.response.SignatureHeader;
 import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
 import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
+import com.mizhousoft.weixin.payment.util.AESUtils;
 import com.mizhousoft.weixin.payment.util.PemUtils;
 
 /**
@@ -128,6 +132,39 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayOrderQueryResult parsePayOrderNotifyResult(String notifyData, SignatureHeader header) throws WXException
+	{
+		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
+		if (!validator.verify(beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
+		{
+			throw new WXException("Request invalid.");
+		}
+
+		try
+		{
+			OriginNotifyResponse response = JSONUtils.parse(notifyData, OriginNotifyResponse.class);
+			OriginNotifyResponse.Resource resource = response.getResource();
+			String cipherText = resource.getCiphertext();
+			String associatedData = resource.getAssociatedData();
+			String nonce = resource.getNonce();
+			String apiV3Key = credential.getAPIV3key();
+
+			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
+
+			WxPayOrderQueryResult queryResult = JSONUtils.parse(result, WxPayOrderQueryResult.class);
+
+			return queryResult;
+		}
+		catch (JSONException e)
+		{
+			throw new WXException("JSON to object failed.", e);
+		}
+	}
+
 	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod) throws WXException
 	{
 		Map<String, String> headerMap = new HashMap<>(3);
@@ -205,6 +242,6 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		this.restClientService = restClientService;
 		this.validator = new WxPayValidatorImpl(certificate);
-		this.credential = new WxPayCredentialImpl(config.getMchId(), config.getCertSerialNumber(), privateKey);
+		this.credential = new WxPayCredentialImpl(config.getMchId(), config.getApiV3key(), config.getCertSerialNumber(), privateKey);
 	}
 }

@@ -50,11 +50,18 @@ public abstract class RSAUtils
 
 	public static boolean verify(String message, String signature, X509Certificate certificate) throws WXException
 	{
+		return verify(message.getBytes(StandardCharsets.UTF_8), signature, certificate);
+	}
+
+	public static boolean verify(byte[] bytes, String signature, X509Certificate certificate) throws WXException
+	{
+		String algorithmName = PaymentConstant.SHA256WITHRSA;
+
 		try
 		{
-			Signature sign = Signature.getInstance(ALGORITHM);
+			Signature sign = Signature.getInstance(algorithmName);
 			sign.initVerify(certificate);
-			sign.update(message.getBytes(StandardCharsets.UTF_8));
+			sign.update(bytes);
 			return sign.verify(Base64.getDecoder().decode(signature));
 		}
 		catch (SignatureException e)
@@ -67,7 +74,7 @@ public abstract class RSAUtils
 		}
 		catch (NoSuchAlgorithmException e)
 		{
-			throw new WXException("The current Java environment does not support " + ALGORITHM, e);
+			throw new WXException("The current Java environment does not support " + algorithmName, e);
 		}
 	}
 }
