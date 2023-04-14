@@ -27,5 +27,7 @@ public interface HttpConstants
 
 	String HTTP_METHOD_POST = "POST";
 
+	String HTTP_METHOD_GET = "GET";
+
 	String HTTP_MEDIA_JSON = "application/json";
 }

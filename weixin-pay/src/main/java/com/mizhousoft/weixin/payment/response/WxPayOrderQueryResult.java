@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @version
  */
-public class WxPayOrderQueryResponse
+public class WxPayOrderQueryResult
 {
 	/**
 	 * <pre>

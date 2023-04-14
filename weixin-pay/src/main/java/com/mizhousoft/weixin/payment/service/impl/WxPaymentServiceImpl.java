@@ -14,11 +14,13 @@ import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.common.WXException;
+import com.mizhousoft.weixin.common.WXSystemErrorException;
+import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.response.WxPayOrderCreateResponse;
-import com.mizhousoft.weixin.payment.response.WxPayOrderQueryResponse;
+import com.mizhousoft.weixin.payment.response.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
@@ -76,7 +78,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		}
 		catch (JSONException e)
 		{
-			throw new WXException("Create order failed.", e);
+			throw new WXException("JSON to object failed.", e);
 		}
 	}
 
@@ -84,9 +86,46 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderQueryResponse queryOrder(String transactionId, String outTradeNo) throws WXException
+	public WxPayOrderQueryResult queryOrderByTransactionId(String transactionId) throws WXException
 	{
-		return null;
+		String mchId = credential.getMerchantId();
+		String canonicalUrl = String.format("/v3/pay/transactions/id/%s?mchid=%s", transactionId, mchId);
+
+		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET);
+
+		try
+		{
+			WxPayOrderQueryResult response = JSONUtils.parse(restResp.getBody(), WxPayOrderQueryResult.class);
+
+			return response;
+		}
+		catch (JSONException e)
+		{
+			throw new WXException("JSON to object failed.", e);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayOrderQueryResult queryOrderByOutTradeNo(String outTradeNo) throws WXException
+	{
+		String mchId = credential.getMerchantId();
+		String canonicalUrl = String.format("/v3/pay/transactions/out-trade-no/%s?mchid=%s", outTradeNo, mchId);
+
+		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET);
+
+		try
+		{
+			WxPayOrderQueryResult response = JSONUtils.parse(restResp.getBody(), WxPayOrderQueryResult.class);
+
+			return response;
+		}
+		catch (JSONException e)
+		{
+			throw new WXException("JSON to object failed.", e);
+		}
 	}
 
 	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod) throws WXException
@@ -99,9 +138,29 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		headerMap.put(HttpConstants.AUTHORIZATION, authorization);
 
 		String requestPath = ENDPOINT + canonicalUrl;
-		RestResponse restResp = restClientService.postJSON(requestPath, body, headerMap);
 
-		if (HttpStatus.OK.value() != restResp.getStatusCode())
+		RestResponse restResp = null;
+		if (HttpConstants.HTTP_METHOD_POST.equals(httpMethod))
+		{
+			restResp = restClientService.postJSON(requestPath, body, headerMap);
+		}
+		else
+		{
+			restResp = restClientService.get(requestPath, headerMap);
+		}
+
+		if (HttpStatus.TOO_MANY_REQUESTS.value() == restResp.getStatusCode())
+		{
+			throw new WxFrequencyLimitedException(
+			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+		}
+		else if (HttpStatus.INTERNAL_SERVER_ERROR.value() == restResp.getStatusCode())
+		{
+			throw new WXSystemErrorException(
+			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+		}
+
+		if (HttpStatus.OK.value() != restResp.getStatusCode() && HttpStatus.NO_CONTENT.value() != restResp.getStatusCode())
 		{
 			throw new WXException("Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
 		}
@@ -148,5 +207,4 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		this.validator = new WxPayValidatorImpl(certificate);
 		this.credential = new WxPayCredentialImpl(config.getMchId(), config.getCertSerialNumber(), privateKey);
 	}
-
 }

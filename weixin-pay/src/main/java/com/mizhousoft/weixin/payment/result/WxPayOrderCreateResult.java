@@ -7,25 +7,39 @@ package com.mizhousoft.weixin.payment.result;
  */
 public class WxPayOrderCreateResult
 {
-	// 应用APPID
+	/**
+	 * 应用APPID
+	 */
 	private String appId;
 
-	// 微信支付分配的商户号
+	/**
+	 * 微信支付分配的商户号
+	 */
 	private String partnerId;
 
-	// 微信返回的支付交易会话ID
+	/**
+	 * 微信返回的支付交易会话ID
+	 */
 	private String prepayId;
 
-	// 数据包
+	/**
+	 * 数据包
+	 */
 	private String packageValue;
 
-	// 随机值
+	/**
+	 * 随机值
+	 */
 	private String nonceStr;
 
-	// 时间戳
+	/**
+	 * 时间戳
+	 */
 	private String timeStamp;
 
-	// 签名
+	/**
+	 * 签名
+	 */
 	private String sign;
 
 	/**
