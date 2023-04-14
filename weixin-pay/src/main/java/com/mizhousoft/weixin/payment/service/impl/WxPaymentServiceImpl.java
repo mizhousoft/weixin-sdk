@@ -216,6 +216,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	@Override
 	public WxPayRefundResult refund(WxPayRefundRequest request) throws WXException
 	{
+		if (StringUtils.isBlank(request.getNotifyUrl()))
+		{
+			request.setNotifyUrl(credential.getRefundNotifyUrl());
+		}
+
 		String canonicalUrl = "/v3/refund/domestic/refunds";
 
 		try
@@ -249,6 +254,39 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			WxPayRefundResult response = JSONUtils.parse(restResp.getBody(), WxPayRefundResult.class);
 
 			return response;
+		}
+		catch (JSONException e)
+		{
+			throw new WXException("JSON to object failed.", e);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WxPayRefundResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException
+	{
+		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
+		if (!validator.verify(beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
+		{
+			throw new WXException("Request invalid.");
+		}
+
+		try
+		{
+			OriginNotifyResponse response = JSONUtils.parse(notifyData, OriginNotifyResponse.class);
+			OriginNotifyResponse.Resource resource = response.getResource();
+			String cipherText = resource.getCiphertext();
+			String associatedData = resource.getAssociatedData();
+			String nonce = resource.getNonce();
+			String apiV3Key = credential.getAPIV3key();
+
+			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
+
+			WxPayRefundResult refundResult = JSONUtils.parse(result, WxPayRefundResult.class);
+
+			return refundResult;
 		}
 		catch (JSONException e)
 		{

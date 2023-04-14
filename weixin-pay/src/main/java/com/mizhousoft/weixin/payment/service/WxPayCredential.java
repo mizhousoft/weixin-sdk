@@ -38,6 +38,13 @@ public interface WxPayCredential
 	String getPayNotifyUrl();
 
 	/**
+	 * 获取NotifyUrl
+	 * 
+	 * @return
+	 */
+	String getRefundNotifyUrl();
+
+	/**
 	 * 签名
 	 * 
 	 * @param message

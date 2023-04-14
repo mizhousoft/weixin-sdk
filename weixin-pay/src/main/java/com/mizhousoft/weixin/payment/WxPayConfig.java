@@ -32,8 +32,15 @@ public class WxPayConfig
 	 */
 	private volatile String certFilePath;
 
-	// 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数
+	/**
+	 * 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数
+	 */
 	private String payNotifyUrl;
+
+	/**
+	 * 微信退款异步回掉地址，通知url必须为直接可访问的url，不能携带参数
+	 */
+	private String refundNotifyUrl;
 
 	/**
 	 * 获取mchId
@@ -153,5 +160,23 @@ public class WxPayConfig
 	public void setPayNotifyUrl(String payNotifyUrl)
 	{
 		this.payNotifyUrl = payNotifyUrl;
+	}
+
+	/**
+	 * 获取refundNotifyUrl
+	 * @return
+	 */
+	public String getRefundNotifyUrl()
+	{
+		return refundNotifyUrl;
+	}
+
+	/**
+	 * 设置refundNotifyUrl
+	 * @param refundNotifyUrl
+	 */
+	public void setRefundNotifyUrl(String refundNotifyUrl)
+	{
+		this.refundNotifyUrl = refundNotifyUrl;
 	}
 }

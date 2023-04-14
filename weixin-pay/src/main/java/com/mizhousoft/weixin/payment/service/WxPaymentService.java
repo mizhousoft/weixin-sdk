@@ -99,4 +99,15 @@ public interface WxPaymentService
 	 * @throws WXException
 	 */
 	WxPayRefundResult refundQuery(String outRefundNo) throws WXException;
+
+	/**
+	 * 解析退款结果通知
+	 * 
+	 * @param notifyData
+	 * @param header
+	 * @return
+	 * @throws WXException
+	 */
+	WxPayRefundResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException;
+
 }

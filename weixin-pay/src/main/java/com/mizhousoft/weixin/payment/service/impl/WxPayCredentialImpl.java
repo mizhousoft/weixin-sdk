@@ -53,6 +53,12 @@ public class WxPayCredentialImpl implements WxPayCredential
 	}
 
 	@Override
+	public String getRefundNotifyUrl()
+	{
+		return config.getRefundNotifyUrl();
+	}
+
+	@Override
 	public String getSchema()
 	{
 		return SCHEMA_PREFIX + RSAUtils.ALGORITHM;
