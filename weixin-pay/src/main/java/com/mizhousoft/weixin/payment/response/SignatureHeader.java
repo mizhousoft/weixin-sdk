@@ -106,4 +106,39 @@ public class SignatureHeader
 	{
 		this.serialNumber = serialNumber;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("{\"");
+		if (timeStamp != null)
+		{
+			builder.append("timeStamp\":\"");
+			builder.append(timeStamp);
+			builder.append("\", \"");
+		}
+		if (nonce != null)
+		{
+			builder.append("nonce\":\"");
+			builder.append(nonce);
+			builder.append("\", \"");
+		}
+		if (signature != null)
+		{
+			builder.append("signature\":\"");
+			builder.append(signature);
+			builder.append("\", \"");
+		}
+		if (serialNumber != null)
+		{
+			builder.append("serialNumber\":\"");
+			builder.append(serialNumber);
+		}
+		builder.append("\"}");
+		return builder.toString();
+	}
 }

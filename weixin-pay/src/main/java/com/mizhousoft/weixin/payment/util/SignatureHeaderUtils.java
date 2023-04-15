@@ -2,6 +2,9 @@ package com.mizhousoft.weixin.payment.util;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.response.SignatureHeader;
 
@@ -12,6 +15,8 @@ import com.mizhousoft.weixin.payment.response.SignatureHeader;
  */
 public abstract class SignatureHeaderUtils
 {
+	private static final Logger LOG = LoggerFactory.getLogger(SignatureHeaderUtils.class);
+
 	public static SignatureHeader buildHeader(Map<String, String> headers)
 	{
 		String timestamp = headers.get(HttpConstants.WECHAT_PAY_TIMESTAMP);
@@ -24,6 +29,8 @@ public abstract class SignatureHeaderUtils
 		signHeader.setSerialNumber(serial);
 		signHeader.setSignature(signature);
 		signHeader.setTimeStamp(timestamp);
+
+		LOG.debug("Sign Header is {}", signHeader.toString());
 
 		return signHeader;
 	}
