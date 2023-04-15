@@ -188,7 +188,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayOrderQueryResult parsePayOrderNotifyResult(String notifyData, SignatureHeader header) throws WXException
 	{
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
+		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -272,7 +272,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayRefundNotifyResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException
 	{
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
+		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
