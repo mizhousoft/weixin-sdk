@@ -28,7 +28,7 @@ public interface WxPayCredential
 	 * 
 	 * @return
 	 */
-	String getAPIV3key();
+	String getAPIV3Key();
 
 	/**
 	 * 获取NotifyUrl

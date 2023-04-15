@@ -41,9 +41,9 @@ public class WxPayCredentialImpl implements WxPayCredential
 	}
 
 	@Override
-	public String getAPIV3key()
+	public String getAPIV3Key()
 	{
-		return config.getApiV3key();
+		return config.getApiV3Key();
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public abstract class SignatureHeaderUtils
 
 		SignatureHeader signHeader = new SignatureHeader();
 		signHeader.setNonce(nonce);
-		signHeader.setSerial(serial);
+		signHeader.setSerialNumber(serial);
 		signHeader.setSignature(signature);
 		signHeader.setTimeStamp(timestamp);
 

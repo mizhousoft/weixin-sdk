@@ -4,8 +4,11 @@ import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,7 @@ import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundNotifyResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
+import com.mizhousoft.weixin.payment.service.CertificateProvider;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
@@ -184,7 +188,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayOrderQueryResult parsePayOrderNotifyResult(String notifyData, SignatureHeader header) throws WXException
 	{
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!validator.verify(beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
+		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -196,7 +200,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String cipherText = resource.getCiphertext();
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
-			String apiV3Key = credential.getAPIV3key();
+			String apiV3Key = credential.getAPIV3Key();
 
 			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
 
@@ -268,7 +272,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayRefundNotifyResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException
 	{
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!validator.verify(beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
+		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), beforeSign))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -280,7 +284,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String cipherText = resource.getCiphertext();
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
-			String apiV3Key = credential.getAPIV3key();
+			String apiV3Key = credential.getAPIV3Key();
 
 			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
 
@@ -374,10 +378,19 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public void init(WxPayConfig config, RestClientService restClientService) throws WXException
 	{
 		PrivateKey privateKey = PemUtils.loadPrivateKeyFromPath(config.getPrivateKeyPath());
-		X509Certificate certificate = PemUtils.loadX509FromPath(config.getCertPemFilePath());
+
+		List<X509Certificate> certificates = new ArrayList<>(10);
+		Set<String> certPemFilePaths = config.getCertPemFilePaths();
+		for (String certPemFilePath : certPemFilePaths)
+		{
+			X509Certificate certificate = PemUtils.loadX509FromPath(certPemFilePath);
+			certificates.add(certificate);
+		}
+
+		CertificateProvider certificateProvider = new CertificateProviderImpl(certificates);
 
 		this.restClientService = restClientService;
-		this.validator = new WxPayValidatorImpl(certificate);
+		this.validator = new WxPayValidatorImpl(certificateProvider);
 		this.credential = new WxPayCredentialImpl(config, privateKey);
 	}
 }

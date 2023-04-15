@@ -1,5 +1,7 @@
 package com.mizhousoft.weixin.payment;
 
+import java.util.Set;
+
 /**
  * 配置
  *
@@ -15,7 +17,7 @@ public class WxPayConfig
 	/**
 	 * 商户密钥
 	 */
-	private volatile String apiV3key;
+	private volatile String apiV3Key;
 
 	/**
 	 * 证书序列号
@@ -30,7 +32,7 @@ public class WxPayConfig
 	/**
 	 * 证书文件路径
 	 */
-	private volatile String certPemFilePath;
+	private volatile Set<String> certPemFilePaths;
 
 	/**
 	 * 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数
@@ -63,23 +65,23 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取apiV3key
+	 * 获取apiV3Key
 	 * 
 	 * @return
 	 */
-	public String getApiV3key()
+	public String getApiV3Key()
 	{
-		return apiV3key;
+		return apiV3Key;
 	}
 
 	/**
-	 * 设置apiV3key
+	 * 设置apiV3Key
 	 * 
-	 * @param apiV3key
+	 * @param apiV3Key
 	 */
-	public void setApiV3key(String apiV3key)
+	public void setApiV3Key(String apiV3Key)
 	{
-		this.apiV3key = apiV3key;
+		this.apiV3Key = apiV3Key;
 	}
 
 	/**
@@ -123,23 +125,23 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取certPemFilePath
+	 * 获取certPemFilePaths
 	 * 
 	 * @return
 	 */
-	public String getCertPemFilePath()
+	public Set<String> getCertPemFilePaths()
 	{
-		return certPemFilePath;
+		return certPemFilePaths;
 	}
 
 	/**
-	 * 设置certPemFilePath
+	 * 设置certPemFilePaths
 	 * 
-	 * @param certPemFilePath
+	 * @param certPemFilePaths
 	 */
-	public void setCertPemFilePath(String certPemFilePath)
+	public void setCertPemFilePaths(Set<String> certPemFilePaths)
 	{
-		this.certPemFilePath = certPemFilePath;
+		this.certPemFilePaths = certPemFilePaths;
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class SignatureHeader
 	/**
 	 * 证书序列号
 	 */
-	private String serial;
+	private String serialNumber;
 
 	/**
 	 * 获取timeStamp
@@ -88,22 +88,22 @@ public class SignatureHeader
 	}
 
 	/**
-	 * 获取serial
+	 * 获取serialNumber
 	 * 
 	 * @return
 	 */
-	public String getSerial()
+	public String getSerialNumber()
 	{
-		return serial;
+		return serialNumber;
 	}
 
 	/**
-	 * 设置serial
+	 * 设置serialNumber
 	 * 
-	 * @param serial
+	 * @param serialNumber
 	 */
-	public void setSerial(String serial)
+	public void setSerialNumber(String serialNumber)
 	{
-		this.serial = serial;
+		this.serialNumber = serialNumber;
 	}
 }

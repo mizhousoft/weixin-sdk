@@ -6,8 +6,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
+import com.mizhousoft.weixin.payment.service.CertificateProvider;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
 import com.mizhousoft.weixin.payment.util.RSAUtils;
 
@@ -18,19 +22,21 @@ import com.mizhousoft.weixin.payment.util.RSAUtils;
  */
 public class WxPayValidatorImpl implements WxPayValidator
 {
+	private static final Logger LOG = LoggerFactory.getLogger(WxPayValidatorImpl.class);
+
 	private static final int RESPONSE_EXPIRED_MINUTES = 5;
 
-	private X509Certificate certificate;
+	private CertificateProvider certificateProvider;
 
 	/**
 	 * 构造函数
 	 *
-	 * @param certificate
+	 * @param certificateProvider
 	 */
-	public WxPayValidatorImpl(X509Certificate certificate)
+	public WxPayValidatorImpl(CertificateProvider certificateProvider)
 	{
 		super();
-		this.certificate = certificate;
+		this.certificateProvider = certificateProvider;
 	}
 
 	/**
@@ -66,6 +72,13 @@ public class WxPayValidatorImpl implements WxPayValidator
 		}
 
 		String message = timestamp + "\n" + nonce + "\n" + body + "\n";
+		LOG.debug("Message for verifying signatures is [{}]", message);
+		LOG.debug("Signature for verifying signatures is [{}]", signature);
+
+		String serialNumber = headers.get(HttpConstants.WECHAT_PAY_SERIAL);
+		LOG.debug("SerialNumber for verifying signatures is [{}]", serialNumber);
+
+		X509Certificate certificate = certificateProvider.getCertificate(serialNumber);
 
 		return RSAUtils.verify(message, signature, certificate);
 	}
@@ -74,8 +87,10 @@ public class WxPayValidatorImpl implements WxPayValidator
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean verify(byte[] bytes, String signature) throws WXException
+	public boolean verify(String serialNumber, byte[] bytes, String signature) throws WXException
 	{
+		X509Certificate certificate = certificateProvider.getCertificate(serialNumber);
+
 		return RSAUtils.verify(bytes, signature, certificate);
 	}
 }
