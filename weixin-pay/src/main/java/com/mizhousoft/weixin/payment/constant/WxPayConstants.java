@@ -164,7 +164,7 @@ public class WxPayConstants
 	/**
 	 * 交易状态.
 	 */
-	public static class WxpayTradeStatus
+	public static class TradeStatus
 	{
 		/**
 		 * 支付成功.
