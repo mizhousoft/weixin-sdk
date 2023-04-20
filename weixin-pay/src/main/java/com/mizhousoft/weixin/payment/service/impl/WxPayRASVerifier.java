@@ -20,9 +20,9 @@ import com.mizhousoft.weixin.payment.util.RSAUtils;
  *
  * @version
  */
-public class WxPayVerifierImpl implements WxPayVerifier
+public class WxPayRASVerifier implements WxPayVerifier
 {
-	private static final Logger LOG = LoggerFactory.getLogger(WxPayVerifierImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WxPayRASVerifier.class);
 
 	private static final int RESPONSE_EXPIRED_MINUTES = 5;
 
@@ -33,7 +33,7 @@ public class WxPayVerifierImpl implements WxPayVerifier
 	 *
 	 * @param certificateProvider
 	 */
-	public WxPayVerifierImpl(CertificateProvider certificateProvider)
+	public WxPayRASVerifier(CertificateProvider certificateProvider)
 	{
 		super();
 		this.certificateProvider = certificateProvider;

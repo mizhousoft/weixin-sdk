@@ -391,7 +391,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		CertificateProvider certificateProvider = new CertificateProviderImpl(certificates);
 
 		this.restClientService = restClientService;
-		this.verifier = new WxPayVerifierImpl(certificateProvider);
+		this.verifier = new WxPayRASVerifier(certificateProvider);
 		this.credential = new WxPayCredentialImpl(config, privateKey);
 	}
 }
