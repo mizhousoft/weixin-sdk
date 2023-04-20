@@ -13,7 +13,7 @@ import com.mizhousoft.weixin.certificate.CertificateProvider;
 import com.mizhousoft.weixin.cipher.WxPayVerifier;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
-import com.mizhousoft.weixin.payment.util.RSAUtils;
+import com.mizhousoft.weixin.util.RSAUtils;
 
 /**
  * RSA验证器

@@ -1,10 +1,9 @@
-package com.mizhousoft.weixin.payment.util;
+package com.mizhousoft.weixin.util;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -29,17 +28,6 @@ import com.mizhousoft.weixin.common.WXException;
  */
 public abstract class PemUtils
 {
-	public static void main(String[] args) throws WXException
-	{
-		X509Certificate cert = loadX509FromPath("C:/work/wechatpay_6DD62873B575A264A79A7A751C09C2F0518B913A.pem");
-		BigInteger sn = cert.getSerialNumber();
-		System.out.println(sn);
-
-		String aa = "6DD62873B575A264A79A7A751C09C2F0518B913A";
-		BigInteger key = new BigInteger(aa, 16);
-		System.out.println(key);
-	}
-
 	/**
 	 * 从文件路径加载X.509证书
 	 *

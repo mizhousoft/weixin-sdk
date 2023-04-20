@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.payment.util;
+package com.mizhousoft.weixin.util;
 
 import com.mizhousoft.weixin.payment.response.WxPayNotifyResponse;
 

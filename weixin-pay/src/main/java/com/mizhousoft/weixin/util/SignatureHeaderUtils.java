@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.payment.util;
+package com.mizhousoft.weixin.util;
 
 import java.util.Locale;
 import java.util.Map;

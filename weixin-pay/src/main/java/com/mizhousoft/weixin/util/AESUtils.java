@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.payment.util;
+package com.mizhousoft.weixin.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
