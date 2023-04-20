@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.payment.service.impl;
+package com.mizhousoft.weixin.cipher.impl;
 
 import java.security.cert.X509Certificate;
 import java.time.DateTimeException;
@@ -10,13 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mizhousoft.weixin.certificate.CertificateProvider;
+import com.mizhousoft.weixin.cipher.WxPayVerifier;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
-import com.mizhousoft.weixin.payment.service.WxPayVerifier;
 import com.mizhousoft.weixin.payment.util.RSAUtils;
 
 /**
- * 响应验证器
+ * RSA验证器
  *
  * @version
  */

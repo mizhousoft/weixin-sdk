@@ -1,11 +1,11 @@
-package com.mizhousoft.weixin.payment.service;
+package com.mizhousoft.weixin.cipher;
 
 import java.util.Map;
 
 import com.mizhousoft.weixin.common.WXException;
 
 /**
- * 响应验证器
+ * 验证器
  *
  * @version
  */
