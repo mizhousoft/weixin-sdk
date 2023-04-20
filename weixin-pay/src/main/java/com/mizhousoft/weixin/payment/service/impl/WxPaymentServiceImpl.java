@@ -1,14 +1,9 @@
 package com.mizhousoft.weixin.payment.service.impl;
 
 import java.nio.charset.StandardCharsets;
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -18,17 +13,12 @@ import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.commons.restclient.service.RestClientService;
-import com.mizhousoft.weixin.certificate.CertificateProvider;
-import com.mizhousoft.weixin.certificate.impl.CertificateProviderImpl;
 import com.mizhousoft.weixin.cipher.SignatureHeader;
 import com.mizhousoft.weixin.cipher.WxPayVerifier;
-import com.mizhousoft.weixin.cipher.impl.WxPayRASVerifier;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.WXSystemErrorException;
 import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.credential.WxPayCredential;
-import com.mizhousoft.weixin.credential.impl.WxPayRASCredential;
-import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.request.WxPayRefundRequest;
@@ -40,7 +30,6 @@ import com.mizhousoft.weixin.payment.result.WxPayRefundNotifyResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
 import com.mizhousoft.weixin.util.AESUtils;
-import com.mizhousoft.weixin.util.PemUtils;
 
 /**
  * 支付服务
@@ -378,22 +367,33 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		return restResp;
 	}
 
-	public void init(WxPayConfig config, RestClientService restClientService) throws WXException
+	/**
+	 * 设置restClientService
+	 * 
+	 * @param restClientService
+	 */
+	public void setRestClientService(RestClientService restClientService)
 	{
-		PrivateKey privateKey = PemUtils.loadPrivateKeyFromPath(config.getPrivateKeyPath());
-
-		List<X509Certificate> certificates = new ArrayList<>(10);
-		Set<String> certPemFilePaths = config.getCertPemFilePaths();
-		for (String certPemFilePath : certPemFilePaths)
-		{
-			X509Certificate certificate = PemUtils.loadX509FromPath(certPemFilePath);
-			certificates.add(certificate);
-		}
-
-		CertificateProvider certificateProvider = new CertificateProviderImpl(certificates);
-
 		this.restClientService = restClientService;
-		this.verifier = new WxPayRASVerifier(certificateProvider);
-		this.credential = new WxPayRASCredential(config, privateKey);
+	}
+
+	/**
+	 * 设置credential
+	 * 
+	 * @param credential
+	 */
+	public void setCredential(WxPayCredential credential)
+	{
+		this.credential = credential;
+	}
+
+	/**
+	 * 设置verifier
+	 * 
+	 * @param verifier
+	 */
+	public void setVerifier(WxPayVerifier verifier)
+	{
+		this.verifier = verifier;
 	}
 }
