@@ -6,8 +6,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mizhousoft.weixin.cipher.SignatureHeader;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
-import com.mizhousoft.weixin.payment.response.SignatureHeader;
 
 /**
  * 工具类
