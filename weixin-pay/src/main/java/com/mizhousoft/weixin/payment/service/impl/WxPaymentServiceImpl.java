@@ -26,7 +26,7 @@ import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.WXSystemErrorException;
 import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.credential.WxPayCredential;
-import com.mizhousoft.weixin.credential.impl.WxPayCredentialImpl;
+import com.mizhousoft.weixin.credential.impl.WxPayRASCredential;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
@@ -394,6 +394,6 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		this.restClientService = restClientService;
 		this.verifier = new WxPayRASVerifier(certificateProvider);
-		this.credential = new WxPayCredentialImpl(config, privateKey);
+		this.credential = new WxPayRASCredential(config, privateKey);
 	}
 }

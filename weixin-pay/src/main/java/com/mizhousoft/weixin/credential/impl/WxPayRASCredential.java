@@ -14,7 +14,7 @@ import com.mizhousoft.weixin.util.RSAUtils;
  *
  * @version
  */
-public class WxPayCredentialImpl implements WxPayCredential
+public class WxPayRASCredential implements WxPayCredential
 {
 	public static final String SCHEMA_PREFIX = "WECHATPAY2-";
 
@@ -27,7 +27,7 @@ public class WxPayCredentialImpl implements WxPayCredential
 	 *
 	 * @param config
 	 */
-	public WxPayCredentialImpl(WxPayConfig config, PrivateKey privateKey)
+	public WxPayRASCredential(WxPayConfig config, PrivateKey privateKey)
 	{
 		super();
 		this.config = config;
