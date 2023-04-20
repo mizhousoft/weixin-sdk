@@ -3,11 +3,11 @@ package com.mizhousoft.weixin.transfer.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * TODO
+ * 明细查询结果
  *
  * @version
  */
-public class DetailsQueryResult
+public class DetailQueryResult
 {
 	/**
 	 * <pre>
@@ -21,7 +21,7 @@ public class DetailsQueryResult
 	 * </pre>
 	 */
 	@JsonProperty(value = "mchid")
-	private String mchid;
+	private String mchId;
 
 	/**
 	 * <pre>
@@ -63,7 +63,7 @@ public class DetailsQueryResult
 	 * </pre>
 	 */
 	@JsonProperty(value = "appid")
-	private String appid;
+	private String appId;
 
 	/**
 	 * <pre>
@@ -181,7 +181,7 @@ public class DetailsQueryResult
 	 * </pre>
 	 */
 	@JsonProperty(value = "openid")
-	private String openid;
+	private String openId;
 
 	/**
 	 * <pre>
@@ -228,28 +228,25 @@ public class DetailsQueryResult
 	private String updateTime;
 
 	/**
-	 * 获取mchid
-	 * 
+	 * 获取mchId
 	 * @return
 	 */
-	public String getMchid()
+	public String getMchId()
 	{
-		return mchid;
+		return mchId;
 	}
 
 	/**
-	 * 设置mchid
-	 * 
-	 * @param mchid
+	 * 设置mchId
+	 * @param mchId
 	 */
-	public void setMchid(String mchid)
+	public void setMchId(String mchId)
 	{
-		this.mchid = mchid;
+		this.mchId = mchId;
 	}
 
 	/**
 	 * 获取outBatchNo
-	 * 
 	 * @return
 	 */
 	public String getOutBatchNo()
@@ -259,7 +256,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置outBatchNo
-	 * 
 	 * @param outBatchNo
 	 */
 	public void setOutBatchNo(String outBatchNo)
@@ -269,7 +265,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取batchId
-	 * 
 	 * @return
 	 */
 	public String getBatchId()
@@ -279,7 +274,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置batchId
-	 * 
 	 * @param batchId
 	 */
 	public void setBatchId(String batchId)
@@ -288,28 +282,25 @@ public class DetailsQueryResult
 	}
 
 	/**
-	 * 获取appid
-	 * 
+	 * 获取appId
 	 * @return
 	 */
-	public String getAppid()
+	public String getAppId()
 	{
-		return appid;
+		return appId;
 	}
 
 	/**
-	 * 设置appid
-	 * 
-	 * @param appid
+	 * 设置appId
+	 * @param appId
 	 */
-	public void setAppid(String appid)
+	public void setAppId(String appId)
 	{
-		this.appid = appid;
+		this.appId = appId;
 	}
 
 	/**
 	 * 获取outDetailNo
-	 * 
 	 * @return
 	 */
 	public String getOutDetailNo()
@@ -319,7 +310,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置outDetailNo
-	 * 
 	 * @param outDetailNo
 	 */
 	public void setOutDetailNo(String outDetailNo)
@@ -329,7 +319,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取detailId
-	 * 
 	 * @return
 	 */
 	public String getDetailId()
@@ -339,7 +328,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置detailId
-	 * 
 	 * @param detailId
 	 */
 	public void setDetailId(String detailId)
@@ -349,7 +337,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取detailStatus
-	 * 
 	 * @return
 	 */
 	public String getDetailStatus()
@@ -359,7 +346,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置detailStatus
-	 * 
 	 * @param detailStatus
 	 */
 	public void setDetailStatus(String detailStatus)
@@ -369,7 +355,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取transferAmount
-	 * 
 	 * @return
 	 */
 	public Integer getTransferAmount()
@@ -379,7 +364,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置transferAmount
-	 * 
 	 * @param transferAmount
 	 */
 	public void setTransferAmount(Integer transferAmount)
@@ -389,7 +373,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取transferRemark
-	 * 
 	 * @return
 	 */
 	public String getTransferRemark()
@@ -399,7 +382,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置transferRemark
-	 * 
 	 * @param transferRemark
 	 */
 	public void setTransferRemark(String transferRemark)
@@ -409,7 +391,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取failReason
-	 * 
 	 * @return
 	 */
 	public String getFailReason()
@@ -419,7 +400,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置failReason
-	 * 
 	 * @param failReason
 	 */
 	public void setFailReason(String failReason)
@@ -428,28 +408,25 @@ public class DetailsQueryResult
 	}
 
 	/**
-	 * 获取openid
-	 * 
+	 * 获取openId
 	 * @return
 	 */
-	public String getOpenid()
+	public String getOpenId()
 	{
-		return openid;
+		return openId;
 	}
 
 	/**
-	 * 设置openid
-	 * 
-	 * @param openid
+	 * 设置openId
+	 * @param openId
 	 */
-	public void setOpenid(String openid)
+	public void setOpenId(String openId)
 	{
-		this.openid = openid;
+		this.openId = openId;
 	}
 
 	/**
 	 * 获取userName
-	 * 
 	 * @return
 	 */
 	public String getUserName()
@@ -459,7 +436,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置userName
-	 * 
 	 * @param userName
 	 */
 	public void setUserName(String userName)
@@ -469,7 +445,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取initiateTime
-	 * 
 	 * @return
 	 */
 	public String getInitiateTime()
@@ -479,7 +454,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置initiateTime
-	 * 
 	 * @param initiateTime
 	 */
 	public void setInitiateTime(String initiateTime)
@@ -489,7 +463,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 获取updateTime
-	 * 
 	 * @return
 	 */
 	public String getUpdateTime()
@@ -499,7 +472,6 @@ public class DetailsQueryResult
 
 	/**
 	 * 设置updateTime
-	 * 
 	 * @param updateTime
 	 */
 	public void setUpdateTime(String updateTime)

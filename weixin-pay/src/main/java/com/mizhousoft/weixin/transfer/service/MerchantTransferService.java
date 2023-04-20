@@ -1,13 +1,13 @@
 package com.mizhousoft.weixin.transfer.service;
 
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.transfer.request.MerchantBatchesQueryRequest;
-import com.mizhousoft.weixin.transfer.request.MerchantDetailsQueryRequest;
+import com.mizhousoft.weixin.transfer.request.MerchantBatchQueryRequest;
+import com.mizhousoft.weixin.transfer.request.MerchantDetailQueryRequest;
 import com.mizhousoft.weixin.transfer.request.TransferCreateRequest;
-import com.mizhousoft.weixin.transfer.request.WxBatchesQueryRequest;
-import com.mizhousoft.weixin.transfer.request.WxDetailsQueryRequest;
-import com.mizhousoft.weixin.transfer.result.BatchesQueryResult;
-import com.mizhousoft.weixin.transfer.result.DetailsQueryResult;
+import com.mizhousoft.weixin.transfer.request.WxBatchQueryRequest;
+import com.mizhousoft.weixin.transfer.request.WxDetailQueryRequest;
+import com.mizhousoft.weixin.transfer.result.BatcheQueryResult;
+import com.mizhousoft.weixin.transfer.result.DetailQueryResult;
 import com.mizhousoft.weixin.transfer.result.TransferCreateResult;
 
 /**
@@ -46,7 +46,7 @@ public interface MerchantTransferService
 	 * @return batches query result
 	 * @throws WXException the wx pay exception
 	 */
-	BatchesQueryResult queryWxBatches(WxBatchesQueryRequest request) throws WXException;
+	BatcheQueryResult queryWxBatches(WxBatchQueryRequest request) throws WXException;
 
 	/**
 	 * 微信明细单号查询明细单API
@@ -61,7 +61,7 @@ public interface MerchantTransferService
 	 * @return details query result
 	 * @throws WXException the wx pay exception
 	 */
-	DetailsQueryResult queryWxDetails(WxDetailsQueryRequest request) throws WXException;
+	DetailQueryResult queryWxDetails(WxDetailQueryRequest request) throws WXException;
 
 	/**
 	 * 商家批次单号查询批次单API
@@ -76,7 +76,7 @@ public interface MerchantTransferService
 	 * @return batches query result
 	 * @throws WXException the wx pay exception
 	 */
-	BatchesQueryResult queryMerchantBatches(MerchantBatchesQueryRequest request) throws WXException;
+	BatcheQueryResult queryMerchantBatches(MerchantBatchQueryRequest request) throws WXException;
 
 	/**
 	 * 商家明细单号查询明细单API
@@ -91,5 +91,5 @@ public interface MerchantTransferService
 	 * @return details query result
 	 * @throws WXException the wx pay exception
 	 */
-	DetailsQueryResult queryMerchantDetails(MerchantDetailsQueryRequest request) throws WXException;
+	DetailQueryResult queryMerchantDetails(MerchantDetailQueryRequest request) throws WXException;
 }

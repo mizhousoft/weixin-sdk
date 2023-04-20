@@ -1,13 +1,13 @@
 package com.mizhousoft.weixin.transfer.service.impl;
 
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.transfer.request.MerchantBatchesQueryRequest;
-import com.mizhousoft.weixin.transfer.request.MerchantDetailsQueryRequest;
+import com.mizhousoft.weixin.transfer.request.MerchantBatchQueryRequest;
+import com.mizhousoft.weixin.transfer.request.MerchantDetailQueryRequest;
 import com.mizhousoft.weixin.transfer.request.TransferCreateRequest;
-import com.mizhousoft.weixin.transfer.request.WxBatchesQueryRequest;
-import com.mizhousoft.weixin.transfer.request.WxDetailsQueryRequest;
-import com.mizhousoft.weixin.transfer.result.BatchesQueryResult;
-import com.mizhousoft.weixin.transfer.result.DetailsQueryResult;
+import com.mizhousoft.weixin.transfer.request.WxBatchQueryRequest;
+import com.mizhousoft.weixin.transfer.request.WxDetailQueryRequest;
+import com.mizhousoft.weixin.transfer.result.BatcheQueryResult;
+import com.mizhousoft.weixin.transfer.result.DetailQueryResult;
 import com.mizhousoft.weixin.transfer.result.TransferCreateResult;
 import com.mizhousoft.weixin.transfer.service.MerchantTransferService;
 
@@ -32,7 +32,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BatchesQueryResult queryWxBatches(WxBatchesQueryRequest request) throws WXException
+	public BatcheQueryResult queryWxBatches(WxBatchQueryRequest request) throws WXException
 	{
 		return null;
 	}
@@ -41,7 +41,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DetailsQueryResult queryWxDetails(WxDetailsQueryRequest request) throws WXException
+	public DetailQueryResult queryWxDetails(WxDetailQueryRequest request) throws WXException
 	{
 		return null;
 	}
@@ -50,7 +50,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BatchesQueryResult queryMerchantBatches(MerchantBatchesQueryRequest request) throws WXException
+	public BatcheQueryResult queryMerchantBatches(MerchantBatchQueryRequest request) throws WXException
 	{
 		return null;
 	}
@@ -59,7 +59,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DetailsQueryResult queryMerchantDetails(MerchantDetailsQueryRequest request) throws WXException
+	public DetailQueryResult queryMerchantDetails(MerchantDetailQueryRequest request) throws WXException
 	{
 		return null;
 	}

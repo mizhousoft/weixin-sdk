@@ -3,11 +3,11 @@ package com.mizhousoft.weixin.transfer.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * TODO
+ * 商家明细单号查询请求
  *
  * @version
  */
-public class MerchantDetailsQueryRequest
+public class MerchantDetailQueryRequest
 {
 	/**
 	 * <pre>

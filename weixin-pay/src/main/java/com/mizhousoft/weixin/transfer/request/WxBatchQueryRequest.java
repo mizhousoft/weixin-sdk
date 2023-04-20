@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @version
  */
-public class WxBatchesQueryRequest
+public class WxBatchQueryRequest
 {
 	/**
 	 * <pre>
