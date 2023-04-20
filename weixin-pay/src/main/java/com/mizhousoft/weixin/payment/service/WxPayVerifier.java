@@ -9,7 +9,7 @@ import com.mizhousoft.weixin.common.WXException;
  *
  * @version
  */
-public interface WxPayValidator
+public interface WxPayVerifier
 {
 	/**
 	 * 验证返回是否合法

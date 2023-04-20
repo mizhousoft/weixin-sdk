@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.mizhousoft.weixin.certificate.CertificateProvider;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
-import com.mizhousoft.weixin.payment.service.WxPayValidator;
+import com.mizhousoft.weixin.payment.service.WxPayVerifier;
 import com.mizhousoft.weixin.payment.util.RSAUtils;
 
 /**
@@ -20,9 +20,9 @@ import com.mizhousoft.weixin.payment.util.RSAUtils;
  *
  * @version
  */
-public class WxPayValidatorImpl implements WxPayValidator
+public class WxPayVerifierImpl implements WxPayVerifier
 {
-	private static final Logger LOG = LoggerFactory.getLogger(WxPayValidatorImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(WxPayVerifierImpl.class);
 
 	private static final int RESPONSE_EXPIRED_MINUTES = 5;
 
@@ -33,7 +33,7 @@ public class WxPayValidatorImpl implements WxPayValidator
 	 *
 	 * @param certificateProvider
 	 */
-	public WxPayValidatorImpl(CertificateProvider certificateProvider)
+	public WxPayVerifierImpl(CertificateProvider certificateProvider)
 	{
 		super();
 		this.certificateProvider = certificateProvider;

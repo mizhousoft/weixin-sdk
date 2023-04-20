@@ -35,7 +35,7 @@ import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundNotifyResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 import com.mizhousoft.weixin.payment.service.WxPayCredential;
-import com.mizhousoft.weixin.payment.service.WxPayValidator;
+import com.mizhousoft.weixin.payment.service.WxPayVerifier;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
 import com.mizhousoft.weixin.payment.util.AESUtils;
 import com.mizhousoft.weixin.payment.util.PemUtils;
@@ -51,7 +51,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 	private WxPayCredential credential;
 
-	private WxPayValidator validator;
+	private WxPayVerifier verifier;
 
 	/**
 	 * {@inheritDoc}
@@ -189,7 +189,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayOrderQueryResult parsePayOrderNotifyResult(String notifyData, SignatureHeader header) throws WXException
 	{
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
+		if (!verifier.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -273,7 +273,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayRefundNotifyResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException
 	{
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!validator.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
+		if (!verifier.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -364,7 +364,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			throw new WXException("Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
 		}
 
-		if (!validator.validate(restResp.getHeaders(), restResp.getBody()))
+		if (!verifier.validate(restResp.getHeaders(), restResp.getBody()))
 		{
 			String requestId = restResp.getHeaders().get(HttpConstants.REQUEST_ID);
 
@@ -391,7 +391,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		CertificateProvider certificateProvider = new CertificateProviderImpl(certificates);
 
 		this.restClientService = restClientService;
-		this.validator = new WxPayValidatorImpl(certificateProvider);
+		this.verifier = new WxPayVerifierImpl(certificateProvider);
 		this.credential = new WxPayCredentialImpl(config, privateKey);
 	}
 }
