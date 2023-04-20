@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.payment.service;
+package com.mizhousoft.weixin.credential;
 
 import com.mizhousoft.weixin.common.WXException;
 

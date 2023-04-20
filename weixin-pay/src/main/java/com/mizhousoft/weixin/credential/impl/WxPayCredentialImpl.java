@@ -1,12 +1,12 @@
-package com.mizhousoft.weixin.payment.service.impl;
+package com.mizhousoft.weixin.credential.impl;
 
 import java.security.PrivateKey;
 import java.time.Instant;
 
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.weixin.common.WXException;
+import com.mizhousoft.weixin.credential.WxPayCredential;
 import com.mizhousoft.weixin.payment.WxPayConfig;
-import com.mizhousoft.weixin.payment.service.WxPayCredential;
 import com.mizhousoft.weixin.util.RSAUtils;
 
 /**
