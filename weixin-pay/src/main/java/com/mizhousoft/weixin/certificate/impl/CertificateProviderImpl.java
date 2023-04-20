@@ -1,11 +1,11 @@
-package com.mizhousoft.weixin.payment.service.impl;
+package com.mizhousoft.weixin.certificate.impl;
 
 import java.math.BigInteger;
 import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.mizhousoft.weixin.payment.service.CertificateProvider;
+import com.mizhousoft.weixin.certificate.CertificateProvider;
 
 /**
  * 根据序列号获取证书

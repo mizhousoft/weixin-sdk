@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.payment.service;
+package com.mizhousoft.weixin.certificate;
 
 import java.security.cert.X509Certificate;
 

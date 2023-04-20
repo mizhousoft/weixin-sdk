@@ -9,9 +9,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mizhousoft.weixin.certificate.CertificateProvider;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
-import com.mizhousoft.weixin.payment.service.CertificateProvider;
 import com.mizhousoft.weixin.payment.service.WxPayValidator;
 import com.mizhousoft.weixin.payment.util.RSAUtils;
 
