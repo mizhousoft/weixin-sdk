@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.Base64;
+import java.util.Locale;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -30,7 +31,7 @@ public class RSAPrivacyEncryptor implements PrivacyEncryptor
 	public RSAPrivacyEncryptor(PublicKey publicKey, String wechatPaySerial)
 	{
 		this.publicKey = publicKey;
-		this.wechatPaySerial = wechatPaySerial;
+		this.wechatPaySerial = wechatPaySerial.toUpperCase(Locale.ENGLISH);
 
 		try
 		{

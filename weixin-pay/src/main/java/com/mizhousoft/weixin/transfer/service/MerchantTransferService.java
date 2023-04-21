@@ -17,6 +17,8 @@ import com.mizhousoft.weixin.transfer.result.TransferCreateResult;
  */
 public interface MerchantTransferService
 {
+	String ENDPOINT = "https://api.mch.weixin.qq.com";
+
 	/**
 	 * 发起商家转账API
 	 * <p>
