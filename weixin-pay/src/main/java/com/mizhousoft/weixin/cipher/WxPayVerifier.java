@@ -7,7 +7,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 验证器
  *
- * @version
  */
 public interface WxPayVerifier
 {

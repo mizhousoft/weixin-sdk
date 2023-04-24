@@ -6,7 +6,6 @@ import com.mizhousoft.weixin.common.WxError;
 /**
  * 素材总数结果
  *
- * @version
  */
 public class WxMpMaterialCountResult extends WxError
 {

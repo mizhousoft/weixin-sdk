@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 微信错误
  *
- * @version
  */
 public class WxError
 {

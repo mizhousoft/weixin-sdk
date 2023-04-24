@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.entpay.request;
 /**
  * 企业查询请求
  *
- * @version
+ * 
  */
 public class IEntPayQueryRequest
 {

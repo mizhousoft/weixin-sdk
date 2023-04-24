@@ -11,7 +11,6 @@ import com.mizhousoft.weixin.mp.service.WxMpTemplateMsgService;
 /**
  * 模板消息服务
  *
- * @version
  */
 public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService
 {

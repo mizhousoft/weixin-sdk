@@ -7,7 +7,6 @@ import com.mizhousoft.weixin.mp.domain.menu.WxMpMenuBody;
 /**
  * 菜单服务
  *
- * @version
  */
 public interface WxMpMenuService
 {

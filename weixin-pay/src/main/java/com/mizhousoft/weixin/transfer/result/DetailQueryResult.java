@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 明细查询结果
  *
- * @version
  */
 public class DetailQueryResult
 {

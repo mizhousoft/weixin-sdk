@@ -22,7 +22,6 @@ import com.mizhousoft.weixin.mp.util.WxMpDomUtils;
 /**
  * 微信公众号服务
  *
- * @version
  */
 public class WxMpServiceImpl implements WxMpService
 {

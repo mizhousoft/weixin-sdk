@@ -5,7 +5,6 @@ import com.mizhousoft.weixin.payment.response.WxPayNotifyResponse;
 /**
  * 工具类
  *
- * @version
  */
 public abstract class WxPayUtils
 {

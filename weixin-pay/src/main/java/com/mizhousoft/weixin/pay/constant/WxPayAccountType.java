@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.constant;
 /**
  * 账户类型
  *
- * @version
+ * 
  */
 public abstract class WxPayAccountType
 {

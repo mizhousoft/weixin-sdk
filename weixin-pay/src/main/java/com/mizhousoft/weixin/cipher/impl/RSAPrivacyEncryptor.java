@@ -18,7 +18,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * RSA敏感信息加密器
  *
- * @version
  */
 public class RSAPrivacyEncryptor implements PrivacyEncryptor
 {

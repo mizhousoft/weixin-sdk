@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 退款请求信息
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "root")
 public class WxPayRefundReqInfo

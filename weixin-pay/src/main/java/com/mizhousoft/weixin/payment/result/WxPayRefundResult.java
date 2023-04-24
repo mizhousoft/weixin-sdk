@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 退款结果
  *
- * @version
  */
 public class WxPayRefundResult
 {

@@ -7,7 +7,6 @@ import com.mizhousoft.weixin.mp.domain.message.MpResponseMessage;
 /**
  * 消息路由
  *
- * @version
  */
 public interface WxMpMessageRouter
 {

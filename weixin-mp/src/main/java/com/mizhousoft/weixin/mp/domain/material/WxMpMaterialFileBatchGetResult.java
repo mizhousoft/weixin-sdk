@@ -8,7 +8,6 @@ import com.mizhousoft.weixin.common.WxError;
 /**
  * 素材结果
  *
- * @version
  */
 public class WxMpMaterialFileBatchGetResult extends WxError
 {

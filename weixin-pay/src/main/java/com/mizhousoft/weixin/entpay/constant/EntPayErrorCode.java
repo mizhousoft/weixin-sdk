@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.entpay.constant;
 /**
  * 企业支付错误码
  *
- * @version
+ * 
  */
 public interface EntPayErrorCode
 {

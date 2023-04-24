@@ -9,7 +9,7 @@ import com.mizhousoft.weixin.pay.util.WxPaySignUtils;
 /**
  * 支付订单关闭请求转换器
  *
- * @version
+ * 
  */
 public abstract class WxPayOrderCloseRequestConverter
 {

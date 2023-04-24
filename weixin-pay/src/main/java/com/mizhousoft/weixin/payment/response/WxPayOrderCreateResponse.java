@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 订单创建响应
  *
- * @version
  */
 public class WxPayOrderCreateResponse
 {

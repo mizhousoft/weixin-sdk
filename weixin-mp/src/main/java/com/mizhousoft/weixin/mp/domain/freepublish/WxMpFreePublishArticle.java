@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 一条发布的图文记录
  *
- * @version
  */
 public class WxMpFreePublishArticle
 {

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 批次查询请求
  *
- * @version
  */
 public class WxBatchQueryRequest
 {

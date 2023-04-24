@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  * 退款记录
  *
- * @version
+ * 
  */
 public class WxRefundRecord
 {

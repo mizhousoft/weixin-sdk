@@ -7,7 +7,6 @@ import com.mizhousoft.weixin.mp.domain.freepublish.WxMpFreePublishList;
 /**
  * 微信 发布能力 接口.
  *
- * @version
  */
 public interface WxMpFreePublishService
 {

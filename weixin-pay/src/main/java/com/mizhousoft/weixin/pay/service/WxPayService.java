@@ -16,7 +16,7 @@ import com.mizhousoft.weixin.pay.result.WxPayUnifiedOrderResult;
 /**
  * 微信支付服务
  *
- * @version
+ * 
  */
 public interface WxPayService
 {

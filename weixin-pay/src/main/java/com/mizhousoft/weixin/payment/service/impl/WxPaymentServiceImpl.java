@@ -34,7 +34,6 @@ import com.mizhousoft.weixin.util.AESUtils;
 /**
  * 支付服务
  *
- * @version
  */
 public class WxPaymentServiceImpl implements WxPaymentService
 {

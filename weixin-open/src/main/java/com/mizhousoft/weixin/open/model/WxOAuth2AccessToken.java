@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * WxMpOAuth2AccessToken
  *
- * @version
  */
 public class WxOAuth2AccessToken
 {

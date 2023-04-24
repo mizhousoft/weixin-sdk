@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 支付请求基类
  *
- * @version
+ * 
  */
 public abstract class WxBasePayRequest
 {

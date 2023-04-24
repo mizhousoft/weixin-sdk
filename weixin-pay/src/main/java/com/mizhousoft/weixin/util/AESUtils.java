@@ -18,7 +18,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 解密工具
  *
- * @version
  */
 public abstract class AESUtils
 {

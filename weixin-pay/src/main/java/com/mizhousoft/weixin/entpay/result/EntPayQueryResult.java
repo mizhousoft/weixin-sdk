@@ -9,7 +9,7 @@ import com.mizhousoft.weixin.pay.result.WxBasePayResult;
 /**
  * 企业付款查询返回结果
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class EntPayQueryResult extends WxBasePayResult

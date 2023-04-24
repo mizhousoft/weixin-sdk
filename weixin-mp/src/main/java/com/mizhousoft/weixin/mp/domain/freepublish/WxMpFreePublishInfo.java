@@ -11,7 +11,6 @@ import com.mizhousoft.weixin.mp.domain.serializer.NumericDateDeserializer;
 /**
  * 发布能力-通过 article_id 获取已发布文章.
  *
- * @version
  */
 public class WxMpFreePublishInfo extends WxError
 {

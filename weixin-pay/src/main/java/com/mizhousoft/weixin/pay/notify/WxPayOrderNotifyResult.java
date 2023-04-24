@@ -9,7 +9,7 @@ import com.mizhousoft.weixin.pay.result.WxBasePayResult;
 /**
  * 支付结果通用通知
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayOrderNotifyResult extends WxBasePayResult

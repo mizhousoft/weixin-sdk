@@ -8,7 +8,6 @@ import com.mizhousoft.commons.lang.CharEncoding;
 /**
  * 微信工具类
  *
- * @version
  */
 public abstract class WxUtils
 {

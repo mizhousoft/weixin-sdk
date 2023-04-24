@@ -7,7 +7,6 @@ import com.mizhousoft.weixin.open.model.WxOpenUser;
 /**
  * 微信开放服务
  *
- * @version
  */
 public interface WxOpenService
 {

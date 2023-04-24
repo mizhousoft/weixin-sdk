@@ -16,7 +16,6 @@ import com.mizhousoft.weixin.open.service.WxOpenService;
 /**
  * 微信开放服务
  *
- * @version
  */
 public class WxOpenServiceImpl implements WxOpenService
 {

@@ -5,7 +5,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 凭证
  *
- * @version
  */
 public interface WxPayCredential
 {

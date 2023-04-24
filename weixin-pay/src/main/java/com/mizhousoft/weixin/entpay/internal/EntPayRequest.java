@@ -9,7 +9,7 @@ import com.mizhousoft.weixin.pay.internal.WxBasePayRequest;
 /**
  * 企业支付请求
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class EntPayRequest extends WxBasePayRequest

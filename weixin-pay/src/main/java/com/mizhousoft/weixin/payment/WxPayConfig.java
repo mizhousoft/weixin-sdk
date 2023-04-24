@@ -5,7 +5,6 @@ import java.util.Set;
 /**
  * 配置
  *
- * @version
  */
 public class WxPayConfig
 {

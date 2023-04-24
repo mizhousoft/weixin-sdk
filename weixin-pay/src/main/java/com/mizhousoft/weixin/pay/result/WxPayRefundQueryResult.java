@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 退款查询返回结果
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayRefundQueryResult extends WxBasePayResult

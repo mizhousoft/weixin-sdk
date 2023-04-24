@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 请求消息
  *
- * @version
  */
 @XmlRootElement(name = "xml")
 public class MpRequestMessage

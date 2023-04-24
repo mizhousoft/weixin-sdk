@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.entpay.constant;
 /**
  * 企业付款状态
  *
- * @version
+ * 
  */
 public interface EntTransferStatus
 {

@@ -8,7 +8,6 @@ import com.mizhousoft.weixin.common.WxError;
 /**
  * 发布能力-获取成功发布列表.
  *
- * @version
  */
 public class WxMpFreePublishList extends WxError
 {

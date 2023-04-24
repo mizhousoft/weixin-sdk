@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.request;
 /**
  * 退款查询请求
  *
- * @version
+ * 
  */
 public class IWxPayRefundQueryRequest
 {

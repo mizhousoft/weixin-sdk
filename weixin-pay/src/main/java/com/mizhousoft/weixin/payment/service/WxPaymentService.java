@@ -12,7 +12,6 @@ import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 /**
  * 支付服务
  *
- * @version
  */
 public interface WxPaymentService
 {

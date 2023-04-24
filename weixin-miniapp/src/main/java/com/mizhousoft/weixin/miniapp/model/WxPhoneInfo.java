@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.miniapp.model;
 /**
  * 手机信息
  *
- * @version
  */
 public class WxPhoneInfo
 {

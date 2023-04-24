@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.payment.constant;
 /**
  * 常量
  *
- * @version
  */
 public interface HttpConstants
 {

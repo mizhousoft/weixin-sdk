@@ -7,7 +7,6 @@ import com.mizhousoft.weixin.mp.domain.serializer.NumericBooleanDeserializer;
 /**
  * 图文消息article
  *
- * @version
  */
 public class WxMpNewsArticle
 {

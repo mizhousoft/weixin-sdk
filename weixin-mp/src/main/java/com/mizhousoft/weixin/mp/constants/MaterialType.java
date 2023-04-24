@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.mp.constants;
 /**
  * 素材类型
  *
- * @version
  */
 public interface MaterialType
 {

@@ -16,7 +16,6 @@ import com.mizhousoft.weixin.mp.service.WxMpMessageRouter;
 /**
  * 消息路由
  *
- * @version
  */
 public class WxMpMessageRouterImpl implements WxMpMessageRouter
 {

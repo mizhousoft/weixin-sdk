@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * WxMpMenus
  *
- * @version
  */
 public class WxMpMenu
 {

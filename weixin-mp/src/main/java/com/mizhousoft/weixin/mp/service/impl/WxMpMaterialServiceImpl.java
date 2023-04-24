@@ -21,7 +21,6 @@ import com.mizhousoft.weixin.mp.service.WxMpService;
 /**
  * 素材服务
  *
- * @version
  */
 public class WxMpMaterialServiceImpl implements WxMpMaterialService
 {

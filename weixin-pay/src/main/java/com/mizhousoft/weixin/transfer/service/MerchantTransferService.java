@@ -13,7 +13,6 @@ import com.mizhousoft.weixin.transfer.result.TransferCreateResult;
 /**
  * 商家转账到零钱（直联商户）
  *
- * @version
  */
 public interface MerchantTransferService
 {

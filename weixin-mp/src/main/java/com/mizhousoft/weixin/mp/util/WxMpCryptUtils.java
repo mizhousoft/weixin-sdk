@@ -16,7 +16,6 @@ import com.mizhousoft.weixin.common.util.PKCS7Encoder;
 /**
  * 工具类
  *
- * @version
  */
 public abstract class WxMpCryptUtils
 {

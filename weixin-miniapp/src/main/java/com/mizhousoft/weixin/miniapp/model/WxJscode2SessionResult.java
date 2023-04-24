@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 登录凭证校验结果
  *
- * @version
  */
 public class WxJscode2SessionResult
 {

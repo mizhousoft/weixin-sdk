@@ -11,7 +11,6 @@ import com.mizhousoft.weixin.miniapp.service.WxMiniAppService;
 /**
  * 微信小程序服务
  *
- * @version
  */
 public class WxMiniAppServiceImpl implements WxMiniAppService
 {

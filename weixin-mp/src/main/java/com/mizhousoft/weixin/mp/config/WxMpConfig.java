@@ -5,7 +5,6 @@ import com.mizhousoft.weixin.common.WxConfig;
 /**
  * 微信公众号配置
  *
- * @version
  */
 public class WxMpConfig extends WxConfig
 {

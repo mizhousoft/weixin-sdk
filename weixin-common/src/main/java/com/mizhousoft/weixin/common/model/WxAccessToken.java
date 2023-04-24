@@ -6,7 +6,6 @@ import com.mizhousoft.weixin.common.WxError;
 /**
  * 微信访问Token
  *
- * @version
  */
 public class WxAccessToken extends WxError
 {

@@ -24,7 +24,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 证书工具
  *
- * @version
  */
 public abstract class PemUtils
 {

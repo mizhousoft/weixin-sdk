@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.common;
 /**
  * 微信频率限制异常
  *
- * @version
  */
 public class WxFrequencyLimitedException extends WXException
 {

@@ -6,7 +6,7 @@ import com.mizhousoft.weixin.pay.notify.WxPayNotifyResponse;
 /**
  * WxPayNotifyResponse构建器
  *
- * @version
+ * 
  */
 public class WxPayNotifyResponseBuilder
 {

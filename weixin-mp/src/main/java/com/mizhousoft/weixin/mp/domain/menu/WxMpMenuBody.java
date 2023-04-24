@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 菜单结果
  *
- * @version
  */
 public class WxMpMenuBody
 {

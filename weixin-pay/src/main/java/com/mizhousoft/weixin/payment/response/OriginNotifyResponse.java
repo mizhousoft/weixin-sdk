@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 通知响应
  *
- * @version
  */
 public class OriginNotifyResponse
 {

@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.constant;
 /**
  * 压缩账单的类型.
  *
- * @version
+ * 
  */
 public abstract class WxPayTarType
 {

@@ -11,7 +11,7 @@ import com.mizhousoft.weixin.pay.util.WxPaySignUtils;
 /**
  * 统一订单请求转换器
  *
- * @version
+ * 
  */
 public abstract class WxPayUnifiedOrderRequestConverter
 {

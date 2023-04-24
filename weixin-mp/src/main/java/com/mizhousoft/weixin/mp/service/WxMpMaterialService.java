@@ -12,7 +12,6 @@ import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialVideoInfoResult;
 /**
  * 素材服务
  *
- * @version
  */
 public interface WxMpMaterialService
 {

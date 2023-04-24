@@ -6,7 +6,6 @@ import com.mizhousoft.weixin.mp.domain.template.WxMpTemplateMessage;
 /**
  * 模板消息服务
  *
- * @version
  */
 public interface WxMpTemplateMsgService
 {

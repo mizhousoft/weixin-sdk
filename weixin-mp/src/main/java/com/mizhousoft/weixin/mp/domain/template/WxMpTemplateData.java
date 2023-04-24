@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 模板数据
  *
- * @version
  */
 public class WxMpTemplateData
 {

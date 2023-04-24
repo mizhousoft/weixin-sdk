@@ -12,7 +12,6 @@ import com.mizhousoft.weixin.mp.service.WxMpService;
 /**
  * 菜单服务
  *
- * @version
  */
 public class WxMpMenuServiceImpl implements WxMpMenuService
 {

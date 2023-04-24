@@ -6,7 +6,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 微信公众号服务
  *
- * @version
  */
 public interface WxMpService
 {

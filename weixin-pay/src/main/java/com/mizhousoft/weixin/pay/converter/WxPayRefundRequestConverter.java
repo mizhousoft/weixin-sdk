@@ -10,7 +10,7 @@ import com.mizhousoft.weixin.pay.util.WxPaySignUtils;
 /**
  * 转换器
  *
- * @version
+ * 
  */
 public class WxPayRefundRequestConverter
 {

@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.miniapp.model;
 /**
  * 数据水印
  *
- * @version
  */
 public class Watermark
 {

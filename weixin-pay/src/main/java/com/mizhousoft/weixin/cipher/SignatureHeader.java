@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.cipher;
 /**
  * SignatureHeader
  *
- * @version
  */
 public class SignatureHeader
 {

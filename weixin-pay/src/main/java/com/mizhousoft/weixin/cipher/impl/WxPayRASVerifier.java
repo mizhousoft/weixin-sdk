@@ -18,7 +18,6 @@ import com.mizhousoft.weixin.util.RSAUtils;
 /**
  * RSA验证器
  *
- * @version
  */
 public class WxPayRASVerifier implements WxPayVerifier
 {

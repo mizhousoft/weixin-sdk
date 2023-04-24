@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.common;
 /**
  * 微信异常类
  *
- * @version
  */
 public class WXSignException extends WXException
 {

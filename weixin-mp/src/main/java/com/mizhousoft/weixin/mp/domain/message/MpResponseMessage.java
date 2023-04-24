@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 响应消息
  *
- * @version
  */
 @XmlRootElement(name = "xml")
 public class MpResponseMessage

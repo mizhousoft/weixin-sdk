@@ -13,7 +13,6 @@ import com.mizhousoft.weixin.mp.service.WxMpUserService;
 /**
  * 公众号用户服务
  *
- * @version
  */
 public class WxMpUserServiceImpl implements WxMpUserService
 {

@@ -7,7 +7,6 @@ import java.util.Arrays;
 /**
  * 提供基于PKCS7算法的加解
  *
- * @version
  */
 public class PKCS7Encoder
 {

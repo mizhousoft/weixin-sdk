@@ -5,7 +5,6 @@ import com.mizhousoft.weixin.mp.domain.message.MpRequestMessage;
 /**
  * 消息工具类
  *
- * @version
  */
 public abstract class WxMpMesageUtils
 {

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 统一订单结果
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayUnifiedOrderResult extends WxBasePayResult

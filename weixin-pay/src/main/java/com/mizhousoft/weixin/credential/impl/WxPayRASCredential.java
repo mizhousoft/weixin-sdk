@@ -12,7 +12,6 @@ import com.mizhousoft.weixin.util.RSAUtils;
 /**
  * 凭证
  *
- * @version
  */
 public class WxPayRASCredential implements WxPayCredential
 {

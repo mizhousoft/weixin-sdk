@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.result;
 /**
  * 订单结果
  *
- * @version
+ * 
  */
 public class WxPayOrderCreateResult
 {

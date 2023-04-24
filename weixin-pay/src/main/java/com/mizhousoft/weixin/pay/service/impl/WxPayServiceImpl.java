@@ -53,7 +53,7 @@ import com.mizhousoft.weixin.pay.util.WxPaySignUtils;
 /**
  * 微信支付服务
  *
- * @version
+ * 
  */
 public class WxPayServiceImpl implements WxPayService
 {

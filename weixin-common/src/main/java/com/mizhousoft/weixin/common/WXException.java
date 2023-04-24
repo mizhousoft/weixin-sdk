@@ -5,7 +5,6 @@ import com.mizhousoft.commons.data.NestedException;
 /**
  * 微信异常类
  *
- * @version
  */
 public class WXException extends NestedException
 {

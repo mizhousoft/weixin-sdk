@@ -9,7 +9,7 @@ import com.mizhousoft.weixin.entpay.result.EntPayResult;
 /**
  * 企业支付服务
  *
- * @version
+ * 
  */
 public interface EntPayService
 {

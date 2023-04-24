@@ -29,7 +29,7 @@ import com.mizhousoft.weixin.pay.result.WxBasePayResult;
 /**
  * 支付签名工具
  *
- * @version
+ * 
  */
 public class WxPaySignUtils
 {

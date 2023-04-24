@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.common;
 /**
  * 微信配置
  *
- * @version
  */
 public class WxConfig
 {

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 /**
  * 序列化
  *
- * @version
  */
 public class NumericBooleanSerializer extends JsonSerializer<Boolean>
 {

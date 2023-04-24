@@ -9,7 +9,6 @@ import com.mizhousoft.weixin.mp.domain.serializer.NumericDateDeserializer;
 /**
  * 发布列表的一条记录
  *
- * @version
  */
 public class WxMpFreePublishItem
 {

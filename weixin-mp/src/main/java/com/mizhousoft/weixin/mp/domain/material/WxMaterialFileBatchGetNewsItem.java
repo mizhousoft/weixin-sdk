@@ -9,7 +9,6 @@ import com.mizhousoft.weixin.mp.domain.serializer.NumericDateDeserializer;
 /**
  * 消息素材
  *
- * @version
  */
 public class WxMaterialFileBatchGetNewsItem
 {

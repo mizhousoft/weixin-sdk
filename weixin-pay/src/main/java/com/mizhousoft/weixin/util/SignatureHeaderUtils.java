@@ -12,7 +12,6 @@ import com.mizhousoft.weixin.payment.constant.HttpConstants;
 /**
  * 工具类
  *
- * @version
  */
 public abstract class SignatureHeaderUtils
 {

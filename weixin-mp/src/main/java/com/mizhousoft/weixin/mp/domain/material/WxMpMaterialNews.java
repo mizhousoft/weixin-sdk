@@ -12,7 +12,6 @@ import com.mizhousoft.weixin.mp.domain.serializer.NumericDateDeserializer;
 /**
  * 素材
  *
- * @version
  */
 public class WxMpMaterialNews extends WxError
 {

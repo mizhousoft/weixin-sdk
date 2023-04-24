@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.constant;
 /**
  * 交易类型
  *
- * @version
+ * 
  */
 public abstract class WxPayTradeType
 {

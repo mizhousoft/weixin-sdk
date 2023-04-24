@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.payment.constant;
 /**
  * 支付常量
  *
- * @version
  */
 public class WxPayConstants
 {

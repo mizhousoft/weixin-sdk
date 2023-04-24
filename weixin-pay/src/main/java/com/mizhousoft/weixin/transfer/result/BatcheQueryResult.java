@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 批次查询结果
  *
- * @version
  */
 public class BatcheQueryResult
 {

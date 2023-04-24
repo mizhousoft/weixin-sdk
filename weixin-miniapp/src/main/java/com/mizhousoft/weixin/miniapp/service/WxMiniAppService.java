@@ -6,7 +6,6 @@ import com.mizhousoft.weixin.miniapp.model.WxJscode2SessionResult;
 /**
  * 微信小程序服务
  *
- * @version
  */
 public interface WxMiniAppService
 {

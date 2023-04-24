@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 退款查询请求
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayRefundQueryRequest extends WxBasePayRequest

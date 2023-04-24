@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 小程序数据
  *
- * @version
  */
 public class WxMpMiniProgramData
 {

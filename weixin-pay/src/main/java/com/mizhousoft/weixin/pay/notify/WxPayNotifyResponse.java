@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 通知响应
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayNotifyResponse

@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.constant;
 /**
  * 退款状态
  *
- * @version
+ * 
  */
 public abstract class WxPayRefundStatus
 {

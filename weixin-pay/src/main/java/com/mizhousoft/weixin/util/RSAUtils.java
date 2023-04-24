@@ -14,7 +14,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * RSA签名
  *
- * @version
  */
 public abstract class RSAUtils
 {

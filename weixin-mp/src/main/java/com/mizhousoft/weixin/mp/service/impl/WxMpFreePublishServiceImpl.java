@@ -16,7 +16,6 @@ import com.mizhousoft.weixin.mp.service.WxMpService;
 /**
  * 微信 发布能力 接口.
  *
- * @version
  */
 public class WxMpFreePublishServiceImpl implements WxMpFreePublishService
 {

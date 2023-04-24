@@ -20,7 +20,7 @@ import com.mizhousoft.weixin.pay.config.WxPayConfig;
 /**
  * 企业支付服务
  *
- * @version
+ * 
  */
 public class EntPayServiceImpl implements EntPayService
 {

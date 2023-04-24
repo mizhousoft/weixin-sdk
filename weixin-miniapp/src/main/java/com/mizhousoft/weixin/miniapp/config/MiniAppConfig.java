@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.miniapp.config;
 /**
  * 配置
  *
- * @version
  */
 public class MiniAppConfig
 {

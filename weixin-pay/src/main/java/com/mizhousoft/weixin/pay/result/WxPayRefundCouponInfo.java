@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 退款代金券信息
  *
- * @version
+ * 
  */
 public class WxPayRefundCouponInfo
 {

@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.common;
 /**
  * 微信系统错误
  *
- * @version
  */
 public class WXSystemErrorException extends WXException
 {

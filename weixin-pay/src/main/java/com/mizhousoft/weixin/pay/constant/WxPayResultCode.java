@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.constant;
 /**
  * 业务结果代码.
  *
- * @version
+ * 
  */
 public abstract class WxPayResultCode
 {

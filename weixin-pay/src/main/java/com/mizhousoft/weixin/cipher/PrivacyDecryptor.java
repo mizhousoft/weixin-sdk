@@ -5,7 +5,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 敏感信息解密器
  *
- * @version
  */
 public interface PrivacyDecryptor
 {

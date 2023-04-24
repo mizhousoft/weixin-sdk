@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 模板消息
  *
- * @version
  */
 public class WxMpTemplateMessage
 {

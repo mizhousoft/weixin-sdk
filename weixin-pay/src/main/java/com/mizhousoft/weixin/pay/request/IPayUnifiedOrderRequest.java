@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.request;
 /**
  * APP支付统一订单请求
  *
- * @version
+ * 
  */
 public class IPayUnifiedOrderRequest
 {

@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.entpay.constant;
 /**
  * 校验用户姓名选项，企业付款时使用.
  *
- * @version
+ * 
  */
 public interface WxCheckNameOption
 {

@@ -15,7 +15,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 工具类
  *
- * @version
  */
 public abstract class WxMpDomUtils
 {

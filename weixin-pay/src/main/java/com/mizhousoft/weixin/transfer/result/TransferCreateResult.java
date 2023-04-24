@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 转账创建结果
  *
- * @version
  */
 public class TransferCreateResult
 {

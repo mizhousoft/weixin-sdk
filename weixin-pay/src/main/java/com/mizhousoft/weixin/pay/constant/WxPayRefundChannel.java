@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.constant;
 /**
  * 退款渠道.
  *
- * @version
+ * 
  */
 public abstract class WxPayRefundChannel
 {

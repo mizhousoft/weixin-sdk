@@ -3,7 +3,7 @@ package com.mizhousoft.weixin.pay.constant;
 /**
  * 限定支付方式.
  *
- * @version
+ * 
  */
 public abstract class WxPayLimitPay
 {

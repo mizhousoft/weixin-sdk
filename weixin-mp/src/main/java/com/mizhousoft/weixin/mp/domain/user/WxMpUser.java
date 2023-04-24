@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * WxMpUser
  *
- * @version
  */
 public class WxMpUser
 {

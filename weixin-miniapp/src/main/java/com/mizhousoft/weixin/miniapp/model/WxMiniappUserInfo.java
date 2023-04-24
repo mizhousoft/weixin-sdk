@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.miniapp.model;
 /**
  * 小程序用户信息
  *
- * @version
  */
 public class WxMiniappUserInfo
 {

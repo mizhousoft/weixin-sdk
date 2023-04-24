@@ -3,7 +3,6 @@ package com.mizhousoft.weixin.payment.response;
 /**
  * 通知响应
  *
- * @version
  */
 public class WxPayNotifyResponse
 {

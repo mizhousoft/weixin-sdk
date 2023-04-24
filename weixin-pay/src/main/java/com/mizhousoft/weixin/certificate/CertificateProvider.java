@@ -5,7 +5,6 @@ import java.security.cert.X509Certificate;
 /**
  * 根据序列号获取证书
  *
- * @version
  */
 public interface CertificateProvider
 {

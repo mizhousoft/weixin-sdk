@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 查询响应
  *
- * @version
  */
 public class WxPayOrderQueryResult
 {

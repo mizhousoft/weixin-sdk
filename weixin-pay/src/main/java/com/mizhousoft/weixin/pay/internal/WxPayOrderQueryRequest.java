@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 订单查询请求
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayOrderQueryRequest extends WxBasePayRequest

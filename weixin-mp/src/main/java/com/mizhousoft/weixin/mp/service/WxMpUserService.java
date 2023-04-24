@@ -6,7 +6,6 @@ import com.mizhousoft.weixin.mp.domain.user.WxMpUser;
 /**
  * 公众号用户服务
  *
- * @version
  */
 public interface WxMpUserService
 {

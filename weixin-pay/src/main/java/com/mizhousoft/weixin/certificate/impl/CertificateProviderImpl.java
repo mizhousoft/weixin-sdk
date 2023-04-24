@@ -10,7 +10,6 @@ import com.mizhousoft.weixin.certificate.CertificateProvider;
 /**
  * 根据序列号获取证书
  *
- * @version
  */
 public class CertificateProviderImpl implements CertificateProvider
 {

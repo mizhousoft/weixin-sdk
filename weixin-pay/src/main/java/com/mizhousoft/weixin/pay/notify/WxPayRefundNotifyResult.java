@@ -9,7 +9,7 @@ import com.mizhousoft.weixin.pay.result.WxBasePayResult;
 /**
  * 微信退款通知结果
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayRefundNotifyResult extends WxBasePayResult

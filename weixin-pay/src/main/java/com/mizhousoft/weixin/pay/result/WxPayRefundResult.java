@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * 微信支付退款结果
  *
- * @version
+ * 
  */
 @XmlRootElement(name = "xml")
 public class WxPayRefundResult extends WxBasePayResult

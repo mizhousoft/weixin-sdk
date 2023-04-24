@@ -8,7 +8,6 @@ import com.mizhousoft.weixin.common.WxError;
 /**
  * 永久图文消息素材
  *
- * @version
  */
 public class WxMpMaterialNewsBatchGetResult extends WxError
 {

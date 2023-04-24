@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 /**
  * 反序列化
  *
- * @version
  */
 public class NumericBooleanDeserializer extends JsonDeserializer<Boolean>
 {

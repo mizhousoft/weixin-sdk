@@ -11,7 +11,7 @@ import com.mizhousoft.weixin.pay.util.WxPaySignUtils;
 /**
  * 企业支付请求转换器
  *
- * @version
+ * 
  */
 public abstract class EntPayRequestConverter
 {

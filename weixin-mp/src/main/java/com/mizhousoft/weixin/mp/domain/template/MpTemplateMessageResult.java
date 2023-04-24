@@ -5,7 +5,6 @@ import com.mizhousoft.weixin.common.WxError;
 /**
  * 消息结果
  *
- * @version
  */
 public class MpTemplateMessageResult extends WxError
 {

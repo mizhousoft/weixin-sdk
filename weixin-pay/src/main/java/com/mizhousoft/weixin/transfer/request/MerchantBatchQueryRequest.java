@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 商家批次单号查询请求
  *
- * @version
  */
 public class MerchantBatchQueryRequest
 {

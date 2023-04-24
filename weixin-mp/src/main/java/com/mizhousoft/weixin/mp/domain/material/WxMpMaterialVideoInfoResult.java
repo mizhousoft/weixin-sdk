@@ -6,7 +6,6 @@ import com.mizhousoft.weixin.common.WxError;
 /**
  * 视频消息素材
  *
- * @version
  */
 public class WxMpMaterialVideoInfoResult extends WxError
 {

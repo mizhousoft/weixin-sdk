@@ -10,7 +10,7 @@ import com.mizhousoft.weixin.pay.util.WxPaySignUtils;
 /**
  * 支付订单查询转换器
  *
- * @version
+ * 
  */
 public abstract class WxPayOrderQueryRequestConverter
 {

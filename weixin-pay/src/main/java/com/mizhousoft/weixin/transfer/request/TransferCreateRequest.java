@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * 创建请求
  *
- * @version
  */
 public class TransferCreateRequest
 {

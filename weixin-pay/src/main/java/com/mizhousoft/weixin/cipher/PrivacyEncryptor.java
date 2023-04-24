@@ -5,7 +5,6 @@ import com.mizhousoft.weixin.common.WXException;
 /**
  * 加密器
  *
- * @version
  */
 public interface PrivacyEncryptor
 {
