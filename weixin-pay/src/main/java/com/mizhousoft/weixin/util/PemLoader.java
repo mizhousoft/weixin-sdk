@@ -22,10 +22,10 @@ import com.mizhousoft.commons.lang.CharEncoding;
 import com.mizhousoft.weixin.common.WXException;
 
 /**
- * 证书工具
+ * 证书加载器
  *
  */
-public abstract class PemUtils
+public abstract class PemLoader
 {
 	/**
 	 * 从文件路径加载X.509证书
