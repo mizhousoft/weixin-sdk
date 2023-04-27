@@ -20,8 +20,6 @@ import com.mizhousoft.weixin.transfer.result.BatcheQueryResult;
 import com.mizhousoft.weixin.transfer.result.DetailQueryResult;
 import com.mizhousoft.weixin.transfer.result.TransferCreateResult;
 import com.mizhousoft.weixin.transfer.service.MerchantTransferService;
-import com.mizhousoft.weixin.util.RSADecryptor;
-import com.mizhousoft.weixin.util.RSAEncryptor;
 
 /**
  * 商家转账到零钱（直联商户）
@@ -50,7 +48,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			for (TransferDetailList detail : detailList)
 			{
 				String userName = detail.getUserName();
-				String encUserName = RSAEncryptor.encrypt(userName, payConfig.getPublicKey());
+				String encUserName = payConfig.getEncryptor().encrypt(userName);
 				detail.setUserName(encUserName);
 			}
 
@@ -123,7 +121,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		{
 			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
 
-			String decUserName = RSADecryptor.decrypt(result.getUserName(), payConfig.getPrivateKey());
+			String decUserName = payConfig.getDecryptor().decrypt(result.getUserName());
 			result.setUserName(decUserName);
 
 			return result;
@@ -189,7 +187,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		{
 			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
 
-			String decUserName = RSADecryptor.decrypt(result.getUserName(), payConfig.getPrivateKey());
+			String decUserName = payConfig.getDecryptor().decrypt(result.getUserName());
 			result.setUserName(decUserName);
 
 			return result;

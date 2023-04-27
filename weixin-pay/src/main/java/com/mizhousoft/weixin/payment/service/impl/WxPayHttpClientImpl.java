@@ -135,7 +135,7 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 		String message = httpMethod + "\n" + canonicalUrl + "\n" + timestamp + "\n" + nonceStr + "\n" + body + "\n";
 
 		String certSerialNumber = payConfig.getCertSerialNumber();
-		String signature = RSAUtils.sign(message, payConfig.getPrivateKey());
+		String signature = payConfig.getSigner().sign(message);
 
 		String token = "mchid=\"" + payConfig.getMchId() + "\"," + "nonce_str=\"" + nonceStr + "\"," + "timestamp=\"" + timestamp + "\","
 		        + "serial_no=\"" + certSerialNumber + "\"," + "signature=\"" + signature + "\"";

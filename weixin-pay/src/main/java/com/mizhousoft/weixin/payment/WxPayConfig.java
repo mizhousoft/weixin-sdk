@@ -1,9 +1,9 @@
 package com.mizhousoft.weixin.payment;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-
 import com.mizhousoft.weixin.certificate.CertificateProvider;
+import com.mizhousoft.weixin.cipher.PrivacyDecryptor;
+import com.mizhousoft.weixin.cipher.PrivacyEncryptor;
+import com.mizhousoft.weixin.cipher.Signer;
 
 /**
  * 配置
@@ -32,14 +32,19 @@ public class WxPayConfig
 	private volatile String certSerialNumber;
 
 	/**
-	 * 私钥
+	 * 私钥解密器
 	 */
-	private volatile PrivateKey privateKey;
+	private PrivacyDecryptor decryptor;
 
 	/**
-	 * 公钥
+	 * 公钥加密器
 	 */
-	private volatile PublicKey publicKey;
+	private PrivacyEncryptor encryptor;
+
+	/**
+	 * 签名
+	 */
+	private Signer signer;
 
 	/**
 	 * 证书提供者
@@ -63,7 +68,6 @@ public class WxPayConfig
 
 	/**
 	 * 获取identifier
-	 * 
 	 * @return
 	 */
 	public String getIdentifier()
@@ -73,7 +77,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置identifier
-	 * 
 	 * @param identifier
 	 */
 	public void setIdentifier(String identifier)
@@ -83,7 +86,6 @@ public class WxPayConfig
 
 	/**
 	 * 获取mchId
-	 * 
 	 * @return
 	 */
 	public String getMchId()
@@ -93,7 +95,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置mchId
-	 * 
 	 * @param mchId
 	 */
 	public void setMchId(String mchId)
@@ -103,7 +104,6 @@ public class WxPayConfig
 
 	/**
 	 * 获取apiV3Key
-	 * 
 	 * @return
 	 */
 	public String getApiV3Key()
@@ -113,7 +113,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置apiV3Key
-	 * 
 	 * @param apiV3Key
 	 */
 	public void setApiV3Key(String apiV3Key)
@@ -123,7 +122,6 @@ public class WxPayConfig
 
 	/**
 	 * 获取certSerialNumber
-	 * 
 	 * @return
 	 */
 	public String getCertSerialNumber()
@@ -133,7 +131,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置certSerialNumber
-	 * 
 	 * @param certSerialNumber
 	 */
 	public void setCertSerialNumber(String certSerialNumber)
@@ -142,48 +139,61 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取privateKey
-	 * 
+	 * 获取decryptor
 	 * @return
 	 */
-	public PrivateKey getPrivateKey()
+	public PrivacyDecryptor getDecryptor()
 	{
-		return privateKey;
+		return decryptor;
 	}
 
 	/**
-	 * 设置privateKey
-	 * 
-	 * @param privateKey
+	 * 设置decryptor
+	 * @param decryptor
 	 */
-	public void setPrivateKey(PrivateKey privateKey)
+	public void setDecryptor(PrivacyDecryptor decryptor)
 	{
-		this.privateKey = privateKey;
+		this.decryptor = decryptor;
 	}
 
 	/**
-	 * 获取publicKey
-	 * 
+	 * 获取encryptor
 	 * @return
 	 */
-	public PublicKey getPublicKey()
+	public PrivacyEncryptor getEncryptor()
 	{
-		return publicKey;
+		return encryptor;
 	}
 
 	/**
-	 * 设置publicKey
-	 * 
-	 * @param publicKey
+	 * 设置encryptor
+	 * @param encryptor
 	 */
-	public void setPublicKey(PublicKey publicKey)
+	public void setEncryptor(PrivacyEncryptor encryptor)
 	{
-		this.publicKey = publicKey;
+		this.encryptor = encryptor;
+	}
+
+	/**
+	 * 获取signer
+	 * @return
+	 */
+	public Signer getSigner()
+	{
+		return signer;
+	}
+
+	/**
+	 * 设置signer
+	 * @param signer
+	 */
+	public void setSigner(Signer signer)
+	{
+		this.signer = signer;
 	}
 
 	/**
 	 * 获取certProvider
-	 * 
 	 * @return
 	 */
 	public CertificateProvider getCertProvider()
@@ -193,7 +203,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置certProvider
-	 * 
 	 * @param certProvider
 	 */
 	public void setCertProvider(CertificateProvider certProvider)
@@ -203,7 +212,6 @@ public class WxPayConfig
 
 	/**
 	 * 获取endpoint
-	 * 
 	 * @return
 	 */
 	public String getEndpoint()
@@ -213,7 +221,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置endpoint
-	 * 
 	 * @param endpoint
 	 */
 	public void setEndpoint(String endpoint)
@@ -223,7 +230,6 @@ public class WxPayConfig
 
 	/**
 	 * 获取payNotifyUrl
-	 * 
 	 * @return
 	 */
 	public String getPayNotifyUrl()
@@ -233,7 +239,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置payNotifyUrl
-	 * 
 	 * @param payNotifyUrl
 	 */
 	public void setPayNotifyUrl(String payNotifyUrl)
@@ -243,7 +248,6 @@ public class WxPayConfig
 
 	/**
 	 * 获取refundNotifyUrl
-	 * 
 	 * @return
 	 */
 	public String getRefundNotifyUrl()
@@ -253,7 +257,6 @@ public class WxPayConfig
 
 	/**
 	 * 设置refundNotifyUrl
-	 * 
 	 * @param refundNotifyUrl
 	 */
 	public void setRefundNotifyUrl(String refundNotifyUrl)

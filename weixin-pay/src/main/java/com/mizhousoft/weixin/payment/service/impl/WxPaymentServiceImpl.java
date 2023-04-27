@@ -57,7 +57,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + prepayId + "\n";
 
-		String sign = RSAUtils.sign(message, payConfig.getPrivateKey());
+		String sign = payConfig.getSigner().sign(message);
 
 		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
@@ -90,7 +90,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		String nonceStr = RandomGenerator.genHexString(16, false);
 
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + packageValue + "\n";
-		String sign = RSAUtils.sign(message, payConfig.getPrivateKey());
+		String sign = payConfig.getSigner().sign(message);
 
 		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
