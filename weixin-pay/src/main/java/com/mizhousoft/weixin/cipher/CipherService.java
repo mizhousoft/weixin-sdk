@@ -9,12 +9,23 @@ import com.mizhousoft.weixin.common.WXException;
 public interface CipherService
 {
 	/**
+	 * 解密结果
+	 * 
+	 * @param associatedData
+	 * @param nonce
+	 * @param ciphertext
+	 * @return
+	 * @throws WXException
+	 */
+	String decryptResult(String associatedData, String nonce, String ciphertext) throws WXException;
+
+	/**
 	 * 解密并转换为字符串
 	 *
 	 * @param ciphertext 密文
 	 * @return UTF-8编码的明文
 	 */
-	String decrypt(String ciphertext) throws WXException;
+	String decryptSensitiveField(String ciphertext) throws WXException;
 
 	/**
 	 * 加密并转换为字符串
@@ -23,7 +34,7 @@ public interface CipherService
 	 * @return
 	 * @throws WXException
 	 */
-	String encrypt(String plaintext) throws WXException;
+	String encryptSensitiveField(String plaintext) throws WXException;
 
 	/**
 	 * 签名

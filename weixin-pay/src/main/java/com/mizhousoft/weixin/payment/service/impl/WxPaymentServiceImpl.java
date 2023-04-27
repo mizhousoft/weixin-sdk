@@ -23,7 +23,6 @@ import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 import com.mizhousoft.weixin.payment.service.WxPayConfigService;
 import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
-import com.mizhousoft.weixin.util.AESUtils;
 
 /**
  * 支付服务
@@ -184,9 +183,8 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String cipherText = resource.getCiphertext();
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
-			String apiV3Key = payConfig.getApiV3Key();
 
-			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
+			String result = payConfig.getCipherService().decryptResult(associatedData, nonce, cipherText);
 
 			WxPayOrderQueryResult queryResult = JSONUtils.parse(result, WxPayOrderQueryResult.class);
 
@@ -274,9 +272,8 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String cipherText = resource.getCiphertext();
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
-			String apiV3Key = payConfig.getApiV3Key();
 
-			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
+			String result = payConfig.getCipherService().decryptResult(associatedData, nonce, cipherText);
 
 			WxPayRefundNotifyResult refundResult = JSONUtils.parse(result, WxPayRefundNotifyResult.class);
 

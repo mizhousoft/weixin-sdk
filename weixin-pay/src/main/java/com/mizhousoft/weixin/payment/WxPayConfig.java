@@ -1,6 +1,5 @@
 package com.mizhousoft.weixin.payment;
 
-import com.mizhousoft.weixin.certificate.CertificateProvider;
 import com.mizhousoft.weixin.cipher.CipherService;
 
 /**
@@ -20,11 +19,6 @@ public class WxPayConfig
 	private volatile String mchId;
 
 	/**
-	 * 商户密钥
-	 */
-	private volatile String apiV3Key;
-
-	/**
 	 * 证书序列号
 	 */
 	private volatile String certSerialNumber;
@@ -33,11 +27,6 @@ public class WxPayConfig
 	 * 密文服务
 	 */
 	private CipherService cipherService;
-
-	/**
-	 * 证书提供者
-	 */
-	private volatile CertificateProvider certProvider;
 
 	/**
 	 * endpoint
@@ -95,26 +84,6 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取apiV3Key
-	 * 
-	 * @return
-	 */
-	public String getApiV3Key()
-	{
-		return apiV3Key;
-	}
-
-	/**
-	 * 设置apiV3Key
-	 * 
-	 * @param apiV3Key
-	 */
-	public void setApiV3Key(String apiV3Key)
-	{
-		this.apiV3Key = apiV3Key;
-	}
-
-	/**
 	 * 获取certSerialNumber
 	 * 
 	 * @return
@@ -152,26 +121,6 @@ public class WxPayConfig
 	public void setCipherService(CipherService cipherService)
 	{
 		this.cipherService = cipherService;
-	}
-
-	/**
-	 * 获取certProvider
-	 * 
-	 * @return
-	 */
-	public CertificateProvider getCertProvider()
-	{
-		return certProvider;
-	}
-
-	/**
-	 * 设置certProvider
-	 * 
-	 * @param certProvider
-	 */
-	public void setCertProvider(CertificateProvider certProvider)
-	{
-		this.certProvider = certProvider;
 	}
 
 	/**

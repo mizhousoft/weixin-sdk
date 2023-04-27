@@ -1,6 +1,7 @@
 package com.mizhousoft.weixin.cipher.impl;
 
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -14,6 +15,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import com.mizhousoft.weixin.certificate.CertificateProvider;
 import com.mizhousoft.weixin.cipher.CipherService;
@@ -29,22 +32,38 @@ public class CipherServiceImpl implements CipherService
 
 	public static String SHA256WITHRSA = "SHA256withRSA";
 
-	private PrivateKey privateKey;
+	/**
+	 * 商户密钥
+	 */
+	private volatile String apiV3Key;
 
-	private PublicKey publicKey;
+	/**
+	 * 私钥
+	 */
+	private volatile PrivateKey privateKey;
 
+	/**
+	 * 公钥
+	 */
+	private volatile PublicKey publicKey;
+
+	/**
+	 * 证书提供者
+	 */
 	private CertificateProvider certificateProvider;
 
 	/**
 	 * 构造函数
 	 *
+	 * @param apiV3Key
 	 * @param privateKey
 	 * @param publicKey
 	 * @param certificateProvider
 	 */
-	public CipherServiceImpl(PrivateKey privateKey, PublicKey publicKey, CertificateProvider certificateProvider)
+	public CipherServiceImpl(String apiV3Key, PrivateKey privateKey, PublicKey publicKey, CertificateProvider certificateProvider)
 	{
 		super();
+		this.apiV3Key = apiV3Key;
 		this.privateKey = privateKey;
 		this.publicKey = publicKey;
 		this.certificateProvider = certificateProvider;
@@ -54,7 +73,43 @@ public class CipherServiceImpl implements CipherService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String decrypt(String ciphertext) throws WXException
+	public String decryptResult(String associatedData, String nonce, String ciphertext) throws WXException
+	{
+		try
+		{
+			Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+
+			SecretKeySpec key = new SecretKeySpec(apiV3Key.getBytes(), "AES");
+			GCMParameterSpec spec = new GCMParameterSpec(128, nonce.getBytes());
+
+			cipher.init(Cipher.DECRYPT_MODE, key, spec);
+			cipher.updateAAD(associatedData.getBytes());
+
+			return new String(cipher.doFinal(Base64.getDecoder().decode(ciphertext)), StandardCharsets.UTF_8);
+		}
+		catch (NoSuchAlgorithmException | NoSuchPaddingException e)
+		{
+			throw new WXException(e.getMessage(), e);
+		}
+		catch (InvalidKeyException | InvalidAlgorithmParameterException e)
+		{
+			throw new WXException(e.getMessage(), e);
+		}
+		catch (IllegalBlockSizeException e)
+		{
+			throw new WXException(e.getMessage(), e);
+		}
+		catch (BadPaddingException e)
+		{
+			throw new WXException(e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String decryptSensitiveField(String ciphertext) throws WXException
 	{
 		try
 		{
@@ -82,7 +137,7 @@ public class CipherServiceImpl implements CipherService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String encrypt(String plaintext) throws WXException
+	public String encryptSensitiveField(String plaintext) throws WXException
 	{
 		try
 		{
