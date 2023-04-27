@@ -10,6 +10,26 @@ import com.mizhousoft.weixin.payment.WxPayConfig;
  */
 public interface WxPayHttpClient
 {
-	RestResponse executeRequest(String body, String canonicalUrl, String httpMethod, boolean withSerial, WxPayConfig payConfig)
-	        throws WXException;
+	/**
+	 * GET请求
+	 * 
+	 * @param canonicalUrl
+	 * @param withSerial
+	 * @param payConfig
+	 * @return
+	 * @throws WXException
+	 */
+	RestResponse get(String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException;
+
+	/**
+	 * POST请求
+	 * 
+	 * @param body
+	 * @param canonicalUrl
+	 * @param withSerial
+	 * @param payConfig
+	 * @return
+	 * @throws WXException
+	 */
+	RestResponse post(String body, String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException;
 }

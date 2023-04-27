@@ -7,7 +7,6 @@ import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
-import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.service.WxPayConfigService;
 import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 import com.mizhousoft.weixin.transfer.request.MerchantBatchQueryRequest;
@@ -54,7 +53,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 
 			String body = JSONUtils.toJSONString(request);
 
-			RestResponse restResp = httpClient.executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST, true, payConfig);
+			RestResponse restResp = httpClient.post(body, canonicalUrl, true, payConfig);
 
 			TransferCreateResult result = JSONUtils.parse(restResp.getBody(), TransferCreateResult.class);
 
@@ -90,7 +89,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			canonicalUrl = String.format("%s&detail_status=%s", canonicalUrl, request.getDetailStatus());
 		}
 
-		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
+		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
@@ -115,7 +114,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		String canonicalUrl = String.format("/v3/transfer/batches/batch-id/%s/details/detail-id/%s", request.getBatchId(),
 		        request.getDetailId());
 
-		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
+		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
@@ -156,7 +155,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			canonicalUrl = String.format("%s&detail_status=%s", canonicalUrl, request.getDetailStatus());
 		}
 
-		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
+		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
@@ -181,7 +180,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		String canonicalUrl = String.format("/v3/transfer/batches/out-batch-no/%s/details/out-detail-no/%s", request.getOutBatchNo(),
 		        request.getOutDetailNo());
 
-		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
+		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{

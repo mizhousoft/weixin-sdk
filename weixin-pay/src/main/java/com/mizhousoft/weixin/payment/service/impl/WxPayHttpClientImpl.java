@@ -4,6 +4,7 @@ import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -31,7 +32,25 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 
 	private RestClientService restClientService;
 
-	public RestResponse executeRequest(String body, String canonicalUrl, String httpMethod, boolean withSerial, WxPayConfig payConfig)
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public RestResponse get(String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException
+	{
+		return executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, withSerial, payConfig);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public RestResponse post(String body, String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException
+	{
+		return executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST, withSerial, payConfig);
+	}
+
+	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod, boolean withSerial, WxPayConfig payConfig)
 	        throws WXException
 	{
 		Map<String, String> headerMap = new HashMap<>(3);
@@ -40,7 +59,7 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 
 		if (withSerial)
 		{
-			String serialNumber = payConfig.getCertSerialNumber();
+			String serialNumber = payConfig.getCertSerialNumber().toUpperCase(Locale.ENGLISH);
 			headerMap.put(HttpConstants.WECHAT_PAY_SERIAL, serialNumber);
 		}
 
