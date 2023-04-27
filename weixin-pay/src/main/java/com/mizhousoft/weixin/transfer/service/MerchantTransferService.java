@@ -32,7 +32,7 @@ public interface MerchantTransferService
 	 * @return transfer create result
 	 * @throws WXException the wx pay exception
 	 */
-	TransferCreateResult createTransfer(TransferCreateRequest request) throws WXException;
+	TransferCreateResult createTransfer(String mchId, TransferCreateRequest request) throws WXException;
 
 	/**
 	 * 微信批次单号查询批次单API
@@ -47,7 +47,7 @@ public interface MerchantTransferService
 	 * @return batches query result
 	 * @throws WXException the wx pay exception
 	 */
-	BatcheQueryResult queryWxBatches(WxBatchQueryRequest request) throws WXException;
+	BatcheQueryResult queryWxBatches(String mchId, WxBatchQueryRequest request) throws WXException;
 
 	/**
 	 * 微信明细单号查询明细单API
@@ -62,7 +62,7 @@ public interface MerchantTransferService
 	 * @return details query result
 	 * @throws WXException the wx pay exception
 	 */
-	DetailQueryResult queryWxDetails(WxDetailQueryRequest request) throws WXException;
+	DetailQueryResult queryWxDetails(String mchId, WxDetailQueryRequest request) throws WXException;
 
 	/**
 	 * 商家批次单号查询批次单API
@@ -77,7 +77,7 @@ public interface MerchantTransferService
 	 * @return batches query result
 	 * @throws WXException the wx pay exception
 	 */
-	BatcheQueryResult queryMerchantBatches(MerchantBatchQueryRequest request) throws WXException;
+	BatcheQueryResult queryMerchantBatches(String mchId, MerchantBatchQueryRequest request) throws WXException;
 
 	/**
 	 * 商家明细单号查询明细单API
@@ -92,5 +92,5 @@ public interface MerchantTransferService
 	 * @return details query result
 	 * @throws WXException the wx pay exception
 	 */
-	DetailQueryResult queryMerchantDetails(MerchantDetailQueryRequest request) throws WXException;
+	DetailQueryResult queryMerchantDetails(String mchId, MerchantDetailQueryRequest request) throws WXException;
 }

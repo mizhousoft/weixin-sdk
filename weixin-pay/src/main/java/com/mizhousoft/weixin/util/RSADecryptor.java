@@ -1,9 +1,9 @@
-package com.mizhousoft.weixin.cipher.impl;
+package com.mizhousoft.weixin.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
+import java.security.PrivateKey;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -11,23 +11,18 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.mizhousoft.weixin.cipher.PrivacyEncryptor;
 import com.mizhousoft.weixin.common.WXException;
 
 /**
- * RSA敏感信息加密器
+ * RSA解密
  *
  */
-public class RSAPrivacyEncryptor implements PrivacyEncryptor
+public abstract class RSADecryptor
 {
-	private final PublicKey publicKey;
+	private static Cipher cipher;
 
-	private final Cipher cipher;
-
-	public RSAPrivacyEncryptor(PublicKey publicKey)
+	public static void init()
 	{
-		this.publicKey = publicKey;
-
 		try
 		{
 			cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
@@ -38,25 +33,20 @@ public class RSAPrivacyEncryptor implements PrivacyEncryptor
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String encrypt(String plaintext) throws WXException
+	public static String decrypt(String cipherText, PrivateKey privateKey) throws WXException
 	{
 		try
 		{
-			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-
-			return Base64.getEncoder().encodeToString(cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+			return new String(cipher.doFinal(Base64.getDecoder().decode(cipherText)), StandardCharsets.UTF_8);
 		}
 		catch (InvalidKeyException e)
 		{
-			throw new WXException("RSA encryption using an illegal publicKey", e);
+			throw new WXException("The given private key is invalid for decryption", e);
 		}
 		catch (BadPaddingException | IllegalBlockSizeException e)
 		{
-			throw new WXException("Plaintext is too long.", e);
+			throw new WXException("Decryption failed", e);
 		}
 	}
 }

@@ -18,13 +18,6 @@ public interface WxPaymentService
 	String ENDPOINT = "https://api.mch.weixin.qq.com";
 
 	/**
-	 * 获取商户号ID
-	 * 
-	 * @return
-	 */
-	String getMchId();
-
-	/**
 	 * 创建订单
 	 * 
 	 * @param request
@@ -54,59 +47,63 @@ public interface WxPaymentService
 	/**
 	 * 查询订单
 	 * 
+	 * @param mchId
 	 * @param transactionId
-	 * @param outTradeNo
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayOrderQueryResult queryOrderByTransactionId(String transactionId) throws WXException;
+	WxPayOrderQueryResult queryOrderByTransactionId(String mchId, String transactionId) throws WXException;
 
 	/**
 	 * 查询订单
 	 * 
-	 * @param transactionId
+	 * @param mchId
 	 * @param outTradeNo
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayOrderQueryResult queryOrderByOutTradeNo(String outTradeNo) throws WXException;
+	WxPayOrderQueryResult queryOrderByOutTradeNo(String mchId, String outTradeNo) throws WXException;
 
 	/**
 	 * 解析支付订单通知结果
 	 * 
+	 * @param mchId
 	 * @param notifyData
 	 * @param header
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayOrderQueryResult parsePayOrderNotifyResult(String notifyData, SignatureHeader header) throws WXException;
+	WxPayOrderQueryResult parsePayOrderNotifyResult(String mchId, String notifyData, SignatureHeader header) throws WXException;
 
 	/**
 	 * 退款
 	 * 
+	 * @param mchId
 	 * @param request
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayRefundResult refund(WxPayRefundRequest request) throws WXException;
+	WxPayRefundResult refund(String mchId, WxPayRefundRequest request) throws WXException;
 
 	/**
 	 * 退款查询
 	 * 
+	 * @param mchId
 	 * @param outRefundNo
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayRefundResult refundQuery(String outRefundNo) throws WXException;
+	WxPayRefundResult refundQuery(String mchId, String outRefundNo) throws WXException;
 
 	/**
 	 * 解析退款结果通知
 	 * 
+	 * @param mchId
 	 * @param notifyData
 	 * @param header
 	 * @return
 	 * @throws WXException
 	 */
-	WxPayRefundNotifyResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException;
+	WxPayRefundNotifyResult parseRefundNotifyResult(String mchId, String notifyData, SignatureHeader header) throws WXException;
 
 }

@@ -1,23 +1,15 @@
 package com.mizhousoft.weixin.transfer.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.http.HttpStatus;
 
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
-import com.mizhousoft.commons.restclient.service.RestClientService;
-import com.mizhousoft.weixin.cipher.PrivacyDecryptor;
-import com.mizhousoft.weixin.cipher.PrivacyEncryptor;
-import com.mizhousoft.weixin.cipher.WxPayVerifier;
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.common.WXSystemErrorException;
-import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
-import com.mizhousoft.weixin.credential.WxPayCredential;
+import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
+import com.mizhousoft.weixin.payment.service.WxPayConfigService;
+import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 import com.mizhousoft.weixin.transfer.request.MerchantBatchQueryRequest;
 import com.mizhousoft.weixin.transfer.request.MerchantDetailQueryRequest;
 import com.mizhousoft.weixin.transfer.request.TransferCreateRequest;
@@ -28,6 +20,8 @@ import com.mizhousoft.weixin.transfer.result.BatcheQueryResult;
 import com.mizhousoft.weixin.transfer.result.DetailQueryResult;
 import com.mizhousoft.weixin.transfer.result.TransferCreateResult;
 import com.mizhousoft.weixin.transfer.service.MerchantTransferService;
+import com.mizhousoft.weixin.util.RSADecryptor;
+import com.mizhousoft.weixin.util.RSAEncryptor;
 
 /**
  * 商家转账到零钱（直联商户）
@@ -36,22 +30,18 @@ import com.mizhousoft.weixin.transfer.service.MerchantTransferService;
  */
 public class MerchantTransferServiceImpl implements MerchantTransferService
 {
-	private RestClientService restClientService;
+	private WxPayConfigService configService;
 
-	private PrivacyEncryptor encryptor;
-
-	private PrivacyDecryptor decryptor;
-
-	private WxPayCredential credential;
-
-	private WxPayVerifier verifier;
+	private WxPayHttpClient httpClient;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TransferCreateResult createTransfer(TransferCreateRequest request) throws WXException
+	public TransferCreateResult createTransfer(String mchId, TransferCreateRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = "/v3/transfer/batches";
 
 		try
@@ -60,13 +50,13 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			for (TransferDetailList detail : detailList)
 			{
 				String userName = detail.getUserName();
-				String encUserName = encryptor.encrypt(userName);
+				String encUserName = RSAEncryptor.encrypt(userName, payConfig.getPublicKey());
 				detail.setUserName(encUserName);
 			}
 
 			String body = JSONUtils.toJSONString(request);
 
-			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST, true);
+			RestResponse restResp = httpClient.executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST, true, payConfig);
 
 			TransferCreateResult result = JSONUtils.parse(restResp.getBody(), TransferCreateResult.class);
 
@@ -82,8 +72,10 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BatcheQueryResult queryWxBatches(WxBatchQueryRequest request) throws WXException
+	public BatcheQueryResult queryWxBatches(String mchId, WxBatchQueryRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = String.format("/v3/transfer/batches/batch-id/%s?need_query_detail=%b", request.getBatchId(),
 		        request.getNeedQueryDetail());
 
@@ -100,7 +92,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			canonicalUrl = String.format("%s&detail_status=%s", canonicalUrl, request.getDetailStatus());
 		}
 
-		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false);
+		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
 
 		try
 		{
@@ -118,18 +110,20 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DetailQueryResult queryWxDetails(WxDetailQueryRequest request) throws WXException
+	public DetailQueryResult queryWxDetails(String mchId, WxDetailQueryRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = String.format("/v3/transfer/batches/batch-id/%s/details/detail-id/%s", request.getBatchId(),
 		        request.getDetailId());
 
-		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false);
+		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
 
 		try
 		{
 			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
 
-			String decUserName = decryptor.decrypt(result.getUserName());
+			String decUserName = RSADecryptor.decrypt(result.getUserName(), payConfig.getPrivateKey());
 			result.setUserName(decUserName);
 
 			return result;
@@ -144,8 +138,10 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public BatcheQueryResult queryMerchantBatches(MerchantBatchQueryRequest request) throws WXException
+	public BatcheQueryResult queryMerchantBatches(String mchId, MerchantBatchQueryRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = String.format("/v3/transfer/batches/out-batch-no/%s?need_query_detail=%b", request.getOutBatchNo(),
 		        request.getNeedQueryDetail());
 
@@ -162,7 +158,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			canonicalUrl = String.format("%s&detail_status=%s", canonicalUrl, request.getDetailStatus());
 		}
 
-		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false);
+		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
 
 		try
 		{
@@ -180,18 +176,20 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public DetailQueryResult queryMerchantDetails(MerchantDetailQueryRequest request) throws WXException
+	public DetailQueryResult queryMerchantDetails(String mchId, MerchantDetailQueryRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = String.format("/v3/transfer/batches/out-batch-no/%s/details/out-detail-no/%s", request.getOutBatchNo(),
 		        request.getOutDetailNo());
 
-		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false);
+		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
 
 		try
 		{
 			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
 
-			String decUserName = decryptor.decrypt(result.getUserName());
+			String decUserName = RSADecryptor.decrypt(result.getUserName(), payConfig.getPrivateKey());
 			result.setUserName(decUserName);
 
 			return result;
@@ -202,108 +200,23 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		}
 	}
 
-	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod, boolean withSerial) throws WXException
+	/**
+	 * 设置configService
+	 * 
+	 * @param configService
+	 */
+	public void setConfigService(WxPayConfigService configService)
 	{
-		Map<String, String> headerMap = new HashMap<>(5);
-		headerMap.put(HttpConstants.ACCEPT, HttpConstants.HTTP_MEDIA_JSON);
-		headerMap.put(HttpConstants.CONTENT_TYPE, HttpConstants.HTTP_MEDIA_JSON);
-
-		if (withSerial)
-		{
-			String serialNumber = encryptor.getPaySerialNumber();
-			headerMap.put(HttpConstants.WECHAT_PAY_SERIAL, serialNumber);
-		}
-
-		String authorization = credential.getAuthorization(canonicalUrl, httpMethod, body);
-		headerMap.put(HttpConstants.AUTHORIZATION, authorization);
-
-		String requestPath = ENDPOINT + canonicalUrl;
-
-		RestResponse restResp = null;
-		if (HttpConstants.HTTP_METHOD_POST.equals(httpMethod))
-		{
-			restResp = restClientService.postJSON(requestPath, body, headerMap);
-		}
-		else
-		{
-			restResp = restClientService.get(requestPath, headerMap);
-		}
-
-		if (HttpStatus.TOO_MANY_REQUESTS.value() == restResp.getStatusCode())
-		{
-			throw new WxFrequencyLimitedException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-		else if (HttpStatus.INTERNAL_SERVER_ERROR.value() == restResp.getStatusCode())
-		{
-			throw new WXSystemErrorException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-
-		if (HttpStatus.OK.value() != restResp.getStatusCode() && HttpStatus.NO_CONTENT.value() != restResp.getStatusCode())
-		{
-			throw new WXException("Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-
-		if (!verifier.validate(restResp.getHeaders(), restResp.getBody()))
-		{
-			String requestId = restResp.getHeaders().get(HttpConstants.REQUEST_ID);
-
-			throw new WXException(String.format(
-			        "Validate response failed,the WechatPay signature is incorrect.%n" + "Request-ID[%s], responseBody[%.1024s]", requestId,
-			        restResp.getBody()));
-		}
-
-		return restResp;
+		this.configService = configService;
 	}
 
 	/**
-	 * 设置restClientService
+	 * 设置httpClient
 	 * 
-	 * @param restClientService
+	 * @param httpClient
 	 */
-	public void setRestClientService(RestClientService restClientService)
+	public void setHttpClient(WxPayHttpClient httpClient)
 	{
-		this.restClientService = restClientService;
-	}
-
-	/**
-	 * 设置encryptor
-	 * 
-	 * @param encryptor
-	 */
-	public void setEncryptor(PrivacyEncryptor encryptor)
-	{
-		this.encryptor = encryptor;
-	}
-
-	/**
-	 * 设置decryptor
-	 * 
-	 * @param decryptor
-	 */
-	public void setDecryptor(PrivacyDecryptor decryptor)
-	{
-		this.decryptor = decryptor;
-	}
-
-	/**
-	 * 设置credential
-	 * 
-	 * @param credential
-	 */
-	public void setCredential(WxPayCredential credential)
-	{
-		this.credential = credential;
-	}
-
-	/**
-	 * 设置verifier
-	 * 
-	 * @param verifier
-	 */
-	public void setVerifier(WxPayVerifier verifier)
-	{
-		this.verifier = verifier;
+		this.httpClient = httpClient;
 	}
 }

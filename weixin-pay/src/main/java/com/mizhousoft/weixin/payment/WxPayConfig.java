@@ -1,6 +1,9 @@
 package com.mizhousoft.weixin.payment;
 
-import java.util.Set;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
+import com.mizhousoft.weixin.certificate.CertificateProvider;
 
 /**
  * 配置
@@ -8,6 +11,11 @@ import java.util.Set;
  */
 public class WxPayConfig
 {
+	/**
+	 * 标识
+	 */
+	private volatile String identifier;
+
 	/**
 	 * 微信支付分配的商户号
 	 */
@@ -24,14 +32,24 @@ public class WxPayConfig
 	private volatile String certSerialNumber;
 
 	/**
-	 * 私钥路径
+	 * 私钥
 	 */
-	private volatile String privateKeyPath;
+	private volatile PrivateKey privateKey;
 
 	/**
-	 * 证书文件路径
+	 * 公钥
 	 */
-	private volatile Set<String> certPemFilePaths;
+	private volatile PublicKey publicKey;
+
+	/**
+	 * 证书提供者
+	 */
+	private volatile CertificateProvider certProvider;
+
+	/**
+	 * endpoint
+	 */
+	private String endpoint;
 
 	/**
 	 * 微信支付异步回掉地址，通知url必须为直接可访问的url，不能携带参数
@@ -42,6 +60,26 @@ public class WxPayConfig
 	 * 微信退款异步回掉地址，通知url必须为直接可访问的url，不能携带参数
 	 */
 	private String refundNotifyUrl;
+
+	/**
+	 * 获取identifier
+	 * 
+	 * @return
+	 */
+	public String getIdentifier()
+	{
+		return identifier;
+	}
+
+	/**
+	 * 设置identifier
+	 * 
+	 * @param identifier
+	 */
+	public void setIdentifier(String identifier)
+	{
+		this.identifier = identifier;
+	}
 
 	/**
 	 * 获取mchId
@@ -104,43 +142,83 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取privateKeyPath
+	 * 获取privateKey
 	 * 
 	 * @return
 	 */
-	public String getPrivateKeyPath()
+	public PrivateKey getPrivateKey()
 	{
-		return privateKeyPath;
+		return privateKey;
 	}
 
 	/**
-	 * 设置privateKeyPath
+	 * 设置privateKey
 	 * 
-	 * @param privateKeyPath
+	 * @param privateKey
 	 */
-	public void setPrivateKeyPath(String privateKeyPath)
+	public void setPrivateKey(PrivateKey privateKey)
 	{
-		this.privateKeyPath = privateKeyPath;
+		this.privateKey = privateKey;
 	}
 
 	/**
-	 * 获取certPemFilePaths
+	 * 获取publicKey
 	 * 
 	 * @return
 	 */
-	public Set<String> getCertPemFilePaths()
+	public PublicKey getPublicKey()
 	{
-		return certPemFilePaths;
+		return publicKey;
 	}
 
 	/**
-	 * 设置certPemFilePaths
+	 * 设置publicKey
 	 * 
-	 * @param certPemFilePaths
+	 * @param publicKey
 	 */
-	public void setCertPemFilePaths(Set<String> certPemFilePaths)
+	public void setPublicKey(PublicKey publicKey)
 	{
-		this.certPemFilePaths = certPemFilePaths;
+		this.publicKey = publicKey;
+	}
+
+	/**
+	 * 获取certProvider
+	 * 
+	 * @return
+	 */
+	public CertificateProvider getCertProvider()
+	{
+		return certProvider;
+	}
+
+	/**
+	 * 设置certProvider
+	 * 
+	 * @param certProvider
+	 */
+	public void setCertProvider(CertificateProvider certProvider)
+	{
+		this.certProvider = certProvider;
+	}
+
+	/**
+	 * 获取endpoint
+	 * 
+	 * @return
+	 */
+	public String getEndpoint()
+	{
+		return endpoint;
+	}
+
+	/**
+	 * 设置endpoint
+	 * 
+	 * @param endpoint
+	 */
+	public void setEndpoint(String endpoint)
+	{
+		this.endpoint = endpoint;
 	}
 
 	/**

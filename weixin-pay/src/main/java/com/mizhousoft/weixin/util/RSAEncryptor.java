@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.cipher.impl;
+package com.mizhousoft.weixin.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -11,23 +11,18 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.mizhousoft.weixin.cipher.PrivacyEncryptor;
 import com.mizhousoft.weixin.common.WXException;
 
 /**
- * RSA敏感信息加密器
+ * 加密器
  *
  */
-public class RSAPrivacyEncryptor implements PrivacyEncryptor
+public abstract class RSAEncryptor
 {
-	private final PublicKey publicKey;
+	private static Cipher cipher;
 
-	private final Cipher cipher;
-
-	public RSAPrivacyEncryptor(PublicKey publicKey)
+	public static void initCipher()
 	{
-		this.publicKey = publicKey;
-
 		try
 		{
 			cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
@@ -38,11 +33,7 @@ public class RSAPrivacyEncryptor implements PrivacyEncryptor
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String encrypt(String plaintext) throws WXException
+	public static String encrypt(String plaintext, PublicKey publicKey) throws WXException
 	{
 		try
 		{

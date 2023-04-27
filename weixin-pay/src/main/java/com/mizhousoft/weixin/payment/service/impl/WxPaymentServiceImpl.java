@@ -1,24 +1,18 @@
 package com.mizhousoft.weixin.payment.service.impl;
 
 import java.nio.charset.StandardCharsets;
+import java.security.cert.X509Certificate;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
 
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
-import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.cipher.SignatureHeader;
-import com.mizhousoft.weixin.cipher.WxPayVerifier;
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.common.WXSystemErrorException;
-import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
-import com.mizhousoft.weixin.credential.WxPayCredential;
+import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
 import com.mizhousoft.weixin.payment.request.WxPayRefundRequest;
@@ -28,8 +22,11 @@ import com.mizhousoft.weixin.payment.result.WxPayOrderCreateResult;
 import com.mizhousoft.weixin.payment.result.WxPayOrderQueryResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundNotifyResult;
 import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
+import com.mizhousoft.weixin.payment.service.WxPayConfigService;
+import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
 import com.mizhousoft.weixin.util.AESUtils;
+import com.mizhousoft.weixin.util.RSAUtils;
 
 /**
  * 支付服务
@@ -37,20 +34,9 @@ import com.mizhousoft.weixin.util.AESUtils;
  */
 public class WxPaymentServiceImpl implements WxPaymentService
 {
-	private RestClientService restClientService;
+	private WxPayConfigService configService;
 
-	private WxPayCredential credential;
-
-	private WxPayVerifier verifier;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getMchId()
-	{
-		return credential.getMerchantId();
-	}
+	private WxPayHttpClient httpClient;
 
 	/**
 	 * {@inheritDoc}
@@ -58,9 +44,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	@Override
 	public WxPayOrderCreateResult createAppOrder(WxPayOrderCreateRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(request.getMchId());
+
 		String canonicalUrl = "/v3/pay/transactions/app";
 
-		WxPayOrderCreateResponse response = createUnifiedOrder(canonicalUrl, request);
+		WxPayOrderCreateResponse response = createUnifiedOrder(payConfig, canonicalUrl, request);
 
 		String prepayId = response.getPrepayId();
 
@@ -69,11 +57,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + prepayId + "\n";
 
-		String sign = credential.sign(message);
+		String sign = RSAUtils.sign(message, payConfig.getPrivateKey());
 
 		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
-		result.setPartnerId(credential.getMerchantId());
+		result.setPartnerId(payConfig.getMchId());
 		result.setPrepayId(prepayId);
 		result.setPackageValue("Sign=WXPay");
 		result.setNonceStr(nonceStr);
@@ -89,9 +77,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	@Override
 	public WxPayOrderCreateResult createJSAPIOrder(WxPayOrderCreateRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(request.getMchId());
+
 		String canonicalUrl = "/v3/pay/transactions/jsapi";
 
-		WxPayOrderCreateResponse response = createUnifiedOrder(canonicalUrl, request);
+		WxPayOrderCreateResponse response = createUnifiedOrder(payConfig, canonicalUrl, request);
 
 		String prepayId = response.getPrepayId();
 		String packageValue = "prepay_id=" + prepayId;
@@ -100,7 +90,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		String nonceStr = RandomGenerator.genHexString(16, false);
 
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + packageValue + "\n";
-		String sign = credential.sign(message);
+		String sign = RSAUtils.sign(message, payConfig.getPrivateKey());
 
 		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
@@ -119,9 +109,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	@Override
 	public String createH5Order(WxPayOrderCreateRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(request.getMchId());
+
 		String canonicalUrl = "/v3/pay/transactions/h5";
 
-		WxPayOrderCreateResponse response = createUnifiedOrder(canonicalUrl, request);
+		WxPayOrderCreateResponse response = createUnifiedOrder(payConfig, canonicalUrl, request);
 
 		return response.getH5Url();
 	}
@@ -130,12 +122,13 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderQueryResult queryOrderByTransactionId(String transactionId) throws WXException
+	public WxPayOrderQueryResult queryOrderByTransactionId(String mchId, String transactionId) throws WXException
 	{
-		String mchId = credential.getMerchantId();
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = String.format("/v3/pay/transactions/id/%s?mchid=%s", transactionId, mchId);
 
-		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET);
+		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
 
 		try
 		{
@@ -153,12 +146,13 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderQueryResult queryOrderByOutTradeNo(String outTradeNo) throws WXException
+	public WxPayOrderQueryResult queryOrderByOutTradeNo(String mchId, String outTradeNo) throws WXException
 	{
-		String mchId = credential.getMerchantId();
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = String.format("/v3/pay/transactions/out-trade-no/%s?mchid=%s", outTradeNo, mchId);
 
-		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET);
+		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
 
 		try
 		{
@@ -176,10 +170,12 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayOrderQueryResult parsePayOrderNotifyResult(String notifyData, SignatureHeader header) throws WXException
+	public WxPayOrderQueryResult parsePayOrderNotifyResult(String mchId, String notifyData, SignatureHeader header) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!verifier.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
+		if (!verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature(), payConfig))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -191,7 +187,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String cipherText = resource.getCiphertext();
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
-			String apiV3Key = credential.getAPIV3Key();
+			String apiV3Key = payConfig.getApiV3Key();
 
 			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
 
@@ -209,11 +205,13 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayRefundResult refund(WxPayRefundRequest request) throws WXException
+	public WxPayRefundResult refund(String mchId, WxPayRefundRequest request) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		if (StringUtils.isBlank(request.getNotifyUrl()))
 		{
-			request.setNotifyUrl(credential.getRefundNotifyUrl());
+			request.setNotifyUrl(payConfig.getRefundNotifyUrl());
 		}
 
 		String canonicalUrl = "/v3/refund/domestic/refunds";
@@ -222,7 +220,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		{
 			String body = JSONUtils.toJSONString(request);
 
-			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST);
+			RestResponse restResp = httpClient.executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST, false, payConfig);
 
 			WxPayRefundResult result = JSONUtils.parse(restResp.getBody(), WxPayRefundResult.class);
 
@@ -238,11 +236,13 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayRefundResult refundQuery(String outRefundNo) throws WXException
+	public WxPayRefundResult refundQuery(String mchId, String outRefundNo) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String canonicalUrl = String.format("/v3/refund/domestic/refunds/%s", outRefundNo);
 
-		RestResponse restResp = executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET);
+		RestResponse restResp = httpClient.executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, false, payConfig);
 
 		try
 		{
@@ -260,10 +260,12 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WxPayRefundNotifyResult parseRefundNotifyResult(String notifyData, SignatureHeader header) throws WXException
+	public WxPayRefundNotifyResult parseRefundNotifyResult(String mchId, String notifyData, SignatureHeader header) throws WXException
 	{
+		WxPayConfig payConfig = configService.getByMchId(mchId);
+
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!verifier.verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature()))
+		if (!verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature(), payConfig))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -275,7 +277,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String cipherText = resource.getCiphertext();
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
-			String apiV3Key = credential.getAPIV3Key();
+			String apiV3Key = payConfig.getApiV3Key();
 
 			String result = AESUtils.decryptToString(associatedData, nonce, cipherText, apiV3Key);
 
@@ -289,23 +291,24 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		}
 	}
 
-	private WxPayOrderCreateResponse createUnifiedOrder(String canonicalUrl, WxPayOrderCreateRequest request) throws WXException
+	private WxPayOrderCreateResponse createUnifiedOrder(WxPayConfig payConfig, String canonicalUrl, WxPayOrderCreateRequest request)
+	        throws WXException
 	{
 		if (StringUtils.isBlank(request.getMchId()))
 		{
-			request.setMchId(credential.getMerchantId());
+			request.setMchId(payConfig.getMchId());
 		}
 
 		if (StringUtils.isBlank(request.getNotifyUrl()))
 		{
-			request.setNotifyUrl(credential.getPayNotifyUrl());
+			request.setNotifyUrl(payConfig.getPayNotifyUrl());
 		}
 
 		try
 		{
 			String body = JSONUtils.toJSONString(request);
 
-			RestResponse restResp = executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST);
+			RestResponse restResp = httpClient.executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST, false, payConfig);
 
 			WxPayOrderCreateResponse response = JSONUtils.parse(restResp.getBody(), WxPayOrderCreateResponse.class);
 
@@ -317,82 +320,30 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		}
 	}
 
-	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod) throws WXException
+	private boolean verify(String serialNumber, byte[] bytes, String signature, WxPayConfig payConfig) throws WXException
 	{
-		Map<String, String> headerMap = new HashMap<>(3);
-		headerMap.put(HttpConstants.ACCEPT, HttpConstants.HTTP_MEDIA_JSON);
-		headerMap.put(HttpConstants.CONTENT_TYPE, HttpConstants.HTTP_MEDIA_JSON);
+		X509Certificate certificate = payConfig.getCertProvider().getCertificate(serialNumber);
 
-		String authorization = credential.getAuthorization(canonicalUrl, httpMethod, body);
-		headerMap.put(HttpConstants.AUTHORIZATION, authorization);
-
-		String requestPath = ENDPOINT + canonicalUrl;
-
-		RestResponse restResp = null;
-		if (HttpConstants.HTTP_METHOD_POST.equals(httpMethod))
-		{
-			restResp = restClientService.postJSON(requestPath, body, headerMap);
-		}
-		else
-		{
-			restResp = restClientService.get(requestPath, headerMap);
-		}
-
-		if (HttpStatus.TOO_MANY_REQUESTS.value() == restResp.getStatusCode())
-		{
-			throw new WxFrequencyLimitedException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-		else if (HttpStatus.INTERNAL_SERVER_ERROR.value() == restResp.getStatusCode())
-		{
-			throw new WXSystemErrorException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-
-		if (HttpStatus.OK.value() != restResp.getStatusCode() && HttpStatus.NO_CONTENT.value() != restResp.getStatusCode())
-		{
-			throw new WXException("Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-
-		if (!verifier.validate(restResp.getHeaders(), restResp.getBody()))
-		{
-			String requestId = restResp.getHeaders().get(HttpConstants.REQUEST_ID);
-
-			throw new WXException(String.format(
-			        "Validate response failed,the WechatPay signature is incorrect.%n" + "Request-ID[%s], responseBody[%.1024s]", requestId,
-			        restResp.getBody()));
-		}
-
-		return restResp;
+		return RSAUtils.verify(bytes, signature, certificate);
 	}
 
 	/**
-	 * 设置restClientService
+	 * 设置configService
 	 * 
-	 * @param restClientService
+	 * @param configService
 	 */
-	public void setRestClientService(RestClientService restClientService)
+	public void setConfigService(WxPayConfigService configService)
 	{
-		this.restClientService = restClientService;
+		this.configService = configService;
 	}
 
 	/**
-	 * 设置credential
+	 * 设置httpClient
 	 * 
-	 * @param credential
+	 * @param httpClient
 	 */
-	public void setCredential(WxPayCredential credential)
+	public void setHttpClient(WxPayHttpClient httpClient)
 	{
-		this.credential = credential;
-	}
-
-	/**
-	 * 设置verifier
-	 * 
-	 * @param verifier
-	 */
-	public void setVerifier(WxPayVerifier verifier)
-	{
-		this.verifier = verifier;
+		this.httpClient = httpClient;
 	}
 }

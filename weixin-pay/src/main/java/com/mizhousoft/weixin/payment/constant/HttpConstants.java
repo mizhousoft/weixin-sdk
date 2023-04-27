@@ -29,4 +29,6 @@ public interface HttpConstants
 	String HTTP_METHOD_GET = "GET";
 
 	String HTTP_MEDIA_JSON = "application/json";
+	
+	int RESPONSE_EXPIRED_MINUTES = 5;
 }
