@@ -1,6 +1,5 @@
 package com.mizhousoft.weixin.payment.service.impl;
 
-import java.security.cert.X509Certificate;
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
@@ -14,13 +13,13 @@ import org.springframework.http.HttpStatus;
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.commons.restclient.service.RestClientService;
+import com.mizhousoft.weixin.cipher.impl.CipherServiceImpl;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.WXSystemErrorException;
 import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
-import com.mizhousoft.weixin.util.RSAUtils;
 
 /**
  * WxPayHttpClient
@@ -121,9 +120,7 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 		String serialNumber = headers.get(HttpConstants.WECHAT_PAY_SERIAL);
 		LOG.debug("SerialNumber for verifying signatures is [{}]", serialNumber);
 
-		X509Certificate certificate = payConfig.getCertProvider().getCertificate(serialNumber);
-
-		return RSAUtils.verify(message, signature, certificate);
+		return payConfig.getCipherService().verify(serialNumber, message, signature);
 	}
 
 	private String getAuthorization(String canonicalUrl, String httpMethod, String body, WxPayConfig payConfig) throws WXException
@@ -135,12 +132,12 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 		String message = httpMethod + "\n" + canonicalUrl + "\n" + timestamp + "\n" + nonceStr + "\n" + body + "\n";
 
 		String certSerialNumber = payConfig.getCertSerialNumber();
-		String signature = payConfig.getSigner().sign(message);
+		String signature = payConfig.getCipherService().sign(message);
 
 		String token = "mchid=\"" + payConfig.getMchId() + "\"," + "nonce_str=\"" + nonceStr + "\"," + "timestamp=\"" + timestamp + "\","
 		        + "serial_no=\"" + certSerialNumber + "\"," + "signature=\"" + signature + "\"";
 
-		String schema = "WECHATPAY2-" + RSAUtils.ALGORITHM;
+		String schema = "WECHATPAY2-" + CipherServiceImpl.ALGORITHM;
 
 		return schema + " " + token;
 	}

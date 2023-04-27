@@ -1,9 +1,7 @@
 package com.mizhousoft.weixin.payment;
 
 import com.mizhousoft.weixin.certificate.CertificateProvider;
-import com.mizhousoft.weixin.cipher.PrivacyDecryptor;
-import com.mizhousoft.weixin.cipher.PrivacyEncryptor;
-import com.mizhousoft.weixin.cipher.Signer;
+import com.mizhousoft.weixin.cipher.CipherService;
 
 /**
  * 配置
@@ -32,19 +30,9 @@ public class WxPayConfig
 	private volatile String certSerialNumber;
 
 	/**
-	 * 私钥解密器
+	 * 密文服务
 	 */
-	private PrivacyDecryptor decryptor;
-
-	/**
-	 * 公钥加密器
-	 */
-	private PrivacyEncryptor encryptor;
-
-	/**
-	 * 签名
-	 */
-	private Signer signer;
+	private CipherService cipherService;
 
 	/**
 	 * 证书提供者
@@ -68,6 +56,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取identifier
+	 * 
 	 * @return
 	 */
 	public String getIdentifier()
@@ -77,6 +66,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置identifier
+	 * 
 	 * @param identifier
 	 */
 	public void setIdentifier(String identifier)
@@ -86,6 +76,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取mchId
+	 * 
 	 * @return
 	 */
 	public String getMchId()
@@ -95,6 +86,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置mchId
+	 * 
 	 * @param mchId
 	 */
 	public void setMchId(String mchId)
@@ -104,6 +96,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取apiV3Key
+	 * 
 	 * @return
 	 */
 	public String getApiV3Key()
@@ -113,6 +106,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置apiV3Key
+	 * 
 	 * @param apiV3Key
 	 */
 	public void setApiV3Key(String apiV3Key)
@@ -122,6 +116,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取certSerialNumber
+	 * 
 	 * @return
 	 */
 	public String getCertSerialNumber()
@@ -131,6 +126,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置certSerialNumber
+	 * 
 	 * @param certSerialNumber
 	 */
 	public void setCertSerialNumber(String certSerialNumber)
@@ -139,61 +135,28 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取decryptor
+	 * 获取cipherService
+	 * 
 	 * @return
 	 */
-	public PrivacyDecryptor getDecryptor()
+	public CipherService getCipherService()
 	{
-		return decryptor;
+		return cipherService;
 	}
 
 	/**
-	 * 设置decryptor
-	 * @param decryptor
+	 * 设置cipherService
+	 * 
+	 * @param cipherService
 	 */
-	public void setDecryptor(PrivacyDecryptor decryptor)
+	public void setCipherService(CipherService cipherService)
 	{
-		this.decryptor = decryptor;
-	}
-
-	/**
-	 * 获取encryptor
-	 * @return
-	 */
-	public PrivacyEncryptor getEncryptor()
-	{
-		return encryptor;
-	}
-
-	/**
-	 * 设置encryptor
-	 * @param encryptor
-	 */
-	public void setEncryptor(PrivacyEncryptor encryptor)
-	{
-		this.encryptor = encryptor;
-	}
-
-	/**
-	 * 获取signer
-	 * @return
-	 */
-	public Signer getSigner()
-	{
-		return signer;
-	}
-
-	/**
-	 * 设置signer
-	 * @param signer
-	 */
-	public void setSigner(Signer signer)
-	{
-		this.signer = signer;
+		this.cipherService = cipherService;
 	}
 
 	/**
 	 * 获取certProvider
+	 * 
 	 * @return
 	 */
 	public CertificateProvider getCertProvider()
@@ -203,6 +166,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置certProvider
+	 * 
 	 * @param certProvider
 	 */
 	public void setCertProvider(CertificateProvider certProvider)
@@ -212,6 +176,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取endpoint
+	 * 
 	 * @return
 	 */
 	public String getEndpoint()
@@ -221,6 +186,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置endpoint
+	 * 
 	 * @param endpoint
 	 */
 	public void setEndpoint(String endpoint)
@@ -230,6 +196,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取payNotifyUrl
+	 * 
 	 * @return
 	 */
 	public String getPayNotifyUrl()
@@ -239,6 +206,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置payNotifyUrl
+	 * 
 	 * @param payNotifyUrl
 	 */
 	public void setPayNotifyUrl(String payNotifyUrl)
@@ -248,6 +216,7 @@ public class WxPayConfig
 
 	/**
 	 * 获取refundNotifyUrl
+	 * 
 	 * @return
 	 */
 	public String getRefundNotifyUrl()
@@ -257,6 +226,7 @@ public class WxPayConfig
 
 	/**
 	 * 设置refundNotifyUrl
+	 * 
 	 * @param refundNotifyUrl
 	 */
 	public void setRefundNotifyUrl(String refundNotifyUrl)

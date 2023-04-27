@@ -48,7 +48,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			for (TransferDetailList detail : detailList)
 			{
 				String userName = detail.getUserName();
-				String encUserName = payConfig.getEncryptor().encrypt(userName);
+				String encUserName = payConfig.getCipherService().encrypt(userName);
 				detail.setUserName(encUserName);
 			}
 
@@ -121,7 +121,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		{
 			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
 
-			String decUserName = payConfig.getDecryptor().decrypt(result.getUserName());
+			String decUserName = payConfig.getCipherService().decrypt(result.getUserName());
 			result.setUserName(decUserName);
 
 			return result;
@@ -187,7 +187,7 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		{
 			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
 
-			String decUserName = payConfig.getDecryptor().decrypt(result.getUserName());
+			String decUserName = payConfig.getCipherService().decrypt(result.getUserName());
 			result.setUserName(decUserName);
 
 			return result;

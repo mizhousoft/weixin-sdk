@@ -1,7 +1,5 @@
 package com.mizhousoft.weixin.payment.service.impl;
 
-import java.nio.charset.StandardCharsets;
-import java.security.cert.X509Certificate;
 import java.time.Instant;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,8 +8,8 @@ import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
-import com.mizhousoft.weixin.cipher.SignatureHeader;
 import com.mizhousoft.weixin.common.WXException;
+import com.mizhousoft.weixin.payment.SignatureHeader;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.request.WxPayOrderCreateRequest;
@@ -26,7 +24,6 @@ import com.mizhousoft.weixin.payment.service.WxPayConfigService;
 import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
 import com.mizhousoft.weixin.util.AESUtils;
-import com.mizhousoft.weixin.util.RSAUtils;
 
 /**
  * 支付服务
@@ -57,7 +54,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + prepayId + "\n";
 
-		String sign = payConfig.getSigner().sign(message);
+		String sign = payConfig.getCipherService().sign(message);
 
 		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
@@ -90,7 +87,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		String nonceStr = RandomGenerator.genHexString(16, false);
 
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + packageValue + "\n";
-		String sign = payConfig.getSigner().sign(message);
+		String sign = payConfig.getCipherService().sign(message);
 
 		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
 		result.setAppId(request.getAppId());
@@ -175,7 +172,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		WxPayConfig payConfig = configService.getByMchId(mchId);
 
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature(), payConfig))
+		if (!payConfig.getCipherService().verify(header.getSerialNumber(), beforeSign, header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -265,7 +262,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		WxPayConfig payConfig = configService.getByMchId(mchId);
 
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!verify(header.getSerialNumber(), beforeSign.getBytes(StandardCharsets.UTF_8), header.getSignature(), payConfig))
+		if (!payConfig.getCipherService().verify(header.getSerialNumber(), beforeSign, header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -318,13 +315,6 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		{
 			throw new WXException("JSON to object failed.", e);
 		}
-	}
-
-	private boolean verify(String serialNumber, byte[] bytes, String signature, WxPayConfig payConfig) throws WXException
-	{
-		X509Certificate certificate = payConfig.getCertProvider().getCertificate(serialNumber);
-
-		return RSAUtils.verify(bytes, signature, certificate);
 	}
 
 	/**
