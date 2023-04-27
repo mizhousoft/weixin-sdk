@@ -37,6 +37,7 @@ public class RSASigner implements Signer
 		try
 		{
 			Signature signature = Signature.getInstance(SHA256WITHRSA);
+
 			signature.initSign(privateKey);
 			signature.update(message.getBytes(StandardCharsets.UTF_8));
 			byte[] sign = signature.sign();
@@ -45,7 +46,7 @@ public class RSASigner implements Signer
 		}
 		catch (NoSuchAlgorithmException e)
 		{
-			throw new WXException("The current Java environment does not support " + SHA256WITHRSA, e);
+			throw new IllegalArgumentException("The current Java environment does not support RSA.", e);
 		}
 		catch (InvalidKeyException e)
 		{

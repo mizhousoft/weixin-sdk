@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mizhousoft.weixin.certificate.CertificateProvider;
-import com.mizhousoft.weixin.cipher.WxPayVerifier;
+import com.mizhousoft.weixin.cipher.Verifier;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.util.RSAUtils;
@@ -19,9 +19,9 @@ import com.mizhousoft.weixin.util.RSAUtils;
  * RSA验证器
  *
  */
-public class WxPayRASVerifier implements WxPayVerifier
+public class RASVerifier implements Verifier
 {
-	private static final Logger LOG = LoggerFactory.getLogger(WxPayRASVerifier.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RASVerifier.class);
 
 	private static final int RESPONSE_EXPIRED_MINUTES = 5;
 
@@ -32,7 +32,7 @@ public class WxPayRASVerifier implements WxPayVerifier
 	 *
 	 * @param certificateProvider
 	 */
-	public WxPayRASVerifier(CertificateProvider certificateProvider)
+	public RASVerifier(CertificateProvider certificateProvider)
 	{
 		super();
 		this.certificateProvider = certificateProvider;

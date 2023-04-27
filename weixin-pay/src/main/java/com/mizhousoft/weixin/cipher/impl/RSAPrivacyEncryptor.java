@@ -22,20 +22,9 @@ public class RSAPrivacyEncryptor implements PrivacyEncryptor
 {
 	private final PublicKey publicKey;
 
-	private final Cipher cipher;
-
 	public RSAPrivacyEncryptor(PublicKey publicKey)
 	{
 		this.publicKey = publicKey;
-
-		try
-		{
-			cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
-		}
-		catch (NoSuchAlgorithmException | NoSuchPaddingException e)
-		{
-			throw new IllegalArgumentException("The current Java environment does not support RSA.", e);
-		}
 	}
 
 	/**
@@ -46,9 +35,15 @@ public class RSAPrivacyEncryptor implements PrivacyEncryptor
 	{
 		try
 		{
+			Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
 			return Base64.getEncoder().encodeToString(cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
+		}
+		catch (NoSuchAlgorithmException | NoSuchPaddingException e)
+		{
+			throw new IllegalArgumentException("The current Java environment does not support RSA.", e);
 		}
 		catch (InvalidKeyException e)
 		{

@@ -22,20 +22,9 @@ public class RSAPrivacyDecryptor implements PrivacyDecryptor
 {
 	private PrivateKey privateKey;
 
-	private Cipher cipher;
-
 	public RSAPrivacyDecryptor(PrivateKey privateKey)
 	{
 		this.privateKey = privateKey;
-
-		try
-		{
-			cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
-		}
-		catch (NoSuchAlgorithmException | NoSuchPaddingException e)
-		{
-			throw new IllegalArgumentException("The current Java environment does not support RSA.", e);
-		}
 	}
 
 	/**
@@ -46,8 +35,15 @@ public class RSAPrivacyDecryptor implements PrivacyDecryptor
 	{
 		try
 		{
+			Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
+
 			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+
 			return new String(cipher.doFinal(Base64.getDecoder().decode(ciphertext)), StandardCharsets.UTF_8);
+		}
+		catch (NoSuchAlgorithmException | NoSuchPaddingException e)
+		{
+			throw new IllegalArgumentException("The current Java environment does not support RSA.", e);
 		}
 		catch (InvalidKeyException e)
 		{

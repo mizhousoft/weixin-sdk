@@ -8,7 +8,7 @@ import com.mizhousoft.weixin.common.WXException;
  * 验证器
  *
  */
-public interface WxPayVerifier
+public interface Verifier
 {
 	/**
 	 * 验证返回是否合法
