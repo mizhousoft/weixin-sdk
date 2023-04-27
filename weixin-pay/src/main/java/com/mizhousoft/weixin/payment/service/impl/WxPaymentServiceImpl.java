@@ -8,6 +8,7 @@ import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
+import com.mizhousoft.weixin.cipher.CipherService;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.SignatureHeader;
 import com.mizhousoft.weixin.payment.WxPayConfig;
@@ -51,7 +52,6 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		String nonceStr = RandomGenerator.genHexString(16, false);
 
 		String message = request.getAppId() + "\n" + timestamp + "\n" + nonceStr + "\n" + prepayId + "\n";
-
 		String sign = payConfig.getCipherService().sign(message);
 
 		WxPayOrderCreateResult result = new WxPayOrderCreateResult();
@@ -168,9 +168,10 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayOrderQueryResult parsePayOrderNotifyResult(String mchId, String notifyData, SignatureHeader header) throws WXException
 	{
 		WxPayConfig payConfig = configService.getByMchId(mchId);
+		CipherService cipherService = payConfig.getCipherService();
 
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!payConfig.getCipherService().verify(header.getSerialNumber(), beforeSign, header.getSignature()))
+		if (!cipherService.verify(header.getSerialNumber(), beforeSign, header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -183,7 +184,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
 
-			String result = payConfig.getCipherService().decryptResult(associatedData, nonce, cipherText);
+			String result = cipherService.decryptResult(associatedData, nonce, cipherText);
 
 			WxPayOrderQueryResult queryResult = JSONUtils.parse(result, WxPayOrderQueryResult.class);
 
@@ -257,9 +258,10 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	public WxPayRefundNotifyResult parseRefundNotifyResult(String mchId, String notifyData, SignatureHeader header) throws WXException
 	{
 		WxPayConfig payConfig = configService.getByMchId(mchId);
+		CipherService cipherService = payConfig.getCipherService();
 
 		String beforeSign = String.format("%s\n%s\n%s\n", header.getTimeStamp(), header.getNonce(), notifyData);
-		if (!payConfig.getCipherService().verify(header.getSerialNumber(), beforeSign, header.getSignature()))
+		if (!cipherService.verify(header.getSerialNumber(), beforeSign, header.getSignature()))
 		{
 			throw new WXException("Request invalid.");
 		}
@@ -272,7 +274,7 @@ public class WxPaymentServiceImpl implements WxPaymentService
 			String associatedData = resource.getAssociatedData();
 			String nonce = resource.getNonce();
 
-			String result = payConfig.getCipherService().decryptResult(associatedData, nonce, cipherText);
+			String result = cipherService.decryptResult(associatedData, nonce, cipherText);
 
 			WxPayRefundNotifyResult refundResult = JSONUtils.parse(result, WxPayRefundNotifyResult.class);
 

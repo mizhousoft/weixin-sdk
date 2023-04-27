@@ -15,8 +15,6 @@ import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
  */
 public interface WxPaymentService
 {
-	String ENDPOINT = "https://api.mch.weixin.qq.com";
-
 	/**
 	 * 创建订单
 	 * 
