@@ -64,7 +64,7 @@ public class BatcheQueryResult
 	@JsonProperty(value = "transfer_detail_list")
 	private List<TransferDetail> transferDetailList;
 
-	public class TransferBatch
+	public static class TransferBatch
 	{
 		/**
 		 * <pre>
@@ -654,7 +654,7 @@ public class BatcheQueryResult
 		}
 	}
 
-	public class TransferDetail
+	public static class TransferDetail
 	{
 		/**
 		 * <pre>

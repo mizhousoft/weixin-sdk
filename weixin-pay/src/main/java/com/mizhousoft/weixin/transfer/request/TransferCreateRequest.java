@@ -107,7 +107,7 @@ public class TransferCreateRequest
 	@JsonProperty(value = "transfer_detail_list")
 	private List<TransferDetailList> transferDetailList;
 
-	public class TransferDetailList
+	public static class TransferDetailList
 	{
 		/**
 		 * <pre>
