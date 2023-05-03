@@ -88,6 +88,11 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 			throw new WXSystemErrorException(
 			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
 		}
+		else if (HttpStatus.OK.value() != restResp.getStatusCode())
+		{
+			throw new WXException(String.valueOf(restResp.getStatusCode()),
+			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+		}
 
 		if (HttpStatus.OK.value() != restResp.getStatusCode() && HttpStatus.NO_CONTENT.value() != restResp.getStatusCode())
 		{
