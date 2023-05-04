@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
+import com.mizhousoft.commons.json.JSONException;
+import com.mizhousoft.commons.json.JSONUtils;
 import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.cipher.impl.CipherServiceImpl;
@@ -19,6 +21,7 @@ import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.WXSystemErrorException;
 import com.mizhousoft.weixin.common.WxFrequencyLimitedException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
+import com.mizhousoft.weixin.payment.WxPayError;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 
@@ -78,25 +81,9 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 			restResp = restClientService.get(requestPath, headerMap);
 		}
 
-		if (HttpStatus.TOO_MANY_REQUESTS.value() == restResp.getStatusCode())
-		{
-			throw new WxFrequencyLimitedException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-		else if (HttpStatus.INTERNAL_SERVER_ERROR.value() == restResp.getStatusCode())
-		{
-			throw new WXSystemErrorException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-		else if (HttpStatus.OK.value() != restResp.getStatusCode())
-		{
-			throw new WXException(String.valueOf(restResp.getStatusCode()),
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
-		}
-
 		if (HttpStatus.OK.value() != restResp.getStatusCode() && HttpStatus.NO_CONTENT.value() != restResp.getStatusCode())
 		{
-			throw new WXException("Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+			handleException(restResp);
 		}
 
 		if (!validate(restResp.getHeaders(), restResp.getBody(), payConfig))
@@ -109,6 +96,37 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 		}
 
 		return restResp;
+	}
+
+	private void handleException(RestResponse restResp) throws WXException
+	{
+		if (HttpStatus.TOO_MANY_REQUESTS.value() == restResp.getStatusCode())
+		{
+			throw new WxFrequencyLimitedException(
+			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+		}
+		else if (HttpStatus.INTERNAL_SERVER_ERROR.value() == restResp.getStatusCode())
+		{
+			throw new WXSystemErrorException(
+			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+		}
+
+		try
+		{
+			WxPayError error = JSONUtils.parse(restResp.getBody(), WxPayError.class);
+
+			if (null != error)
+			{
+				throw new WXException(error.getCode(), error.getMessage());
+			}
+		}
+		catch (JSONException e)
+		{
+			// ignore
+		}
+
+		throw new WXException(String.valueOf(restResp.getStatusCode()),
+		        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
 	}
 
 	private boolean validate(Map<String, String> headers, String body, WxPayConfig payConfig) throws WXException
