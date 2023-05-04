@@ -38,14 +38,14 @@ public class CipherServiceImpl implements CipherService
 	private volatile String apiV3Key;
 
 	/**
-	 * 私钥
+	 * 商户私钥
 	 */
-	private volatile PrivateKey privateKey;
+	private volatile PrivateKey mchPrivKey;
 
 	/**
-	 * 公钥
+	 * 微信支付平台公钥
 	 */
-	private volatile PublicKey publicKey;
+	private volatile PublicKey platformPubKey;
 
 	/**
 	 * 证书提供者
@@ -56,16 +56,16 @@ public class CipherServiceImpl implements CipherService
 	 * 构造函数
 	 *
 	 * @param apiV3Key
-	 * @param privateKey
-	 * @param publicKey
+	 * @param mchPrivKey
+	 * @param platformPubKey
 	 * @param certificateProvider
 	 */
-	public CipherServiceImpl(String apiV3Key, PrivateKey privateKey, PublicKey publicKey, CertificateProvider certificateProvider)
+	public CipherServiceImpl(String apiV3Key, PrivateKey mchPrivKey, PublicKey platformPubKey, CertificateProvider certificateProvider)
 	{
 		super();
 		this.apiV3Key = apiV3Key;
-		this.privateKey = privateKey;
-		this.publicKey = publicKey;
+		this.mchPrivKey = mchPrivKey;
+		this.platformPubKey = platformPubKey;
 		this.certificateProvider = certificateProvider;
 	}
 
@@ -115,7 +115,7 @@ public class CipherServiceImpl implements CipherService
 		{
 			Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
 
-			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+			cipher.init(Cipher.DECRYPT_MODE, mchPrivKey);
 
 			return new String(cipher.doFinal(Base64.getDecoder().decode(ciphertext)), StandardCharsets.UTF_8);
 		}
@@ -143,7 +143,7 @@ public class CipherServiceImpl implements CipherService
 		{
 			Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-1AndMGF1Padding");
 
-			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+			cipher.init(Cipher.ENCRYPT_MODE, platformPubKey);
 
 			return Base64.getEncoder().encodeToString(cipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
 		}
@@ -171,7 +171,7 @@ public class CipherServiceImpl implements CipherService
 		{
 			Signature signature = Signature.getInstance(SHA256WITHRSA);
 
-			signature.initSign(privateKey);
+			signature.initSign(mchPrivKey);
 			signature.update(message.getBytes(StandardCharsets.UTF_8));
 			byte[] sign = signature.sign();
 

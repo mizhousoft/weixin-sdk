@@ -4,7 +4,6 @@ import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -62,7 +61,7 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 
 		if (withSerial)
 		{
-			String serialNumber = payConfig.getCertSerialNumber().toUpperCase(Locale.ENGLISH);
+			String serialNumber = payConfig.getPlatformCertSerialNumber();
 			headerMap.put(HttpConstants.WECHAT_PAY_SERIAL, serialNumber);
 		}
 
@@ -173,7 +172,7 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 
 		String message = httpMethod + "\n" + canonicalUrl + "\n" + timestamp + "\n" + nonceStr + "\n" + body + "\n";
 
-		String certSerialNumber = payConfig.getCertSerialNumber();
+		String certSerialNumber = payConfig.getMchCertSerialNumber();
 		String signature = payConfig.getCipherService().sign(message);
 
 		String token = "mchid=\"" + payConfig.getMchId() + "\"," + "nonce_str=\"" + nonceStr + "\"," + "timestamp=\"" + timestamp + "\","

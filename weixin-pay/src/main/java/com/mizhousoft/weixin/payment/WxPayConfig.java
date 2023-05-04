@@ -19,9 +19,14 @@ public class WxPayConfig
 	private volatile String mchId;
 
 	/**
-	 * 证书序列号
+	 * 商户证书序列号
 	 */
-	private volatile String certSerialNumber;
+	private volatile String mchCertSerialNumber;
+
+	/**
+	 * 商户平台证书序列号
+	 */
+	private volatile String platformCertSerialNumber;
 
 	/**
 	 * 密文服务
@@ -84,23 +89,43 @@ public class WxPayConfig
 	}
 
 	/**
-	 * 获取certSerialNumber
+	 * 获取mchCertSerialNumber
 	 * 
 	 * @return
 	 */
-	public String getCertSerialNumber()
+	public String getMchCertSerialNumber()
 	{
-		return certSerialNumber;
+		return mchCertSerialNumber;
 	}
 
 	/**
-	 * 设置certSerialNumber
+	 * 设置mchCertSerialNumber
 	 * 
-	 * @param certSerialNumber
+	 * @param mchCertSerialNumber
 	 */
-	public void setCertSerialNumber(String certSerialNumber)
+	public void setMchCertSerialNumber(String mchCertSerialNumber)
 	{
-		this.certSerialNumber = certSerialNumber;
+		this.mchCertSerialNumber = mchCertSerialNumber;
+	}
+
+	/**
+	 * 获取platformCertSerialNumber
+	 * 
+	 * @return
+	 */
+	public String getPlatformCertSerialNumber()
+	{
+		return platformCertSerialNumber;
+	}
+
+	/**
+	 * 设置platformCertSerialNumber
+	 * 
+	 * @param platformCertSerialNumber
+	 */
+	public void setPlatformCertSerialNumber(String platformCertSerialNumber)
+	{
+		this.platformCertSerialNumber = platformCertSerialNumber;
 	}
 
 	/**
