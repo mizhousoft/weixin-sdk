@@ -15,6 +15,7 @@ import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 
@@ -27,6 +28,11 @@ import com.mizhousoft.weixin.common.WXException;
  */
 public abstract class PemLoader
 {
+	public static String getSerialNumber(X509Certificate certificate)
+	{
+		return certificate.getSerialNumber().toString(16).toUpperCase(Locale.ENGLISH);
+	}
+
 	/**
 	 * 从文件路径加载X.509证书
 	 *
