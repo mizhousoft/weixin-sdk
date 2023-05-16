@@ -24,10 +24,6 @@
 			<version>${weixin.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-		</dependency>
-		<dependency>
 		  	<groupId>com.github.wechatpay-apiv3</groupId>
 		  	<artifactId>wechatpay-java</artifactId>
 		  	<version>0.2.7</version>
