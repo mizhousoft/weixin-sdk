@@ -1,7 +1,7 @@
 package com.mizhousoft.weixin.mp.domain.material;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,12 +18,12 @@ public class WxMpMaterialNews extends WxError
 	// 创建时间
 	@JsonProperty("create_time")
 	@JsonDeserialize(using = NumericDateDeserializer.class)
-	private Date createTime;
+	private LocalDateTime createTime;
 
 	// 更新时间
 	@JsonProperty("update_time")
 	@JsonDeserialize(using = NumericDateDeserializer.class)
-	private Date updateTime;
+	private LocalDateTime updateTime;
 
 	// 文章
 	@JsonProperty("news_item")
@@ -34,7 +34,7 @@ public class WxMpMaterialNews extends WxError
 	 * 
 	 * @return
 	 */
-	public Date getCreateTime()
+	public LocalDateTime getCreateTime()
 	{
 		return createTime;
 	}
@@ -44,7 +44,7 @@ public class WxMpMaterialNews extends WxError
 	 * 
 	 * @param createTime
 	 */
-	public void setCreateTime(Date createTime)
+	public void setCreateTime(LocalDateTime createTime)
 	{
 		this.createTime = createTime;
 	}
@@ -54,7 +54,7 @@ public class WxMpMaterialNews extends WxError
 	 * 
 	 * @return
 	 */
-	public Date getUpdateTime()
+	public LocalDateTime getUpdateTime()
 	{
 		return updateTime;
 	}
@@ -64,7 +64,7 @@ public class WxMpMaterialNews extends WxError
 	 * 
 	 * @param updateTime
 	 */
-	public void setUpdateTime(Date updateTime)
+	public void setUpdateTime(LocalDateTime updateTime)
 	{
 		this.updateTime = updateTime;
 	}

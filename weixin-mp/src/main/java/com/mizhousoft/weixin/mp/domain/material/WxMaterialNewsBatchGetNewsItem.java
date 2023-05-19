@@ -1,6 +1,6 @@
 package com.mizhousoft.weixin.mp.domain.material;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -19,7 +19,7 @@ public class WxMaterialNewsBatchGetNewsItem
 	// 更新时间
 	@JsonProperty("update_time")
 	@JsonDeserialize(using = NumericDateDeserializer.class)
-	private Date updateTime;
+	private LocalDateTime updateTime;
 
 	// 内容
 	@JsonProperty("content")
@@ -50,7 +50,7 @@ public class WxMaterialNewsBatchGetNewsItem
 	 * 
 	 * @return
 	 */
-	public Date getUpdateTime()
+	public LocalDateTime getUpdateTime()
 	{
 		return updateTime;
 	}
@@ -60,7 +60,7 @@ public class WxMaterialNewsBatchGetNewsItem
 	 * 
 	 * @param updateTime
 	 */
-	public void setUpdateTime(Date updateTime)
+	public void setUpdateTime(LocalDateTime updateTime)
 	{
 		this.updateTime = updateTime;
 	}
