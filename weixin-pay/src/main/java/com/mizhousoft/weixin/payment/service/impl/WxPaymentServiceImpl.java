@@ -117,6 +117,21 @@ public class WxPaymentServiceImpl implements WxPaymentService
 	 * {@inheritDoc}
 	 */
 	@Override
+	public String createNativeOrder(WxPayOrderCreateRequest request) throws WXException
+	{
+		WxPayConfig payConfig = configService.getByMchId(request.getMchId());
+
+		String canonicalUrl = "/v3/pay/transactions/native";
+
+		WxPayOrderCreateResponse response = createUnifiedOrder(payConfig, canonicalUrl, request);
+
+		return response.getCodeUrl();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public WxPayOrderQueryResult queryOrderByTransactionId(String mchId, String transactionId) throws WXException
 	{
 		WxPayConfig payConfig = configService.getByMchId(mchId);

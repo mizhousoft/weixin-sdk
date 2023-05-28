@@ -43,6 +43,15 @@ public interface WxPaymentService
 	String createH5Order(WxPayOrderCreateRequest request) throws WXException;
 
 	/**
+	 * 创建订单
+	 * 
+	 * @param request
+	 * @return
+	 * @throws WXException
+	 */
+	String createNativeOrder(WxPayOrderCreateRequest request) throws WXException;
+
+	/**
 	 * 查询订单
 	 * 
 	 * @param mchId
