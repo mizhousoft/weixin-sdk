@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
+import com.mizhousoft.commons.restclient.RestException;
 import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.cipher.impl.CipherServiceImpl;
@@ -71,13 +72,21 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 		String requestPath = payConfig.getEndpoint() + canonicalUrl;
 
 		RestResponse restResp = null;
-		if (HttpConstants.HTTP_METHOD_POST.equals(httpMethod))
+
+		try
 		{
-			restResp = restClientService.postJSON(requestPath, body, headerMap);
+			if (HttpConstants.HTTP_METHOD_POST.equals(httpMethod))
+			{
+				restResp = restClientService.postJSON(requestPath, body, headerMap);
+			}
+			else
+			{
+				restResp = restClientService.get(requestPath, headerMap);
+			}
 		}
-		else
+		catch (RestException e)
 		{
-			restResp = restClientService.get(requestPath, headerMap);
+			throw new WXException("Request failed.", e);
 		}
 
 		if (HttpStatus.OK.value() != restResp.getStatusCode() && HttpStatus.NO_CONTENT.value() != restResp.getStatusCode())
