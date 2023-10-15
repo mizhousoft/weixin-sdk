@@ -20,6 +20,8 @@
 	<properties>
 		<commons.version>1.7.0-SNAPSHOT</commons.version>
 		<weixin.version>1.7.0-SNAPSHOT</weixin.version>
+		
+		<mizhousoft.boot.version>1.7.0-SNAPSHOT</mizhousoft.boot.version>
 	</properties>
 
 	<modules>
@@ -29,6 +31,7 @@
 		<module>weixin-miniapp</module>
 		<module>weixin-pay</module>
 		<module>weixin-all</module>
+		<module>weixin-spring-boot-starter</module>
 	</modules>
 
 </project>
