@@ -9,6 +9,9 @@ import com.mizhousoft.weixin.mp.domain.menu.WxMpMenuBody;
 import com.mizhousoft.weixin.mp.service.WxMpMenuService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
+
 /**
  * 菜单服务
  *
@@ -44,7 +47,7 @@ public class WxMpMenuServiceImpl implements WxMpMenuService
 			String url = API_URL_PREFIX + "/create";
 			url = url + "?access_token=" + accessToken;
 
-			String data = wxMpService.getRestClientService().postForObject(url, body, String.class);
+			String data = Unirest.post(url).body(body).asString().getBody();
 
 			WxError result = JSONUtils.parse(data, WxError.class);
 
@@ -54,6 +57,10 @@ public class WxMpMenuServiceImpl implements WxMpMenuService
 			}
 
 			return null;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{
@@ -67,15 +74,22 @@ public class WxMpMenuServiceImpl implements WxMpMenuService
 	@Override
 	public WxMpMenuBody getMenus() throws WXException
 	{
-		String url = API_URL_PREFIX + "/create";
+		try
+		{
+			String url = API_URL_PREFIX + "/create";
 
-		String accessToken = wxMpService.getAccessToken();
+			String accessToken = wxMpService.getAccessToken();
 
-		url = url + "?access_token=" + accessToken;
+			url = url + "?access_token=" + accessToken;
 
-		WxMpMenuBody data = wxMpService.getRestClientService().getForObject(url, WxMpMenuBody.class);
+			WxMpMenuBody data = Unirest.get(url).asObject(WxMpMenuBody.class).getBody();
 
-		return data;
+			return data;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
+		}
 	}
 
 }

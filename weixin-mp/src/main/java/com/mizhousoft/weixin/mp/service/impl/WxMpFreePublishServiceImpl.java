@@ -13,6 +13,9 @@ import com.mizhousoft.weixin.mp.domain.freepublish.WxMpFreePublishList;
 import com.mizhousoft.weixin.mp.service.WxMpFreePublishService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
+
 /**
  * 微信 发布能力 接口.
  *
@@ -50,7 +53,8 @@ public class WxMpFreePublishServiceImpl implements WxMpFreePublishService
 			String accessToken = wxMpService.getAccessToken();
 
 			url = url + "?access_token=" + accessToken;
-			String data = wxMpService.getRestClientService().postForObject(url, body, String.class);
+
+			String data = Unirest.post(url).body(body).asString().getBody();
 
 			WxMpFreePublishInfo result = JSONUtils.parse(data, WxMpFreePublishInfo.class);
 
@@ -60,6 +64,10 @@ public class WxMpFreePublishServiceImpl implements WxMpFreePublishService
 			}
 
 			return result;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{
@@ -86,7 +94,8 @@ public class WxMpFreePublishServiceImpl implements WxMpFreePublishService
 			String accessToken = wxMpService.getAccessToken();
 
 			url = url + "?access_token=" + accessToken;
-			String data = wxMpService.getRestClientService().postForObject(url, body, String.class);
+
+			String data = Unirest.post(url).body(body).asString().getBody();
 
 			WxMpFreePublishList result = JSONUtils.parse(data, WxMpFreePublishList.class);
 
@@ -96,6 +105,10 @@ public class WxMpFreePublishServiceImpl implements WxMpFreePublishService
 			}
 
 			return result;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{

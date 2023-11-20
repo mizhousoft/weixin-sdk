@@ -8,6 +8,9 @@ import com.mizhousoft.weixin.mp.domain.template.WxMpTemplateMessage;
 import com.mizhousoft.weixin.mp.service.WxMpService;
 import com.mizhousoft.weixin.mp.service.WxMpTemplateMsgService;
 
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
+
 /**
  * 模板消息服务
  *
@@ -41,13 +44,18 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService
 			String accessToken = wxMpService.getAccessToken();
 			String url = String.format(MESSAGE_TEMPLATE_SEND, accessToken);
 
-			MpTemplateMessageResult result = wxMpService.getRestClientService().postForObject(url, body, MpTemplateMessageResult.class);
+			MpTemplateMessageResult result = Unirest.post(url).body(body).asObject(MpTemplateMessageResult.class).getBody();
+
 			if ("0".equals(result.getErrorCode()))
 			{
 				return result.getMessageId();
 			}
 
 			throw new WXException(result.getErrorMsg());
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{

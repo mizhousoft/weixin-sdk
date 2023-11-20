@@ -6,7 +6,6 @@ import org.bouncycastle.util.encoders.Base64;
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
-import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.model.WxAccessToken;
 import com.mizhousoft.weixin.mp.config.WxMpConfig;
@@ -19,6 +18,9 @@ import com.mizhousoft.weixin.mp.service.WxMpUserService;
 import com.mizhousoft.weixin.mp.util.WxMpCryptUtils;
 import com.mizhousoft.weixin.mp.util.WxMpDomUtils;
 
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
+
 /**
  * 微信公众号服务
  *
@@ -27,9 +29,6 @@ public class WxMpServiceImpl implements WxMpService
 {
 	// 公众号配置
 	private WxMpConfig config;
-
-	// REST服务
-	private RestClientService restClientService;
 
 	// 访问Token
 	private volatile String accessToken;
@@ -120,10 +119,11 @@ public class WxMpServiceImpl implements WxMpService
 		if (isAccessTokenExpired())
 		{
 			String url = String.format(GET_ACCESS_TOKEN_URL, config.getAppId(), config.getAppSecret());
-			String responseContent = restClientService.getForObject(url, String.class);
 
 			try
 			{
+				String responseContent = Unirest.get(url).asString().getBody();
+
 				WxAccessToken wxAccessToken = JSONUtils.parse(responseContent, WxAccessToken.class);
 
 				if (!StringUtils.isBlank(wxAccessToken.getErrorCode()))
@@ -133,6 +133,10 @@ public class WxMpServiceImpl implements WxMpService
 
 				this.accessToken = wxAccessToken.getAccessToken();
 				this.expiresTime = System.currentTimeMillis() + (wxAccessToken.getExpiresIn() - 200) * 1000L;
+			}
+			catch (UnirestException e)
+			{
+				throw new WXException(e.getMessage(), e);
 			}
 			catch (JSONException e)
 			{
@@ -194,15 +198,6 @@ public class WxMpServiceImpl implements WxMpService
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public RestClientService getRestClientService()
-	{
-		return restClientService;
-	}
-
-	/**
 	 * 设置config
 	 * 
 	 * @param config
@@ -211,15 +206,4 @@ public class WxMpServiceImpl implements WxMpService
 	{
 		this.config = config;
 	}
-
-	/**
-	 * 设置restClientService
-	 * 
-	 * @param restClientService
-	 */
-	public void setRestClientService(RestClientService restClientService)
-	{
-		this.restClientService = restClientService;
-	}
-
 }

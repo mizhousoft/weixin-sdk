@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
-import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
 import com.mizhousoft.weixin.payment.service.WxPayConfigService;
@@ -19,6 +18,8 @@ import com.mizhousoft.weixin.transfer.result.BatcheQueryResult;
 import com.mizhousoft.weixin.transfer.result.DetailQueryResult;
 import com.mizhousoft.weixin.transfer.result.TransferCreateResult;
 import com.mizhousoft.weixin.transfer.service.MerchantTransferService;
+
+import kong.unirest.core.HttpResponse;
 
 /**
  * 商家转账到零钱（直联商户）
@@ -53,9 +54,9 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 
 			String body = JSONUtils.toJSONString(request);
 
-			RestResponse restResp = httpClient.post(body, canonicalUrl, true, payConfig);
+			HttpResponse<String> httpResp = httpClient.post(body, canonicalUrl, true, payConfig);
 
-			TransferCreateResult result = JSONUtils.parse(restResp.getBody(), TransferCreateResult.class);
+			TransferCreateResult result = JSONUtils.parse(httpResp.getBody(), TransferCreateResult.class);
 
 			return result;
 		}
@@ -89,11 +90,11 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			canonicalUrl = String.format("%s&detail_status=%s", canonicalUrl, request.getDetailStatus());
 		}
 
-		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
+		HttpResponse<String> httpResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
-			BatcheQueryResult result = JSONUtils.parse(restResp.getBody(), BatcheQueryResult.class);
+			BatcheQueryResult result = JSONUtils.parse(httpResp.getBody(), BatcheQueryResult.class);
 
 			return result;
 		}
@@ -114,11 +115,11 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		String canonicalUrl = String.format("/v3/transfer/batches/batch-id/%s/details/detail-id/%s", request.getBatchId(),
 		        request.getDetailId());
 
-		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
+		HttpResponse<String> httpResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
-			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
+			DetailQueryResult result = JSONUtils.parse(httpResp.getBody(), DetailQueryResult.class);
 
 			String decUserName = payConfig.getCipherService().decryptSensitiveField(result.getUserName());
 			result.setUserName(decUserName);
@@ -155,11 +156,11 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 			canonicalUrl = String.format("%s&detail_status=%s", canonicalUrl, request.getDetailStatus());
 		}
 
-		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
+		HttpResponse<String> httpResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
-			BatcheQueryResult result = JSONUtils.parse(restResp.getBody(), BatcheQueryResult.class);
+			BatcheQueryResult result = JSONUtils.parse(httpResp.getBody(), BatcheQueryResult.class);
 
 			return result;
 		}
@@ -180,11 +181,11 @@ public class MerchantTransferServiceImpl implements MerchantTransferService
 		String canonicalUrl = String.format("/v3/transfer/batches/out-batch-no/%s/details/out-detail-no/%s", request.getOutBatchNo(),
 		        request.getOutDetailNo());
 
-		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
+		HttpResponse<String> httpResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
-			DetailQueryResult result = JSONUtils.parse(restResp.getBody(), DetailQueryResult.class);
+			DetailQueryResult result = JSONUtils.parse(httpResp.getBody(), DetailQueryResult.class);
 
 			String decUserName = payConfig.getCipherService().decryptSensitiveField(result.getUserName());
 			result.setUserName(decUserName);

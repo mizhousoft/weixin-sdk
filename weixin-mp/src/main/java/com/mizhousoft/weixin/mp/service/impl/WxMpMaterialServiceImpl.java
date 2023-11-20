@@ -1,6 +1,6 @@
 package com.mizhousoft.weixin.mp.service.impl;
 
-import java.io.InputStream;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +17,9 @@ import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialNewsBatchGetResult;
 import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialVideoInfoResult;
 import com.mizhousoft.weixin.mp.service.WxMpMaterialService;
 import com.mizhousoft.weixin.mp.service.WxMpService;
+
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
 
 /**
  * 素材服务
@@ -55,7 +58,8 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			String accessToken = wxMpService.getAccessToken();
 
 			url = url + "?access_token=" + accessToken;
-			String data = wxMpService.getRestClientService().postForObject(url, body, String.class);
+
+			String data = Unirest.post(url).body(body).asString().getBody();
 
 			WxMpMaterialVideoInfoResult result = JSONUtils.parse(data, WxMpMaterialVideoInfoResult.class);
 
@@ -76,7 +80,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 	 * {@inheritDoc}
 	 */
 	@Override
-	public InputStream materialImageOrVoiceDownload(String mediaId) throws WXException
+	public File materialImageOrVoiceDownload(String mediaId, String destFilePath) throws WXException
 	{
 		try
 		{
@@ -89,9 +93,10 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			String accessToken = wxMpService.getAccessToken();
 
 			url = url + "?access_token=" + accessToken;
-			InputStream istream = wxMpService.getRestClientService().download(url, body);
 
-			return istream;
+			File file = Unirest.post(url).body(body).asFile(destFilePath).getBody();
+
+			return file;
 		}
 		catch (JSONException e)
 		{
@@ -116,7 +121,8 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			String accessToken = wxMpService.getAccessToken();
 
 			url = url + "?access_token=" + accessToken;
-			String data = wxMpService.getRestClientService().postForObject(url, body, String.class);
+
+			String data = Unirest.post(url).body(body).asString().getBody();
 
 			WxMpMaterialNews result = JSONUtils.parse(data, WxMpMaterialNews.class);
 
@@ -126,6 +132,10 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			}
 
 			return result;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{
@@ -144,10 +154,11 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 		String accessToken = wxMpService.getAccessToken();
 
 		url = url + "?access_token=" + accessToken;
-		String data = wxMpService.getRestClientService().getForObject(url, String.class);
 
 		try
 		{
+			String data = Unirest.get(url).asString().getBody();
+
 			WxMpMaterialCountResult result = JSONUtils.parse(data, WxMpMaterialCountResult.class);
 
 			if (!StringUtils.isBlank(result.getErrorCode()))
@@ -156,6 +167,10 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			}
 
 			return result;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{
@@ -182,7 +197,8 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			String accessToken = wxMpService.getAccessToken();
 
 			url = url + "?access_token=" + accessToken;
-			String data = wxMpService.getRestClientService().postForObject(url, body, String.class);
+
+			String data = Unirest.post(url).body(body).asString().getBody();
 
 			WxMpMaterialNewsBatchGetResult result = JSONUtils.parse(data, WxMpMaterialNewsBatchGetResult.class);
 
@@ -192,6 +208,10 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			}
 
 			return result;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{
@@ -218,7 +238,8 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			String accessToken = wxMpService.getAccessToken();
 
 			url = url + "?access_token=" + accessToken;
-			String data = wxMpService.getRestClientService().postForObject(url, body, String.class);
+
+			String data = Unirest.post(url).body(body).asString().getBody();
 
 			WxMpMaterialFileBatchGetResult result = JSONUtils.parse(data, WxMpMaterialFileBatchGetResult.class);
 
@@ -228,6 +249,10 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService
 			}
 
 			return result;
+		}
+		catch (UnirestException e)
+		{
+			throw new WXException(e.getMessage(), e);
 		}
 		catch (JSONException e)
 		{

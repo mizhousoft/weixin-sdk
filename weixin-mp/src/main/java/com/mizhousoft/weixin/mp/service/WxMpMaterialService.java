@@ -1,6 +1,6 @@
 package com.mizhousoft.weixin.mp.service;
 
-import java.io.InputStream;
+import java.io.File;
 
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.mp.domain.material.WxMpMaterialCountResult;
@@ -30,10 +30,11 @@ public interface WxMpMaterialService
 	 * 获取声音或者图片永久素材
 	 * 
 	 * @param mediaId
+	 * @param destFilePath
 	 * @return
 	 * @throws WXException
 	 */
-	InputStream materialImageOrVoiceDownload(String mediaId) throws WXException;
+	File materialImageOrVoiceDownload(String mediaId, String destFilePath) throws WXException;
 
 	/**
 	 * 获取图文永久素材的信息

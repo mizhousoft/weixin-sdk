@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import com.mizhousoft.boot.weixin.properties.WeixinMPProperties;
 import com.mizhousoft.boot.weixin.properties.WeixinMiniProperties;
 import com.mizhousoft.boot.weixin.properties.WeixinOpenProperties;
-import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.miniapp.config.MiniAppConfig;
 import com.mizhousoft.weixin.miniapp.service.WxMiniAppService;
 import com.mizhousoft.weixin.miniapp.service.impl.WxMiniAppServiceImpl;
@@ -41,9 +40,6 @@ public class WeixinConfiguration
 	@Autowired
 	private WeixinMiniProperties miniProperties;
 
-	@Autowired
-	private RestClientService restClientService;
-
 	@Bean
 	@ConditionalOnProperty("weixin.open.app-id")
 	public WxOpenService getWxOpenService()
@@ -54,7 +50,6 @@ public class WeixinConfiguration
 
 		WxOpenServiceImpl wxOpenService = new WxOpenServiceImpl();
 		wxOpenService.setConfig(wxOpenConfig);
-		wxOpenService.setRestClientService(restClientService);
 
 		return wxOpenService;
 	}
@@ -72,7 +67,6 @@ public class WeixinConfiguration
 		config.setAesKey(miniProperties.getAesKey());
 
 		wxMiniAppService.setConfig(config);
-		wxMiniAppService.setRestClientService(restClientService);
 
 		return wxMiniAppService;
 	}
@@ -88,7 +82,6 @@ public class WeixinConfiguration
 		config.setAesKey(mpProperties.getAesKey());
 
 		WxMpServiceImpl wxMpService = new WxMpServiceImpl();
-		wxMpService.setRestClientService(restClientService);
 		wxMpService.setConfig(config);
 
 		return wxMpService;

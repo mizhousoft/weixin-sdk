@@ -8,14 +8,10 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
-import com.mizhousoft.commons.restclient.RestException;
-import com.mizhousoft.commons.restclient.RestResponse;
-import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.cipher.impl.CipherServiceImpl;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.common.WXSystemErrorException;
@@ -25,6 +21,12 @@ import com.mizhousoft.weixin.payment.WxPayError;
 import com.mizhousoft.weixin.payment.constant.HttpConstants;
 import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 
+import kong.unirest.core.Headers;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.HttpStatus;
+import kong.unirest.core.Unirest;
+import kong.unirest.core.UnirestException;
+
 /**
  * WxPayHttpClient
  *
@@ -33,13 +35,11 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 {
 	private static final Logger LOG = LoggerFactory.getLogger(WxPayHttpClientImpl.class);
 
-	private RestClientService restClientService;
-
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public RestResponse get(String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException
+	public HttpResponse<String> get(String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException
 	{
 		return executeRequest(null, canonicalUrl, HttpConstants.HTTP_METHOD_GET, withSerial, payConfig);
 	}
@@ -48,13 +48,13 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 	 * {@inheritDoc}
 	 */
 	@Override
-	public RestResponse post(String body, String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException
+	public HttpResponse<String> post(String body, String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException
 	{
 		return executeRequest(body, canonicalUrl, HttpConstants.HTTP_METHOD_POST, withSerial, payConfig);
 	}
 
-	private RestResponse executeRequest(String body, String canonicalUrl, String httpMethod, boolean withSerial, WxPayConfig payConfig)
-	        throws WXException
+	private HttpResponse<String> executeRequest(String body, String canonicalUrl, String httpMethod, boolean withSerial,
+	        WxPayConfig payConfig) throws WXException
 	{
 		Map<String, String> headerMap = new HashMap<>(3);
 		headerMap.put(HttpConstants.ACCEPT, HttpConstants.HTTP_MEDIA_JSON);
@@ -71,57 +71,57 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 
 		String requestPath = payConfig.getEndpoint() + canonicalUrl;
 
-		RestResponse restResp = null;
+		HttpResponse<String> httpResp = null;
 
 		try
 		{
 			if (HttpConstants.HTTP_METHOD_POST.equals(httpMethod))
 			{
-				restResp = restClientService.postJSON(requestPath, body, headerMap);
+				httpResp = Unirest.post(requestPath).headers(headerMap).body(body).contentType("application/json; charset=UTF-8")
+				        .asString();
 			}
 			else
 			{
-				restResp = restClientService.get(requestPath, headerMap);
+				httpResp = Unirest.get(requestPath).headers(headerMap).asString();
 			}
 		}
-		catch (RestException e)
+		catch (UnirestException e)
 		{
 			throw new WXException("Request failed.", e);
 		}
 
-		if (HttpStatus.OK.value() != restResp.getStatusCode() && HttpStatus.NO_CONTENT.value() != restResp.getStatusCode())
+		if (HttpStatus.OK != httpResp.getStatus() && HttpStatus.NO_CONTENT != httpResp.getStatus())
 		{
-			handleException(restResp);
+			handleException(httpResp);
 		}
 
-		if (!validate(restResp.getHeaders(), restResp.getBody(), payConfig))
+		if (!validate(httpResp.getHeaders(), httpResp.getBody(), payConfig))
 		{
-			String requestId = restResp.getHeaders().get(HttpConstants.REQUEST_ID);
+			String requestId = httpResp.getHeaders().getFirst(HttpConstants.REQUEST_ID);
 
 			throw new WXException(String.format(
 			        "Validate response failed,the WechatPay signature is incorrect.%n" + "Request-ID[%s], responseBody[%.1024s]", requestId,
-			        restResp.getBody()));
+			        httpResp.getBody()));
 		}
 
-		return restResp;
+		return httpResp;
 	}
 
-	private void handleException(RestResponse restResp) throws WXException
+	private void handleException(HttpResponse<String> httpResp) throws WXException
 	{
-		if (HttpStatus.TOO_MANY_REQUESTS.value() == restResp.getStatusCode())
+		if (HttpStatus.TOO_MANY_REQUESTS == httpResp.getStatus())
 		{
 			throw new WxFrequencyLimitedException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+			        "Request failed, body is " + httpResp.getBody() + ", status code is " + httpResp.getStatus());
 		}
-		else if (HttpStatus.INTERNAL_SERVER_ERROR.value() == restResp.getStatusCode())
+		else if (HttpStatus.INTERNAL_SERVER_ERROR == httpResp.getStatus())
 		{
-			throw new WXSystemErrorException(
-			        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+			throw new WXSystemErrorException("Request failed, body is " + httpResp.getBody() + ", status code is " + httpResp.getStatus());
 		}
 
 		try
 		{
-			WxPayError error = JSONUtils.parse(restResp.getBody(), WxPayError.class);
+			WxPayError error = JSONUtils.parse(httpResp.getBody(), WxPayError.class);
 
 			if (null != error)
 			{
@@ -133,16 +133,16 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 			// ignore
 		}
 
-		throw new WXException(String.valueOf(restResp.getStatusCode()),
-		        "Request failed, body is " + restResp.getBody() + ", status code is " + restResp.getStatusCode());
+		throw new WXException(String.valueOf(httpResp.getStatus()),
+		        "Request failed, body is " + httpResp.getBody() + ", status code is " + httpResp.getStatus());
 	}
 
-	private boolean validate(Map<String, String> headers, String body, WxPayConfig payConfig) throws WXException
+	private boolean validate(Headers headers, String body, WxPayConfig payConfig) throws WXException
 	{
-		String timestamp = headers.get(HttpConstants.WECHAT_PAY_TIMESTAMP);
-		String requestId = headers.get(HttpConstants.REQUEST_ID);
-		String nonce = headers.get(HttpConstants.WECHAT_PAY_NONCE);
-		String signature = headers.get(HttpConstants.WECHAT_PAY_SIGNATURE);
+		String timestamp = headers.getFirst(HttpConstants.WECHAT_PAY_TIMESTAMP);
+		String requestId = headers.getFirst(HttpConstants.REQUEST_ID);
+		String nonce = headers.getFirst(HttpConstants.WECHAT_PAY_NONCE);
+		String signature = headers.getFirst(HttpConstants.WECHAT_PAY_SIGNATURE);
 
 		body = body == null ? "" : body;
 
@@ -167,7 +167,7 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 		LOG.debug("Message for verifying signatures is [{}]", message);
 		LOG.debug("Signature for verifying signatures is [{}]", signature);
 
-		String serialNumber = headers.get(HttpConstants.WECHAT_PAY_SERIAL);
+		String serialNumber = headers.getFirst(HttpConstants.WECHAT_PAY_SERIAL);
 		LOG.debug("SerialNumber for verifying signatures is [{}]", serialNumber);
 
 		return payConfig.getCipherService().verify(serialNumber, message, signature);
@@ -190,15 +190,5 @@ public class WxPayHttpClientImpl implements WxPayHttpClient
 		String schema = "WECHATPAY2-" + CipherServiceImpl.ALGORITHM;
 
 		return schema + " " + token;
-	}
-
-	/**
-	 * 设置restClientService
-	 * 
-	 * @param restClientService
-	 */
-	public void setRestClientService(RestClientService restClientService)
-	{
-		this.restClientService = restClientService;
 	}
 }

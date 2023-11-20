@@ -1,8 +1,9 @@
 package com.mizhousoft.weixin.payment.service;
 
-import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.WxPayConfig;
+
+import kong.unirest.core.HttpResponse;
 
 /**
  * WxPayHttpClient
@@ -19,7 +20,7 @@ public interface WxPayHttpClient
 	 * @return
 	 * @throws WXException
 	 */
-	RestResponse get(String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException;
+	HttpResponse<String> get(String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException;
 
 	/**
 	 * POST请求
@@ -31,5 +32,5 @@ public interface WxPayHttpClient
 	 * @return
 	 * @throws WXException
 	 */
-	RestResponse post(String body, String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException;
+	HttpResponse<String> post(String body, String canonicalUrl, boolean withSerial, WxPayConfig payConfig) throws WXException;
 }

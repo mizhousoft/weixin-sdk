@@ -1,11 +1,7 @@
 package com.mizhousoft.weixin.mp.service.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.security.GeneralSecurityException;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import com.mizhousoft.weixin.common.WXException;
@@ -40,12 +36,8 @@ public class WxMpMaterialServiceImplTest extends BaseWxMpServiceText
 		WxMpMaterialService materialService = wxMpService.getWxMpMaterialService();
 
 		String mediaId = "E4Yu4m7wM4Qu07WquP60y8h2rJmvJxyZfo6tjc67HjU";
-		InputStream istream = materialService.materialImageOrVoiceDownload(mediaId);
 
-		File file = new File("C:\\work\\test.jpg");
-
-		FileOutputStream fos = new FileOutputStream(file);
-		IOUtils.copy(istream, fos);
+		materialService.materialImageOrVoiceDownload(mediaId, "C:\\work\\test.jpg");
 	}
 
 	@Test

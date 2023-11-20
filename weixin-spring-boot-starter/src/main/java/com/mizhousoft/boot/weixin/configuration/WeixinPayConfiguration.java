@@ -16,7 +16,6 @@ import org.springframework.core.io.ResourceLoader;
 
 import com.mizhousoft.boot.weixin.properties.WeixinPayListProperties;
 import com.mizhousoft.boot.weixin.properties.WeixinPayProperties;
-import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.certificate.CertificateProvider;
 import com.mizhousoft.weixin.certificate.impl.CertificateProviderImpl;
 import com.mizhousoft.weixin.cipher.impl.CipherServiceImpl;
@@ -42,9 +41,6 @@ public class WeixinPayConfiguration
 {
 	@Autowired
 	private WeixinPayListProperties listProperties;
-
-	@Autowired
-	private RestClientService restClientService;
 
 	@Autowired
 	private ResourceLoader resourceLoader;
@@ -76,7 +72,6 @@ public class WeixinPayConfiguration
 	public WxPayHttpClient getWxPayHttpClient()
 	{
 		WxPayHttpClientImpl httpClient = new WxPayHttpClientImpl();
-		httpClient.setRestClientService(restClientService);
 
 		return httpClient;
 	}

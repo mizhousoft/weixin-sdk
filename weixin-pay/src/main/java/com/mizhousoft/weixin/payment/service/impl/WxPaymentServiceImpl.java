@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
 import com.mizhousoft.commons.json.JSONUtils;
-import com.mizhousoft.commons.restclient.RestResponse;
 import com.mizhousoft.weixin.cipher.CipherService;
 import com.mizhousoft.weixin.common.WXException;
 import com.mizhousoft.weixin.payment.SignatureHeader;
@@ -23,6 +22,8 @@ import com.mizhousoft.weixin.payment.result.WxPayRefundResult;
 import com.mizhousoft.weixin.payment.service.WxPayConfigService;
 import com.mizhousoft.weixin.payment.service.WxPayHttpClient;
 import com.mizhousoft.weixin.payment.service.WxPaymentService;
+
+import kong.unirest.core.HttpResponse;
 
 /**
  * 支付服务
@@ -138,11 +139,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String canonicalUrl = String.format("/v3/pay/transactions/id/%s?mchid=%s", transactionId, mchId);
 
-		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
+		HttpResponse<String> httpResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
-			WxPayOrderQueryResult response = JSONUtils.parse(restResp.getBody(), WxPayOrderQueryResult.class);
+			WxPayOrderQueryResult response = JSONUtils.parse(httpResp.getBody(), WxPayOrderQueryResult.class);
 
 			return response;
 		}
@@ -162,11 +163,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String canonicalUrl = String.format("/v3/pay/transactions/out-trade-no/%s?mchid=%s", outTradeNo, mchId);
 
-		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
+		HttpResponse<String> httpResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
-			WxPayOrderQueryResult response = JSONUtils.parse(restResp.getBody(), WxPayOrderQueryResult.class);
+			WxPayOrderQueryResult response = JSONUtils.parse(httpResp.getBody(), WxPayOrderQueryResult.class);
 
 			return response;
 		}
@@ -230,9 +231,9 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		{
 			String body = JSONUtils.toJSONString(request);
 
-			RestResponse restResp = httpClient.post(body, canonicalUrl, false, payConfig);
+			HttpResponse<String> httpResp = httpClient.post(body, canonicalUrl, false, payConfig);
 
-			WxPayRefundResult result = JSONUtils.parse(restResp.getBody(), WxPayRefundResult.class);
+			WxPayRefundResult result = JSONUtils.parse(httpResp.getBody(), WxPayRefundResult.class);
 
 			return result;
 		}
@@ -252,11 +253,11 @@ public class WxPaymentServiceImpl implements WxPaymentService
 
 		String canonicalUrl = String.format("/v3/refund/domestic/refunds/%s", outRefundNo);
 
-		RestResponse restResp = httpClient.get(canonicalUrl, false, payConfig);
+		HttpResponse<String> httpResp = httpClient.get(canonicalUrl, false, payConfig);
 
 		try
 		{
-			WxPayRefundResult response = JSONUtils.parse(restResp.getBody(), WxPayRefundResult.class);
+			WxPayRefundResult response = JSONUtils.parse(httpResp.getBody(), WxPayRefundResult.class);
 
 			return response;
 		}
@@ -318,9 +319,9 @@ public class WxPaymentServiceImpl implements WxPaymentService
 		{
 			String body = JSONUtils.toJSONString(request);
 
-			RestResponse restResp = httpClient.post(body, canonicalUrl, false, payConfig);
+			HttpResponse<String> httpResp = httpClient.post(body, canonicalUrl, false, payConfig);
 
-			WxPayOrderCreateResponse response = JSONUtils.parse(restResp.getBody(), WxPayOrderCreateResponse.class);
+			WxPayOrderCreateResponse response = JSONUtils.parse(httpResp.getBody(), WxPayOrderCreateResponse.class);
 
 			return response;
 		}

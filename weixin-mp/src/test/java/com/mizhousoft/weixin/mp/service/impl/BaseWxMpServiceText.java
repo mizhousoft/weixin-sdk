@@ -4,8 +4,6 @@ import java.security.GeneralSecurityException;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import com.mizhousoft.commons.restclient.TruststoreLoader;
-import com.mizhousoft.commons.restclient.service.impl.HttpsRestClientServiceImpl;
 import com.mizhousoft.weixin.mp.config.WxMpConfig;
 
 /**
@@ -24,17 +22,7 @@ public class BaseWxMpServiceText
 		config.setAppId("");
 		config.setAppSecret("");
 
-		HttpsTruststoreLoader truststoreLoader = new HttpsTruststoreLoader();
-		truststoreLoader.loadTrustStore();
-
-		TruststoreLoader[] truststoreLoaders = { truststoreLoader };
-
-		HttpsRestClientServiceImpl restClientService = new HttpsRestClientServiceImpl();
-		restClientService.setTruststoreLoaders(truststoreLoaders);
-		restClientService.init();
-
 		wxMpService = new WxMpServiceImpl();
-		wxMpService.setRestClientService(restClientService);
 		wxMpService.setConfig(config);
 	}
 

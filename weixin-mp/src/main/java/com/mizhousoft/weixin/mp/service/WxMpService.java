@@ -1,6 +1,5 @@
 package com.mizhousoft.weixin.mp.service;
 
-import com.mizhousoft.commons.restclient.service.RestClientService;
 import com.mizhousoft.weixin.common.WXException;
 
 /**
@@ -92,11 +91,4 @@ public interface WxMpService
 	 * @return
 	 */
 	WxMpMenuService getWxMpMenuService();
-
-	/**
-	 * 获取REST服务
-	 * 
-	 * @return
-	 */
-	RestClientService getRestClientService();
 }
