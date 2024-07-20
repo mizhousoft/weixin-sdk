@@ -1,7 +1,7 @@
 package com.mizhousoft.weixin.mp.service.impl;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
-import org.bouncycastle.util.encoders.Base64;
 
 import com.mizhousoft.commons.crypto.generator.RandomGenerator;
 import com.mizhousoft.commons.json.JSONException;
@@ -88,7 +88,7 @@ public class WxMpServiceImpl implements WxMpService
 			throw new WXException("Signature is wrong.");
 		}
 
-		String plainXml = WxMpCryptUtils.decrypt(cipherText, Base64.decode(config.getAesKey()));
+		String plainXml = WxMpCryptUtils.decrypt(cipherText, Base64.decodeBase64(config.getAesKey()));
 
 		return plainXml;
 	}
@@ -100,7 +100,7 @@ public class WxMpServiceImpl implements WxMpService
 	public String encryptMsg(String replyMsg) throws WXException
 	{
 		String encrypt = WxMpCryptUtils.encrypt(RandomGenerator.genHexString(8, true), replyMsg, config.getAppId(),
-		        Base64.decode(config.getAesKey()));
+		        Base64.decodeBase64(config.getAesKey()));
 
 		String timeStamp = Long.toString(System.currentTimeMillis() / 1000L);
 		String nonce = RandomGenerator.genHexString(8, true);
