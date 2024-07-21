@@ -64,7 +64,16 @@ public class WxOpenServiceImpl implements WxOpenService
 		{
 			String responseContent = Unirest.get(url).asString().getBody();
 
-			return JSONUtils.parse(responseContent, WxOAuth2AccessToken.class);
+			WxOAuth2AccessToken token = JSONUtils.parse(responseContent, WxOAuth2AccessToken.class);
+
+			if (null == token.getOpenId() && null == token.getUnionId())
+			{
+				LOG.error("AccessToken get failed, response is {}.", responseContent);
+
+				throw new WXException("AccessToken get failed, response is " + responseContent);
+			}
+
+			return token;
 		}
 		catch (UnirestException e)
 		{
