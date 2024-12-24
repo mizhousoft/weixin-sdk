@@ -24,12 +24,6 @@
 			<artifactId>weixin-common</artifactId>
 			<version>${weixin.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.binarywang</groupId>
-			<artifactId>weixin-java-miniapp</artifactId>
-			 <version>4.4.9.B</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 </project>
