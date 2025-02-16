@@ -1,10 +1,9 @@
-package com.mizhousoft.weixin.mp.util;
+package com.mizhousoft.weixin.common.util;
 
 import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,33 +15,17 @@ import com.mizhousoft.weixin.common.WXException;
  * 工具类
  *
  */
-public abstract class WxMpDomUtils
+public abstract class WxDomUtils
 {
-	private static final ThreadLocal<DocumentBuilder> BUILDER_LOCAL = new ThreadLocal<DocumentBuilder>()
-	{
-		@Override
-		protected DocumentBuilder initialValue()
-		{
-			try
-			{
-				final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				factory.setExpandEntityReferences(false);
-				factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-				return factory.newDocumentBuilder();
-			}
-			catch (ParserConfigurationException exc)
-			{
-				throw new IllegalArgumentException(exc);
-			}
-		}
-	};
-
 	public static String extractEncryptPart(String xml) throws WXException
 	{
 		try
 		{
-			DocumentBuilder db = BUILDER_LOCAL.get();
-			Document document = db.parse(new InputSource(new StringReader(xml)));
+			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setExpandEntityReferences(false);
+			factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(new InputSource(new StringReader(xml)));
 
 			Element root = document.getDocumentElement();
 

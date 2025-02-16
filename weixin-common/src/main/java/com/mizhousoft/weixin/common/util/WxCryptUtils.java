@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.mp.util;
+package com.mizhousoft.weixin.common.util;
 
 import java.util.Arrays;
 
@@ -11,13 +11,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.mizhousoft.commons.lang.CharEncoding;
 import com.mizhousoft.weixin.common.WXException;
-import com.mizhousoft.weixin.common.util.PKCS7Encoder;
 
 /**
  * 工具类
  *
  */
-public abstract class WxMpCryptUtils
+public abstract class WxCryptUtils
 {
 	public static String sha1Sign(String... values)
 	{

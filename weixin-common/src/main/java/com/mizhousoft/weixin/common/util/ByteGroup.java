@@ -1,4 +1,4 @@
-package com.mizhousoft.weixin.mp.util;
+package com.mizhousoft.weixin.common.util;
 
 import java.util.ArrayList;
 
