@@ -47,6 +47,8 @@ public class WeixinConfiguration
 		WxOpenConfig wxOpenConfig = new WxOpenConfig();
 		wxOpenConfig.setAppId(openProperties.getAppId());
 		wxOpenConfig.setAppSecret(openProperties.getAppSecret());
+		wxOpenConfig.setToken(openProperties.getToken());
+		wxOpenConfig.setAesKey(openProperties.getAesKey());
 
 		WxOpenServiceImpl wxOpenService = new WxOpenServiceImpl();
 		wxOpenService.setConfig(wxOpenConfig);

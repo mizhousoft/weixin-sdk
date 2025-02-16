@@ -53,4 +53,35 @@ public interface WxOpenService
 	 * @throws WXException
 	 */
 	WxOpenUser oauth2getUserInfo(WxOAuth2AccessToken oAuth2AccessToken, String lang) throws WXException;
+
+	/**
+	 * 校验签名
+	 * 
+	 * @param timeStamp
+	 * @param nonce
+	 * @param signature
+	 * @return
+	 */
+	boolean checkSignature(String timeStamp, String nonce, String signature);
+
+	/**
+	 * 解密数据
+	 * 
+	 * @param msgSignature
+	 * @param timeStamp
+	 * @param nonce
+	 * @param postData
+	 * @return
+	 * @throws WXException
+	 */
+	String decryptMsg(String msgSignature, String timeStamp, String nonce, String postData) throws WXException;
+
+	/**
+	 * 加密消息
+	 * 
+	 * @param replyMsg
+	 * @return
+	 * @throws WXException
+	 */
+	String encryptMsg(String replyMsg) throws WXException;
 }

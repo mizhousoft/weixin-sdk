@@ -23,6 +23,16 @@ public class WeixinOpenProperties
 	private volatile String appSecret;
 
 	/**
+	 * Token
+	 */
+	private volatile String token;
+
+	/**
+	 * 密钥
+	 */
+	private volatile String aesKey;
+
+	/**
 	 * 获取appId
 	 * 
 	 * @return
@@ -60,5 +70,45 @@ public class WeixinOpenProperties
 	public void setAppSecret(String appSecret)
 	{
 		this.appSecret = appSecret;
+	}
+
+	/**
+	 * 获取token
+	 * 
+	 * @return
+	 */
+	public String getToken()
+	{
+		return token;
+	}
+
+	/**
+	 * 设置token
+	 * 
+	 * @param token
+	 */
+	public void setToken(String token)
+	{
+		this.token = token;
+	}
+
+	/**
+	 * 获取aesKey
+	 * 
+	 * @return
+	 */
+	public String getAesKey()
+	{
+		return aesKey;
+	}
+
+	/**
+	 * 设置aesKey
+	 * 
+	 * @param aesKey
+	 */
+	public void setAesKey(String aesKey)
+	{
+		this.aesKey = aesKey;
 	}
 }
