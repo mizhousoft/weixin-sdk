@@ -6,7 +6,7 @@ import com.mizhousoft.weixin.mp.domain.message.MpRequestMessage;
  * 消息工具类
  *
  */
-public abstract class WxMpMesageUtils
+public abstract class WxMpMessageUtils
 {
 	public static final String EVENT_MSG_TYPE = "event";
 
